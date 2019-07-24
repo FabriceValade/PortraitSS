@@ -6,7 +6,40 @@
         xmlns:local="clr-namespace:PortraitEditor"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <DockPanel Margin="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- Place to read root folder -->
+            <Grid Height="34" VerticalAlignment="Top" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="btnOpenFile" Click="BtnOpenFile_Click" Grid.Column="0" Margin="5,5,5,5">Select root folder</Button>
+                <TextBox Name="RootPathDisplay" Grid.Column="1" Margin="5,5,5,5"/>
+            </Grid>
+            <!-- displaying found faction files -->
+            <Grid  VerticalAlignment="Top" Grid.Row="1" Height="200">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ListView Name="CFactionList" Grid.Column="0" ItemsSource="{Binding CoreFaction}">
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="Path"  DisplayMemberBinding="{Binding Path}"/>
+                            <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding FileId}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListBox Name="ModFactionList" Grid.Column="1"/>
+            </Grid>
+        </Grid>
+
+
+
+    </DockPanel>
 </Window>
