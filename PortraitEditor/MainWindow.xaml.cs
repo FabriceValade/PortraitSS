@@ -26,10 +26,12 @@ namespace PortraitEditor
     public partial class MainWindow : Window
     {
         public ObservableCollection<FactionFile> CoreFaction { get; set; }
+        public string RootPath { get; set; }
+
         public MainWindow()
         {
             DataContext = this;
-            CoreFaction = new ObservableCollection<FactionFile>() { new FactionFile("ay\\yo\\hello.faction") };
+            CoreFaction = new ObservableCollection<FactionFile>();
             InitializeComponent();
         }
         private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
@@ -42,20 +44,21 @@ namespace PortraitEditor
             if (OpenRootFolder.ShowDialog() == true)
             {
                 RootPathDisplay.Text = OpenRootFolder.SelectedPath;
-                UpdateFactionFileList(OpenRootFolder.SelectedPath);
+                RootPath = OpenRootFolder.SelectedPath;
+                UpdateFactionFileList(RootPath+"\\starsector-core\\");
             }
 
         }
         private void UpdateFactionFileList(string path)
         {   
 
-            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(path+ "\\starsector-core\\data\\world\\factions");
+            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(path+ "data\\world\\factions");
             IEnumerable<FileInfo> a = CoreFactionDirectory.EnumerateFiles();
             foreach (FileInfo DataFile in a)
             {
 
                 if (DataFile.Extension == ".faction")
-                    CoreFaction.Add(new FactionFile(DataFile.FullName));
+                    CoreFaction.Add(new FactionFile(path,DataFile.FullName));
 
             }
 
@@ -68,15 +71,23 @@ namespace PortraitEditor
     {
         public string Path { get; set; }
         public string FileId { get; set; }
+        public string LogoPath { get; set; }
 
         public FactionFile() { }
-        public FactionFile(string newPath)
+        public FactionFile(string relativePathSource, string newPath)
         {
             Path = newPath;
-            Regex ExtractFactionId = new Regex(@"(?:.*\\)(.*)(?:.faction)");
-            FileId = ExtractFactionId.Match(Path).Groups[1].ToString();
+            Regex ExtractFactionFileName = new Regex(@"(?:.*\\)(.*)(?:.faction)");
+            FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
+
+            string ReadResult = File.ReadAllText(Path);
+
+            Regex ExtractLogoPath = new Regex("(?:\"logo\":\")(.*)(?:\".*,)");
+            string FormatedSource = relativePathSource.Replace("\\", "/");
+            LogoPath = FormatedSource + ExtractLogoPath.Match(ReadResult).Groups[1].ToString();
+            return;
         }
 
     }
-    
+
 }

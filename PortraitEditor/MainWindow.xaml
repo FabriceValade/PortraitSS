@@ -6,6 +6,18 @@
         xmlns:local="clr-namespace:PortraitEditor"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+
+    <Window.Resources>
+        <DataTemplate x:Key="FactionFileImageTemplate">
+            <Grid>
+                <Image Source="{Binding LogoPath}" Height="30"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+
+
+
     <DockPanel Margin="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -30,6 +42,7 @@
                 <ListView Name="CFactionList" Grid.Column="0" ItemsSource="{Binding CoreFaction}">
                     <ListView.View>
                         <GridView >
+                            <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
                             <GridViewColumn Header="Path"  DisplayMemberBinding="{Binding Path}"/>
                             <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding FileId}"/>
                         </GridView>
