@@ -72,6 +72,7 @@ namespace PortraitEditor
         public string Path { get; set; }
         public string FileId { get; set; }
         public string LogoPath { get; set; }
+        public string ColorRGB { get; set; }
 
         public FactionFile() { }
         public FactionFile(string relativePathSource, string newPath)
@@ -85,6 +86,32 @@ namespace PortraitEditor
             Regex ExtractLogoPath = new Regex("(?:\"logo\":\")(.*)(?:\".*,)");
             string FormatedSource = relativePathSource.Replace("\\", "/");
             LogoPath = FormatedSource + ExtractLogoPath.Match(ReadResult).Groups[1].ToString();
+
+            Regex ExtractColor = new Regex(@"(?:""color"":\s*\[\s*)(.*)(?:\s*\])");
+            string[] ColorCode = ExtractColor.Match(ReadResult).Groups[1].ToString().Split(',');
+            if (ColorCode.Count() == 4)
+            {
+                ColorRGB = "#";
+                List<string> ColorArray = new List<string>(4);
+                foreach (string oneCode in ColorCode)
+                {
+                    string oneRgb = Int32.Parse(oneCode).ToString("X2");
+                    ColorArray.Add(oneRgb);
+                }
+                ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
+            }
+            else
+            {
+                ColorRGB = "#FFFFFFFF";
+            }
+
+            string cleanstring = ReadResult.Replace('\n', ' ');
+            cleanstring = cleanstring.Replace('\t', ' ');
+            cleanstring = cleanstring.Replace('\r', ' ');
+            Regex ExtractPortrait = new Regex(@"(?:""portraits"":)(.*)");
+            Match a = ExtractPortrait.Match(cleanstring);
+            string PortraitStuff = ExtractPortrait.Match(ReadResult).Groups[1].ToString();
+
             return;
         }
 

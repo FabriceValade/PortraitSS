@@ -13,6 +13,9 @@
                 <Image Source="{Binding LogoPath}" Height="30"/>
             </Grid>
         </DataTemplate>
+        <Style TargetType="ListViewItem">
+            <Setter Property="Background" Value="{Binding ColorRGB}" />
+        </Style>
     </Window.Resources>
 
 
@@ -34,14 +37,14 @@
                 <TextBox Name="RootPathDisplay" Grid.Column="1" Margin="5,5,5,5"/>
             </Grid>
             <!-- displaying found faction files -->
-            <Grid  VerticalAlignment="Top" Grid.Row="1" Height="200">
+            <Grid  VerticalAlignment="Top" Grid.Row="1" Height="400">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <ListView Name="CFactionList" Grid.Column="0" ItemsSource="{Binding CoreFaction}">
                     <ListView.View>
-                        <GridView >
+                        <GridView>
                             <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
                             <GridViewColumn Header="Path"  DisplayMemberBinding="{Binding Path}"/>
                             <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding FileId}"/>
