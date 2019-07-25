@@ -8,6 +8,7 @@
         Title="MainWindow" Height="650" Width="925">
 
     <Window.Resources>
+        <!--<local:MultiValueConverter x:Key="MultiValueConverter" />-->
         <DataTemplate x:Key="FactionFileImageTemplate">
             <Grid>
                 <Image Source="{Binding LogoPath}" Height="30"/>
@@ -53,7 +54,7 @@
                 <Button Name="btnOpenFile" Click="BtnOpenFile_Click" Grid.Column="0" Margin="5,5,5,5">Select root folder</Button>
                 <TextBox Name="RootPathDisplay" Grid.Column="1" Margin="5,5,5,5"/>
             </Grid>
-            <!-- displaying found faction files -->
+            <!-- Main grid -->
             <Grid  VerticalAlignment="stretch" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -64,6 +65,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
+                <!-- displaying found faction files -->
                 <ListView Name="CFactionList" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
                     <ListView.Resources>
                         <Style TargetType="ListViewItem">
@@ -78,8 +80,9 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView Name="MPortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/MalePortraits}"  Style="{StaticResource PortraitListviewStyle}"/>
-                <ListView Name="FPortraitList" Grid.Column="2" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/FemalePortraits}"  Style="{StaticResource PortraitListviewStyle}"/>
+                <ListView Name="MPortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/MalePortraits}"  Style="{StaticResource PortraitListviewStyle}" SelectionChanged="PortraitList_Selected" />
+                <ListView Name="FPortraitList" Grid.Column="2" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/FemalePortraits}"  Style="{StaticResource PortraitListviewStyle}" SelectionChanged="PortraitList_Selected"/>
+                <!-- displaying faction file info -->
                 <Grid Grid.Column="0" Grid.Row="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -94,7 +97,12 @@
                     <TextBlock Text="Source file url:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                     <TextBlock Text="{Binding Path=CoreFaction/Path}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
                 </Grid>
-                <DockPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                <!-- displaying selected portrait info -->
+                <DockPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden" Name="MPortraitStat">
+                    <DockPanel.DataContext>
+                        <Binding Path="CoreFaction/MalePortraits" />
+                    </DockPanel.DataContext>
+                    <Image DockPanel.Dock="Right"  Source="{Binding FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
                     <Grid DockPanel.Dock="Left" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -104,18 +112,42 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Name: "   Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding Path=CoreFaction/MalePortraits/Name}"   Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="Source file url:"   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding Path=CoreFaction/MalePortraits/Url}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="Is core?: "   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding Path=CoreFaction/MalePortraits/IsCore}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="Faction portrait"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource TextElement}" FontSize="14"/>
+                        <TextBlock Text="Name: "   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding Name}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="Source file url:"   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding Url}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="Is core?: "   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding IsCore}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                     </Grid>
-                    
-                    <Image DockPanel.Dock="Right"  Source="{Binding Path=CoreFaction/MalePortraits/FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
                 </DockPanel>
-                    
+                <DockPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Visible" Name="FPortraitStat">
+                    <DockPanel.DataContext>
+                        <Binding Path="CoreFaction/FemalePortraits" />
+                    </DockPanel.DataContext>
+                    <Image DockPanel.Dock="Right"  Source="{Binding FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
+                    <Grid DockPanel.Dock="Left" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Faction portrait"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource TextElement}" FontSize="14"/>
+                        <TextBlock Text="Name: "   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding Name}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="Source file url:"   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding Url}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="Is core?: "   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding IsCore}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                    </Grid>
+                </DockPanel>    
                 
             </Grid>
         </Grid>

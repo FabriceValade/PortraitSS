@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using Ookii.Dialogs.Wpf;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using System.ComponentModel;
 
 namespace PortraitEditor
 {
@@ -25,14 +27,18 @@ namespace PortraitEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public ObservableCollection<FactionFile> CoreFaction { get; set; }
         public string RootPath { get; set; }
+
 
         public MainWindow()
         {
             DataContext = this;
             CoreFaction = new ObservableCollection<FactionFile>();
+            
             InitializeComponent();
+
         }
         private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
         {
@@ -64,6 +70,22 @@ namespace PortraitEditor
 
             //Data.Concat(RootDirectory.EnumerateFiles());
 
+            return;
+        }
+
+        private void PortraitList_Selected(object sender, RoutedEventArgs e)
+        {
+            ListView list = sender as ListView;
+            if (list.Name == "MPortraitList")
+            {
+                MPortraitStat.Visibility = Visibility.Visible;
+                FPortraitStat.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                MPortraitStat.Visibility = Visibility.Hidden;
+                FPortraitStat.Visibility = Visibility.Visible;
+            }
             return;
         }
     }
@@ -151,5 +173,22 @@ namespace PortraitEditor
             FullUrl = FormatedSource + '/' + Url;
         }
     }
+
+    //public class MultiValueConverter : IMultiValueConverter
+    //{
+    //    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if (values != null)
+    //            return values[0];
+    //        else
+    //            return null;
+    //    }
+
+    //    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
+
 
 }
