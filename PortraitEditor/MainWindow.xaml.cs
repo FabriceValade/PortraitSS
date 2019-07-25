@@ -71,9 +71,12 @@ namespace PortraitEditor
     {
         public string Path { get; set; }
         public string FileId { get; set; }
+        public string DisplayName { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
         public ObservableCollection<Portrait> MalePortraits { get; set; } = new ObservableCollection<Portrait>();
+        public ObservableCollection<Portrait> FemalePortraits { get; set; } = new ObservableCollection<Portrait>();
+
 
         public FactionFile() { }
         public FactionFile(string relativePathSource, string newPath)
@@ -83,15 +86,10 @@ namespace PortraitEditor
             FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
 
             dynamic FileRessource = new JavaRessourceExtractor(Path).JavaRessource;
-            //string ReadResult = File.ReadAllText(Path);
+            DisplayName = FileRessource.displayName;
 
-            //Regex ExtractLogoPath = new Regex("(?:\"logo\":\")(.*)(?:\".*,)");
             string FormatedSource = relativePathSource.Replace("\\", "/");
             LogoPath = FormatedSource + FileRessource.logo;
-            //LogoPath = FormatedSource + ExtractLogoPath.Match(ReadResult).Groups[1].ToString();
-
-            //Regex ExtractColor = new Regex(@"(?:""color"":\s*\[\s*)(.*)(?:\s*\])");
-            //string[] ColorCode = ExtractColor.Match(ReadResult).Groups[1].ToString().Split(',');
 
             ColorRGB = "#FFFFFFFF";
             if (FileRessource.HasProperty("color"))
@@ -108,22 +106,24 @@ namespace PortraitEditor
                     ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
                 }
             }
-            var PortraitsUrl = FileRessource.portraits.standard_male;
+            var PortraitsMaleUrl = FileRessource.portraits.standard_male;
 
-            if (PortraitsUrl != null)
+            if (PortraitsMaleUrl != null)
             {
-                foreach (var url in PortraitsUrl)
+                foreach (var url in PortraitsMaleUrl)
                 {
                     MalePortraits.Add(new Portrait(relativePathSource, (string)url));
                 }
             }
-            //string cleanstring = ReadResult.Replace('\n', ' ');
-            //cleanstring = cleanstring.Replace('\t', ' ');
-            //cleanstring = cleanstring.Replace('\r', ' ');
-            //Regex ExtractPortrait = new Regex(@"(?:""portraits"":)(.*)");
-            //Match a = ExtractPortrait.Match(cleanstring);
-            //string PortraitStuff = ExtractPortrait.Match(ReadResult).Groups[1].ToString();
+            var PortraitsFemaleUrl = FileRessource.portraits.standard_female;
 
+            if (PortraitsFemaleUrl != null)
+            {
+                foreach (var url in PortraitsFemaleUrl)
+                {
+                    FemalePortraits.Add(new Portrait(relativePathSource, (string)url));
+                }
+            }
             return;
         }
 

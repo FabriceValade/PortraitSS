@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="650" Width="925">
 
     <Window.Resources>
         <DataTemplate x:Key="FactionFileImageTemplate">
@@ -20,6 +20,18 @@
         </DataTemplate>
         <Style x:Key="PortraitListviewStyle" TargetType="ListView">
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ItemTemplate" Value="{StaticResource PortraitTemplate}"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
+        </Style>
+        <Style x:Key="TextElement" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,3,3"/>
         </Style>
     </Window.Resources>
 
@@ -42,12 +54,17 @@
                 <TextBox Name="RootPathDisplay" Grid.Column="1" Margin="5,5,5,5"/>
             </Grid>
             <!-- displaying found faction files -->
-            <Grid  VerticalAlignment="Top" Grid.Row="1" Height="400">
+            <Grid  VerticalAlignment="stretch" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
                 </Grid.ColumnDefinitions>
-                <ListView Name="CFactionList" Grid.Column="0" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="150"/>
+                </Grid.RowDefinitions>
+                <ListView Name="CFactionList" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
                     <ListView.Resources>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Background" Value="{Binding ColorRGB}" />
@@ -56,18 +73,50 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
-                            <GridViewColumn Header="Path"  DisplayMemberBinding="{Binding Path}"/>
                             <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding FileId}"/>
+                            <GridViewColumn Header="Faction name"  DisplayMemberBinding="{Binding DisplayName}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView Name="CPortraitList" Grid.Column="1" ItemsSource="{Binding Path=CoreFaction/MalePortraits}" ItemTemplate="{StaticResource PortraitTemplate}" Style="{StaticResource PortraitListviewStyle}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
+                <ListView Name="MPortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/MalePortraits}"  Style="{StaticResource PortraitListviewStyle}"/>
+                <ListView Name="FPortraitList" Grid.Column="2" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/FemalePortraits}"  Style="{StaticResource PortraitListviewStyle}"/>
+                <Grid Grid.Column="0" Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Faction Name: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                    <TextBlock Text="{Binding Path=CoreFaction/DisplayName}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                    <TextBlock Text="Source file url:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                    <TextBlock Text="{Binding Path=CoreFaction/Path}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
+                </Grid>
+                <DockPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                    <Grid DockPanel.Dock="Left" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Name: "   Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding Path=CoreFaction/MalePortraits/Name}"   Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="Source file url:"   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding Path=CoreFaction/MalePortraits/Url}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="Is core?: "   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding Path=CoreFaction/MalePortraits/IsCore}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                    </Grid>
+                    
+                    <Image DockPanel.Dock="Right"  Source="{Binding Path=CoreFaction/MalePortraits/FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
+                </DockPanel>
+                    
+                
             </Grid>
         </Grid>
 
