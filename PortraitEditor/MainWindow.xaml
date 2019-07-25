@@ -14,12 +14,13 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="PortraitTemplate">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="100">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
                 <Image Source="{Binding FullUrl}" Height="60"/>
-                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"  VerticalAlignment="Bottom" />
             </StackPanel>
         </DataTemplate>
-        
+        <Style x:Key="PortraitListviewStyle" TargetType="ListView">
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        </Style>
     </Window.Resources>
 
 
@@ -60,7 +61,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView Name="CPortraitList" Grid.Column="1" ItemsSource="{Binding Path=CoreFaction/MalePortraits}" ItemTemplate="{StaticResource PortraitTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView Name="CPortraitList" Grid.Column="1" ItemsSource="{Binding Path=CoreFaction/MalePortraits}" ItemTemplate="{StaticResource PortraitTemplate}" Style="{StaticResource PortraitListviewStyle}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
