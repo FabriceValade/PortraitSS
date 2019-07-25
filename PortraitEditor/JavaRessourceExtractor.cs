@@ -22,7 +22,10 @@ namespace PortraitEditor
 
             
             var result = Regex.Replace(ReadResult, "#.*", "");
-            var result2 = Regex.Replace(result, "},$", "}");
+            var result2 = Regex.Replace(result, "},[^,}]*$", "}");
+
+            //Regex ExtractPortrait = new Regex("},[^,]*$");
+            //Match a = ExtractPortrait.Match(result);
 
             JavaRessource = new DynamicJson(result2);
             //string lol = JavaRessource.portraits.standard_male[0];
@@ -60,6 +63,14 @@ namespace PortraitEditor
                 result = obj;
             }
             return true;
+        }
+
+        public bool HasProperty(string property)
+        {
+            if (_Dict.ContainsKey(property))
+                return true;
+            else
+                return false;
         }
     }
 }

@@ -82,37 +82,39 @@ namespace PortraitEditor
             FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
 
             dynamic FileRessource = new JavaRessourceExtractor(Path).JavaRessource;
+            //string ReadResult = File.ReadAllText(Path);
 
-            string ReadResult = File.ReadAllText(Path);
-
-            Regex ExtractLogoPath = new Regex("(?:\"logo\":\")(.*)(?:\".*,)");
+            //Regex ExtractLogoPath = new Regex("(?:\"logo\":\")(.*)(?:\".*,)");
             string FormatedSource = relativePathSource.Replace("\\", "/");
-            LogoPath = FormatedSource + ExtractLogoPath.Match(ReadResult).Groups[1].ToString();
+            LogoPath = FormatedSource + FileRessource.logo;
+            //LogoPath = FormatedSource + ExtractLogoPath.Match(ReadResult).Groups[1].ToString();
 
-            Regex ExtractColor = new Regex(@"(?:""color"":\s*\[\s*)(.*)(?:\s*\])");
-            string[] ColorCode = ExtractColor.Match(ReadResult).Groups[1].ToString().Split(',');
-            if (ColorCode.Count() == 4)
+            //Regex ExtractColor = new Regex(@"(?:""color"":\s*\[\s*)(.*)(?:\s*\])");
+            //string[] ColorCode = ExtractColor.Match(ReadResult).Groups[1].ToString().Split(',');
+         
+            ColorRGB = "#FFFFFFFF";
+            if (FileRessource.HasProperty("color"))
             {
-                ColorRGB = "#";
-                List<string> ColorArray = new List<string>(4);
-                foreach (string oneCode in ColorCode)
+                var ColorCode = FileRessource.color;
+                if (ColorCode.Count == 4)
                 {
-                    string oneRgb = Int32.Parse(oneCode).ToString("X2");
-                    ColorArray.Add(oneRgb);
+                    List<string> ColorArray = new List<string>(4);
+                    foreach (string oneCode in ColorCode)
+                    {
+                        string oneRgb = Int32.Parse(oneCode).ToString("X2");
+                        ColorArray.Add(oneRgb);
+                    }
+                    ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
                 }
-                ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
-            }
-            else
-            {
-                ColorRGB = "#FFFFFFFF";
             }
 
-            string cleanstring = ReadResult.Replace('\n', ' ');
-            cleanstring = cleanstring.Replace('\t', ' ');
-            cleanstring = cleanstring.Replace('\r', ' ');
-            Regex ExtractPortrait = new Regex(@"(?:""portraits"":)(.*)");
-            Match a = ExtractPortrait.Match(cleanstring);
-            string PortraitStuff = ExtractPortrait.Match(ReadResult).Groups[1].ToString();
+
+            //string cleanstring = ReadResult.Replace('\n', ' ');
+            //cleanstring = cleanstring.Replace('\t', ' ');
+            //cleanstring = cleanstring.Replace('\r', ' ');
+            //Regex ExtractPortrait = new Regex(@"(?:""portraits"":)(.*)");
+            //Match a = ExtractPortrait.Match(cleanstring);
+            //string PortraitStuff = ExtractPortrait.Match(ReadResult).Groups[1].ToString();
 
             return;
         }
