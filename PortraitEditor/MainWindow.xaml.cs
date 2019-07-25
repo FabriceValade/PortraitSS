@@ -53,8 +53,8 @@ namespace PortraitEditor
         {   
 
             DirectoryInfo CoreFactionDirectory = new DirectoryInfo(path+ "data\\world\\factions");
-            IEnumerable<FileInfo> a = CoreFactionDirectory.EnumerateFiles();
-            foreach (FileInfo DataFile in a)
+            IEnumerable<FileInfo> FactionFileList = CoreFactionDirectory.EnumerateFiles();
+            foreach (FileInfo DataFile in FactionFileList)
             {
 
                 if (DataFile.Extension == ".faction")
@@ -73,6 +73,7 @@ namespace PortraitEditor
         public string FileId { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
+        public List<Portrait> MalePortraits { get; set; } = new List<Portrait>();
 
         public FactionFile() { }
         public FactionFile(string relativePathSource, string newPath)
@@ -91,7 +92,7 @@ namespace PortraitEditor
 
             //Regex ExtractColor = new Regex(@"(?:""color"":\s*\[\s*)(.*)(?:\s*\])");
             //string[] ColorCode = ExtractColor.Match(ReadResult).Groups[1].ToString().Split(',');
-         
+
             ColorRGB = "#FFFFFFFF";
             if (FileRessource.HasProperty("color"))
             {
@@ -107,8 +108,15 @@ namespace PortraitEditor
                     ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
                 }
             }
+            var PortraitsUrl = FileRessource.portraits.standard_male;
 
-
+            if (PortraitsUrl != null)
+            {
+                foreach (var url in PortraitsUrl)
+                {
+                    MalePortraits.Add(new Portrait(relativePathSource, (string)url));
+                }
+            }
             //string cleanstring = ReadResult.Replace('\n', ' ');
             //cleanstring = cleanstring.Replace('\t', ' ');
             //cleanstring = cleanstring.Replace('\r', ' ');
@@ -119,6 +127,27 @@ namespace PortraitEditor
             return;
         }
 
+    }
+    public class Portrait
+    {
+        public string Url { get; set; }
+        public bool IsCore { get; set; }
+        public string Name { get; set; }
+        public string FormatedSource { get; set; }
+
+        public Portrait(string relativePathSource, string url)
+        {
+            Url = url;
+            Regex FindCore = new Regex("starsector-core");
+            Match FoundCore = FindCore.Match(relativePathSource);
+            if (FoundCore.Success)
+                IsCore = true;
+            else
+                IsCore = false;
+            Regex ExtractFileName = new Regex(@"(?:.*/)(.*)(?:\.)");
+            Name = ExtractFileName.Match(url).Groups[1].ToString();
+            FormatedSource = relativePathSource.Replace("\\", "/");
+        }
     }
 
 }
