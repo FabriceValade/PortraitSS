@@ -73,7 +73,7 @@ namespace PortraitEditor
         public string FileId { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
-        public List<Portrait> MalePortraits { get; set; } = new List<Portrait>();
+        public ObservableCollection<Portrait> MalePortraits { get; set; } = new ObservableCollection<Portrait>();
 
         public FactionFile() { }
         public FactionFile(string relativePathSource, string newPath)
@@ -134,6 +134,7 @@ namespace PortraitEditor
         public bool IsCore { get; set; }
         public string Name { get; set; }
         public string FormatedSource { get; set; }
+        public string FullUrl { get; set; }
 
         public Portrait(string relativePathSource, string url)
         {
@@ -147,6 +148,7 @@ namespace PortraitEditor
             Regex ExtractFileName = new Regex(@"(?:.*/)(.*)(?:\.)");
             Name = ExtractFileName.Match(url).Groups[1].ToString();
             FormatedSource = relativePathSource.Replace("\\", "/");
+            FullUrl = FormatedSource + '/' + Url;
         }
     }
 

@@ -13,9 +13,13 @@
                 <Image Source="{Binding LogoPath}" Height="30"/>
             </Grid>
         </DataTemplate>
-        <Style TargetType="ListViewItem">
-            <Setter Property="Background" Value="{Binding ColorRGB}" />
-        </Style>
+        <DataTemplate x:Key="PortraitTemplate">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="100" Height="100">
+                <Image Source="{Binding FullUrl}" Height="60"/>
+                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"  VerticalAlignment="Bottom" />
+            </StackPanel>
+        </DataTemplate>
+        
     </Window.Resources>
 
 
@@ -42,7 +46,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <ListView Name="CFactionList" Grid.Column="0" ItemsSource="{Binding CoreFaction}">
+                <ListView Name="CFactionList" Grid.Column="0" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
+                    <ListView.Resources>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Background" Value="{Binding ColorRGB}" />
+                        </Style>
+                    </ListView.Resources>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
@@ -51,7 +60,13 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListBox Name="ModFactionList" Grid.Column="1"/>
+                <ListView Name="CPortraitList" Grid.Column="1" ItemsSource="{Binding Path=CoreFaction/MalePortraits}" ItemTemplate="{StaticResource PortraitTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
             </Grid>
         </Grid>
 
