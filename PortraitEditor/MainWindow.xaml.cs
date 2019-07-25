@@ -81,6 +81,8 @@ namespace PortraitEditor
             Regex ExtractFactionFileName = new Regex(@"(?:.*\\)(.*)(?:.faction)");
             FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
 
+            dynamic FileRessource = new JavaRessourceExtractor(Path).JavaRessource;
+
             string ReadResult = File.ReadAllText(Path);
 
             Regex ExtractLogoPath = new Regex("(?:\"logo\":\")(.*)(?:\".*,)");
