@@ -342,7 +342,7 @@ namespace PortraitEditor
                 {
                         Position.Add(PosCounter);
                 }
-                PosCounter = PosCounter ++;
+                PosCounter++;
             }
             return Position;
         }
