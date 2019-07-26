@@ -153,7 +153,7 @@
             </Grid>
         </DockPanel>
         <!-- interaction Allportraits  -->
-        <Grid Name="AllPortraitsIntereaction" Grid.Row="2" Grid.Column="2" Visibility="Hidden" >
+        <Grid Name="AllPortraitsIntereaction" Grid.Row="2" Grid.Column="2" Visibility="Visible" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
@@ -168,7 +168,7 @@
             <Button Click="AddGenericPortrait_Click" Grid.Row="0" Grid.Column="1" Tag="Female"> Add Female</Button>
         </Grid>
         <!-- interaction faction portraits  -->
-        <Grid Name="PortraitsIntereaction" Grid.Row="2" Grid.Column="1" Visibility="visible" >
+        <Grid Name="PortraitsIntereaction" Grid.Row="2" Grid.Column="1" Visibility="Visible" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
@@ -180,6 +180,7 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Button Click="RemoveFactionPortrait_Click" Grid.Row="0" Grid.Column="0" Tag="Male">Remove</Button>
+            <Button Click="ChangeGenderFactionPortrait_Click" Grid.Row="0" Grid.Column="1" Tag="Male">Change Gender</Button>
         </Grid>
         <Grid Name="FactionIntereaction" Grid.Row="2" Grid.Column="0" Visibility="visible" >
             <Grid.ColumnDefinitions>
@@ -193,6 +194,8 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Button Click="DisplayAppend_Click" Grid.Row="0" Grid.Column="0" >Show Appended </Button>
+            <Button Click="ModHierarchy_Click" Grid.Row="0" Grid.Column="1" >Create/find Hierarchy</Button>
+            <Button Click="AppendFile_Click" Grid.Row="0" Grid.Column="2" >Create/find Hierarchy</Button>
         </Grid>
     </Grid>
 

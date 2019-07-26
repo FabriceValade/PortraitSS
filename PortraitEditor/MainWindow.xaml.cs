@@ -31,6 +31,7 @@ namespace PortraitEditor
 
         public ObservableCollection<FactionFile> CoreFaction { get; set; } = new ObservableCollection<FactionFile>();
         public ObservableCollection<Portrait> AllPortraits { get; set; } = new ObservableCollection<Portrait>();
+        public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
         public string RootPath { get; set; }
 
 
@@ -38,24 +39,11 @@ namespace PortraitEditor
         {
             DataContext = this;
             InitializeComponent();
+            PortraitsIntereaction.Visibility = Visibility.Hidden;
+            FactionIntereaction.Visibility = Visibility.Hidden;
+            AllPortraitsIntereaction.Visibility = Visibility.Hidden;
+        }
 
-        }
-        private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
-        {
-            //OpenFileDialog openFileDialog = new OpenFileDialog();
-            //openFileDialog.Filter = "faction files (*.faction)|*.faction";
-            //if (openFileDialog.ShowDialog() == true)
-            //    txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
-            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
-            if (OpenRootFolder.ShowDialog() == true)
-            {
-                RootPathDisplay.Text = OpenRootFolder.SelectedPath;
-                RootPath = OpenRootFolder.SelectedPath;
-                UpdateFactionFileList(RootPath+"\\starsector-core\\");
-                ExtractAllPortraits(CoreFaction);
-            }
-            return;
-        }
         private void UpdateFactionFileList(string path)
         {   
 
@@ -74,6 +62,8 @@ namespace PortraitEditor
                 
             }
             CFactionList.Items.MoveCurrentToFirst();
+            PortraitsIntereaction.Visibility = Visibility.Visible;
+            FactionIntereaction.Visibility = Visibility.Visible;
             //Data.Concat(RootDirectory.EnumerateFiles());
 
             return;
@@ -98,6 +88,24 @@ namespace PortraitEditor
             return;
         }
 
+
+        private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.Filter = "faction files (*.faction)|*.faction";
+            //if (openFileDialog.ShowDialog() == true)
+            //    txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
+            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
+            if (OpenRootFolder.ShowDialog() == true)
+            {
+                RootPathDisplay.Text = OpenRootFolder.SelectedPath;
+                FileExplorer.InstalationUrl = OpenRootFolder.SelectedPath;
+                RootPath = OpenRootFolder.SelectedPath;
+                UpdateFactionFileList(RootPath+"\\starsector-core\\");
+                ExtractAllPortraits(CoreFaction);
+            }
+            return;
+        }
         private void AddGenericPortrait_Click(object sender, RoutedEventArgs e)
         {
             Button sent = sender as Button;
@@ -119,6 +127,15 @@ namespace PortraitEditor
             return;
 
         }
+        private void ChangeGenderFactionPortrait_Click(object sender, RoutedEventArgs e)
+        {
+            FactionFile CurrentFaction = (FactionFile)CFactionList.Items.CurrentItem;
+            Portrait SelectedPortrait = (Portrait)PortraitList.Items.CurrentItem;
+            if (SelectedPortrait!=null)
+                SelectedPortrait.FlipGender();
+            CurrentFaction.OrderPortrait();
+            return;
+        }
         private void DisplayAppend_Click(object sender, RoutedEventArgs e)
         {
             FactionFile DisplayingFaction = (FactionFile)CFactionList.Items.CurrentItem;
@@ -126,191 +143,18 @@ namespace PortraitEditor
             win.ShowDialog();
             return;
         }
-    }
-    public class FactionFile
-    {
-        public string Path { get; set; }
-        public string FileId { get; set; }
-        public string DisplayName { get; set; }
-        public string LogoPath { get; set; }
-        public string ColorRGB { get; set; }
-        public ObservableCollection<Portrait> Portraits { get; set; } = new ObservableCollection<Portrait>();
-        public ObservableCollection<Portrait> OriginalPortraits { get; set; } = new ObservableCollection<Portrait>();
-
-
-        public FactionFile() { }
-        public FactionFile(string relativePathSource, string newPath)
+        private void ModHierarchy_Click(object sender, RoutedEventArgs e)
         {
-            Path = newPath;
-            Regex ExtractFactionFileName = new Regex(@"(?:.*\\)(.*)(?:.faction)");
-            FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
-
-            dynamic FileRessource = new JavaRessourceExtractor(Path).JavaRessource;
-            DisplayName = FileRessource.displayName;
-
-            string FormatedSource = relativePathSource.Replace("\\", "/");
-            LogoPath = FormatedSource + FileRessource.logo;
-
-            ColorRGB = "#FFFFFFFF";
-            if (FileRessource.HasProperty("color"))
-            {
-                var ColorCode = FileRessource.color;
-                if (ColorCode.Count == 4)
-                {
-                    List<string> ColorArray = new List<string>(4);
-                    foreach (string oneCode in ColorCode)
-                    {
-                        string oneRgb = Int32.Parse(oneCode).ToString("X2");
-                        ColorArray.Add(oneRgb);
-                    }
-                    ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
-                }
-            }
-            var PortraitsMaleUrl = FileRessource.portraits.standard_male;
-
-            if (PortraitsMaleUrl != null)
-            {
-                foreach (var url in PortraitsMaleUrl)
-                {
-                    Portraits.Add(new Portrait(relativePathSource, (string)url,Gender.Male));
-                }
-            }
-            var PortraitsFemaleUrl = FileRessource.portraits.standard_female;
-
-            if (PortraitsFemaleUrl != null)
-            {
-                foreach (var url in PortraitsFemaleUrl)
-                {
-                    Portraits.Add(new Portrait(relativePathSource, (string)url, Gender.Female));
-                }
-            }
+            FileExplorer.CreateModStructure();
             return;
         }
-
-        public void SetOriginal()
+        private void AppendFile_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Portrait p in Portraits)
-            {
-                Portrait Originaling = new Portrait(p.RelativePathSource, p.Url, p.ImageGender);
-                OriginalPortraits.Add(Originaling);
-            }
-        }
-        public void AddPortrait(Portrait adding)
-        {
-            Portraits.Add(adding);
-            OrderPortrait();
+            FileExplorer.AppendFileCreation();
             return;
-        }
-        public void RemovePortrait(int index)
-        {
-            if (Portraits.Count>index)
-                Portraits.RemoveAt(index);
-            return;
-        }
-        public void OrderPortrait()
-        {
-            ObservableCollection<Portrait> temp;
-            temp = new ObservableCollection<Portrait>(Portraits.OrderBy(Portrait => Portrait));
-            Portraits.Clear();
-            foreach (Portrait j in temp) Portraits.Add(j);
-            return;
-        }
-        public ObservableCollection<Portrait> GetAppended()
-        {
-            ObservableCollection<Portrait> Appended = new ObservableCollection<Portrait>();
-            bool[] originalUsed = new bool[OriginalPortraits.Count];
-            for (int i = 0; i < originalUsed.Length; i++) originalUsed[i] = false;
-            
-            foreach ( Portrait p in Portraits)
-            {
-                List<int> PosOriginal = OriginalPortraits.FindAll(p, Portrait.EqualsWithGender);
-                int PosFound = -1;
-                for (int i = 0; i < PosOriginal.Count && PosFound == -1; i++)
-                {
-                    if (!originalUsed[PosOriginal[i]])
-                    {
-                        PosFound = PosOriginal[i];
-                        originalUsed[PosOriginal[i]] = true;
-                    }
-                }
-                if (PosFound == -1)
-                    Appended.Add(p);
-            }
-
-            return Appended;
         }
     }
-    public class Portrait : IEquatable<Portrait>, IComparable
-    {
-        public string Url { get; set; }
-        public bool IsCore { get; set; }
-        public string Name { get; set; }
-        public string RelativePathSource { get; set; }
-        public string FormatedSource { get; set; }
-        public string FullUrl { get; set; }
-        public string ImageGender { get; set; }
-        public string OriginalGender { get; set; } = null;
-        public bool IsChanged { get; set; } = true;
-
-        public Portrait(string relativePathSource, string url)
-        {
-            Url = url;
-            Regex FindCore = new Regex("starsector-core");
-            Match FoundCore = FindCore.Match(relativePathSource);
-            if (FoundCore.Success)
-                IsCore = true;
-            else
-                IsCore = false;
-            Regex ExtractFileName = new Regex(@"(?:.*/)(.*)(?:\.)");
-            Name = ExtractFileName.Match(url).Groups[1].ToString();
-            RelativePathSource = relativePathSource;
-            FormatedSource = relativePathSource.Replace("\\", "/");
-            FullUrl = FormatedSource + '/' + Url;
-            ImageGender = Gender.Male;
-        }
-        public Portrait(string relativePathSource, string url, string imageGender)
-            :this( relativePathSource, url)
-        {
-            ImageGender = imageGender;
-        }
-
-        public override bool Equals(object other)
-        {
-            if (other == null) return false;
-            Portrait objAsPortrait = other as Portrait;
-            if (objAsPortrait == null) return false;
-            else return Equals(objAsPortrait);
-        }
-        public bool Equals(Portrait other)
-        {
-            if (other == null) return false;
-            return (this.Url.Equals(other.Url) );
-        }
-        public static bool EqualsWithGender(Portrait other1, Portrait other2)
-        {
-            if (other1 == null || other2 == null) return false;
-            return (other1.Url.Equals(other2.Url) && other1.ImageGender.Equals(other2.ImageGender));
-        }
-        public int CompareTo(object obj)
-        {
-            if (obj == null) return 1;
-
-            if (obj is Portrait otherPortrait)
-            {
-                if (this.ImageGender == otherPortrait.ImageGender)
-                {
-                    return this.Name.CompareTo(otherPortrait.Name);
-                }
-                else
-                {
-                    if (this.ImageGender == Gender.Male) return -1;
-                    else return 1;
-                }
-            }
-            else
-                throw new ArgumentException("Object is not a Portrait");
-        }
-    }
+ 
 
     public  class Gender
     {

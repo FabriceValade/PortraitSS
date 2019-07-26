@@ -73,6 +73,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SSFileExplorer.cs" />
+    <Compile Include="FactionFile.cs" />
+    <Compile Include="Portrait.cs" />
     <Compile Include="JavaRessourceExtractor.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
