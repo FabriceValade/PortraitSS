@@ -29,15 +29,14 @@ namespace PortraitEditor
     public partial class MainWindow : Window
     {
 
-        public ObservableCollection<FactionFile> CoreFaction { get; set; }
+        public ObservableCollection<FactionFile> CoreFaction { get; set; } = new ObservableCollection<FactionFile>();
+        public ObservableCollection<Portrait> AllPortraits { get; set; } = new ObservableCollection<Portrait>();
         public string RootPath { get; set; }
 
 
         public MainWindow()
         {
             DataContext = this;
-            CoreFaction = new ObservableCollection<FactionFile>();
-            
             InitializeComponent();
 
         }
@@ -53,8 +52,9 @@ namespace PortraitEditor
                 RootPathDisplay.Text = OpenRootFolder.SelectedPath;
                 RootPath = OpenRootFolder.SelectedPath;
                 UpdateFactionFileList(RootPath+"\\starsector-core\\");
+                ExtractAllPortraits(CoreFaction);
             }
-
+            return;
         }
         private void UpdateFactionFileList(string path)
         {   
@@ -71,6 +71,19 @@ namespace PortraitEditor
 
             //Data.Concat(RootDirectory.EnumerateFiles());
 
+            return;
+        }
+        private void ExtractAllPortraits(ObservableCollection<FactionFile> factionFiles)
+        {
+            foreach (FactionFile OneFactionFile in factionFiles)
+            {
+                foreach (var p in OneFactionFile.Portraits)
+                {
+                    bool AlreadySet = AllPortraits.Contains(p);
+                    if (!AlreadySet)
+                        AllPortraits.Add(p);
+                }
+            }
             return;
         }
 
@@ -136,7 +149,7 @@ namespace PortraitEditor
         }
 
     }
-    public class Portrait
+    public class Portrait : IEquatable<Portrait>
     {
         public string Url { get; set; }
         public bool IsCore { get; set; }
@@ -164,6 +177,19 @@ namespace PortraitEditor
             :this( relativePathSource, url)
         {
             ImageGender = imageGender;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other == null) return false;
+            Portrait objAsPortrait = other as Portrait;
+            if (objAsPortrait == null) return false;
+            else return Equals(objAsPortrait);
+        }
+        public bool Equals(Portrait other)
+        {
+            if (other == null) return false;
+            return (this.Url.Equals(other.Url));
         }
     }
 
