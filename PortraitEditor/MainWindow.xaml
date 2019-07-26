@@ -178,6 +178,35 @@
                 <TextBlock Text="{Binding IsCore}"   Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
             </Grid>
         </DockPanel>
+        <!-- interaction Allportraits  -->
+        <Grid Name="AllPortraitsIntereaction" Grid.Row="2" Grid.Column="2" Visibility="Hidden" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Button Click="AddGenericPortrait_Click" Grid.Row="0" Grid.Column="0" Tag="Male"> Add Male </Button>
+            <Button Click="AddGenericPortrait_Click" Grid.Row="0" Grid.Column="1" Tag="Female"> Add Female</Button>
+        </Grid>
+        <!-- interaction faction portraits  -->
+        <Grid Name="PortraitsIntereaction" Grid.Row="2" Grid.Column="1" Visibility="visible" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Button Click="RemoveFactionPortrait_Click" Grid.Row="0" Grid.Column="0" Tag="Male">Remove</Button>
+        </Grid>
     </Grid>
 
 

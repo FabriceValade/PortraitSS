@@ -66,7 +66,7 @@ namespace PortraitEditor
 
                 if (DataFile.Extension == ".faction")
                     CoreFaction.Add(new FactionFile(path,DataFile.FullName));
-
+                CFactionList.Items.MoveCurrentToFirst();
             }
 
             //Data.Concat(RootDirectory.EnumerateFiles());
@@ -79,14 +79,38 @@ namespace PortraitEditor
             {
                 foreach (var p in OneFactionFile.Portraits)
                 {
-                    bool AlreadySet = AllPortraits.Contains(p);
+                    //bool AlreadySet = AllPortraits.Contains(p);
+                    bool AlreadySet = AllPortraits.Contains(p,Portrait.Equals);
                     if (!AlreadySet)
                         AllPortraits.Add(p);
                 }
-            }
+            }           
+            AllPortraitList.Items.MoveCurrentToFirst();
+            AllPortraitsIntereaction.Visibility = Visibility.Visible;
             return;
         }
 
+        private void AddGenericPortrait_Click(object sender, RoutedEventArgs e)
+        {
+            Button sent = sender as Button;
+            FactionFile ReceivingFaction = (FactionFile) CFactionList.Items.CurrentItem;
+            Portrait Referencing = (Portrait)AllPortraitList.Items.CurrentItem;
+            Portrait Transfering = new Portrait(Referencing.RelativePathSource, Referencing.Url, (String)sent.Tag);
+            ReceivingFaction.AddPortrait(Transfering);
+            PortraitList.Items.MoveCurrentToFirst();
+            return;
+
+        }
+        private void RemoveFactionPortrait_Click(object sender, RoutedEventArgs e)
+        {
+            Button sent = sender as Button;
+            FactionFile RemovingFaction = (FactionFile)CFactionList.Items.CurrentItem;
+            int SelectedPos = (int)PortraitList.Items.CurrentPosition;
+            if (SelectedPos < RemovingFaction.Portraits.Count && SelectedPos != -1)
+                RemovingFaction.RemovePortrait(SelectedPos);
+            return;
+
+        }
     }
     public class FactionFile
     {
@@ -147,16 +171,39 @@ namespace PortraitEditor
             }
             return;
         }
+        public void AddPortrait(Portrait adding)
+        {
+            Portraits.Add(adding);
+            OrderPortrait();
+            return;
+        }
+        public void RemovePortrait(int index)
+        {
+            if (Portraits.Count>index)
+                Portraits.RemoveAt(index);
+            return;
+        }
+        public void OrderPortrait()
+        {
+            ObservableCollection<Portrait> temp;
+            temp = new ObservableCollection<Portrait>(Portraits.OrderBy(Portrait => Portrait));
+            Portraits.Clear();
+            foreach (Portrait j in temp) Portraits.Add(j);
+            return;
+        }
 
     }
-    public class Portrait : IEquatable<Portrait>
+    public class Portrait : IEquatable<Portrait>, IComparable
     {
         public string Url { get; set; }
         public bool IsCore { get; set; }
         public string Name { get; set; }
+        public string RelativePathSource { get; set; }
         public string FormatedSource { get; set; }
         public string FullUrl { get; set; }
         public string ImageGender { get; set; }
+        public string OriginalGender { get; set; } = null;
+        public bool IsChanged { get; set; } = true;
 
         public Portrait(string relativePathSource, string url)
         {
@@ -169,6 +216,7 @@ namespace PortraitEditor
                 IsCore = false;
             Regex ExtractFileName = new Regex(@"(?:.*/)(.*)(?:\.)");
             Name = ExtractFileName.Match(url).Groups[1].ToString();
+            RelativePathSource = relativePathSource;
             FormatedSource = relativePathSource.Replace("\\", "/");
             FullUrl = FormatedSource + '/' + Url;
             ImageGender = Gender.Male;
@@ -189,7 +237,31 @@ namespace PortraitEditor
         public bool Equals(Portrait other)
         {
             if (other == null) return false;
-            return (this.Url.Equals(other.Url));
+            return (this.Url.Equals(other.Url) );
+        }
+        public static bool EqualsWithGender(Portrait other1, Portrait other2)
+        {
+            if (other1 == null || other2 == null) return false;
+            return (other1.Url.Equals(other2.Url) && other1.ImageGender.Equals(other2.ImageGender));
+        }
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            if (obj is Portrait otherPortrait)
+            {
+                if (this.ImageGender == otherPortrait.ImageGender)
+                {
+                    return this.Name.CompareTo(otherPortrait.Name);
+                }
+                else
+                {
+                    if (this.ImageGender == Gender.Male) return -1;
+                    else return 1;
+                }
+            }
+            else
+                throw new ArgumentException("Object is not a Portrait");
         }
     }
 
@@ -199,6 +271,20 @@ namespace PortraitEditor
         public static string Female = "Female";
     }
 
+    public static class CollectionExtensions
+    {
+        public static bool Contains<TSource>(this IEnumerable<TSource> collection, TSource itemTofind, Func<TSource, TSource, bool> equalizer)
+        {
+            foreach (var item in collection)
+            {
+                if (equalizer(item,itemTofind))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
     //public class MultiValueConverter : IMultiValueConverter
     //{
     //    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
