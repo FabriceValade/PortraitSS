@@ -25,6 +25,7 @@ namespace PortraitEditor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
     public partial class MainWindow : Window
     {
 
@@ -73,21 +74,6 @@ namespace PortraitEditor
             return;
         }
 
-        private void PortraitList_Selected(object sender, RoutedEventArgs e)
-        {
-            ListView list = sender as ListView;
-            if (list.Name == "MPortraitList")
-            {
-                MPortraitStat.Visibility = Visibility.Visible;
-                FPortraitStat.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                MPortraitStat.Visibility = Visibility.Hidden;
-                FPortraitStat.Visibility = Visibility.Visible;
-            }
-            return;
-        }
     }
     public class FactionFile
     {
@@ -96,8 +82,8 @@ namespace PortraitEditor
         public string DisplayName { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
-        public ObservableCollection<Portrait> MalePortraits { get; set; } = new ObservableCollection<Portrait>();
-        public ObservableCollection<Portrait> FemalePortraits { get; set; } = new ObservableCollection<Portrait>();
+        public ObservableCollection<Portrait> Portraits { get; set; } = new ObservableCollection<Portrait>();
+
 
 
         public FactionFile() { }
@@ -134,7 +120,7 @@ namespace PortraitEditor
             {
                 foreach (var url in PortraitsMaleUrl)
                 {
-                    MalePortraits.Add(new Portrait(relativePathSource, (string)url));
+                    Portraits.Add(new Portrait(relativePathSource, (string)url,Gender.Male));
                 }
             }
             var PortraitsFemaleUrl = FileRessource.portraits.standard_female;
@@ -143,7 +129,7 @@ namespace PortraitEditor
             {
                 foreach (var url in PortraitsFemaleUrl)
                 {
-                    FemalePortraits.Add(new Portrait(relativePathSource, (string)url));
+                    Portraits.Add(new Portrait(relativePathSource, (string)url, Gender.Female));
                 }
             }
             return;
@@ -157,6 +143,7 @@ namespace PortraitEditor
         public string Name { get; set; }
         public string FormatedSource { get; set; }
         public string FullUrl { get; set; }
+        public string ImageGender { get; set; }
 
         public Portrait(string relativePathSource, string url)
         {
@@ -171,7 +158,19 @@ namespace PortraitEditor
             Name = ExtractFileName.Match(url).Groups[1].ToString();
             FormatedSource = relativePathSource.Replace("\\", "/");
             FullUrl = FormatedSource + '/' + Url;
+            ImageGender = Gender.Male;
         }
+        public Portrait(string relativePathSource, string url, string imageGender)
+            :this( relativePathSource, url)
+        {
+            ImageGender = imageGender;
+        }
+    }
+
+    public  class Gender
+    {
+        public static string Male = "Male";
+        public static string Female = "Female";
     }
 
     //public class MultiValueConverter : IMultiValueConverter
