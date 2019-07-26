@@ -65,10 +65,15 @@ namespace PortraitEditor
             {
 
                 if (DataFile.Extension == ".faction")
-                    CoreFaction.Add(new FactionFile(path,DataFile.FullName));
-                CFactionList.Items.MoveCurrentToFirst();
+                {
+                    FactionFile ExtractedFile = new FactionFile(path, DataFile.FullName);
+                    ExtractedFile.SetOriginal();
+                    CoreFaction.Add(ExtractedFile);
+                }
+                    
+                
             }
-
+            CFactionList.Items.MoveCurrentToFirst();
             //Data.Concat(RootDirectory.EnumerateFiles());
 
             return;
@@ -82,7 +87,10 @@ namespace PortraitEditor
                     //bool AlreadySet = AllPortraits.Contains(p);
                     bool AlreadySet = AllPortraits.Contains(p,Portrait.Equals);
                     if (!AlreadySet)
-                        AllPortraits.Add(p);
+                    {
+                        Portrait ExtractedPortrait = new Portrait(p.RelativePathSource, p.Url, p.ImageGender);
+                        AllPortraits.Add(ExtractedPortrait);
+                    }
                 }
             }           
             AllPortraitList.Items.MoveCurrentToFirst();
@@ -111,6 +119,13 @@ namespace PortraitEditor
             return;
 
         }
+        private void DisplayAppend_Click(object sender, RoutedEventArgs e)
+        {
+            FactionFile DisplayingFaction = (FactionFile)CFactionList.Items.CurrentItem;
+            var win = new PortraitListOutputWindow(DisplayingFaction.GetAppended());
+            win.ShowDialog();
+            return;
+        }
     }
     public class FactionFile
     {
@@ -120,7 +135,7 @@ namespace PortraitEditor
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
         public ObservableCollection<Portrait> Portraits { get; set; } = new ObservableCollection<Portrait>();
-
+        public ObservableCollection<Portrait> OriginalPortraits { get; set; } = new ObservableCollection<Portrait>();
 
 
         public FactionFile() { }
@@ -171,6 +186,15 @@ namespace PortraitEditor
             }
             return;
         }
+
+        public void SetOriginal()
+        {
+            foreach (Portrait p in Portraits)
+            {
+                Portrait Originaling = new Portrait(p.RelativePathSource, p.Url, p.ImageGender);
+                OriginalPortraits.Add(Originaling);
+            }
+        }
         public void AddPortrait(Portrait adding)
         {
             Portraits.Add(adding);
@@ -191,7 +215,30 @@ namespace PortraitEditor
             foreach (Portrait j in temp) Portraits.Add(j);
             return;
         }
+        public ObservableCollection<Portrait> GetAppended()
+        {
+            ObservableCollection<Portrait> Appended = new ObservableCollection<Portrait>();
+            bool[] originalUsed = new bool[OriginalPortraits.Count];
+            for (int i = 0; i < originalUsed.Length; i++) originalUsed[i] = false;
+            
+            foreach ( Portrait p in Portraits)
+            {
+                List<int> PosOriginal = OriginalPortraits.FindAll(p, Portrait.EqualsWithGender);
+                int PosFound = -1;
+                for (int i = 0; i < PosOriginal.Count && PosFound == -1; i++)
+                {
+                    if (!originalUsed[PosOriginal[i]])
+                    {
+                        PosFound = PosOriginal[i];
+                        originalUsed[PosOriginal[i]] = true;
+                    }
+                }
+                if (PosFound == -1)
+                    Appended.Add(p);
+            }
 
+            return Appended;
+        }
     }
     public class Portrait : IEquatable<Portrait>, IComparable
     {
@@ -284,22 +331,23 @@ namespace PortraitEditor
             }
             return false;
         }
-    }
-    //public class MultiValueConverter : IMultiValueConverter
-    //{
-    //    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if (values != null)
-    //            return values[0];
-    //        else
-    //            return null;
-    //    }
 
-    //    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+        public static List<int> FindAll<TSource>(this IEnumerable<TSource> collection, TSource itemTofind, Func<TSource, TSource, bool> equalizer)
+        {
+            List<int> Position = new List<int>();
+            int PosCounter = 0;
+            foreach (var item in collection)
+            {
+                if (equalizer(item, itemTofind))
+                {
+                        Position.Add(PosCounter);
+                }
+                PosCounter = PosCounter ++;
+            }
+            return Position;
+        }
+    }
+
 
 
 }

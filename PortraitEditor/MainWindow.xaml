@@ -8,33 +8,7 @@
         Title="MainWindow" Height="650" Width="925">
 
     <Window.Resources>
-        <!--<local:MultiValueConverter x:Key="MultiValueConverter" />-->
-        <DataTemplate x:Key="FactionFileImageTemplate">
-            <Grid>
-                <Image Source="{Binding LogoPath}" Height="30"/>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="PortraitTemplate">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
-                <Image Source="{Binding FullUrl}" Height="60"/>
-            </StackPanel>
-        </DataTemplate>
-        <Style x:Key="PortraitListviewStyle" TargetType="ListView">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ItemTemplate" Value="{StaticResource PortraitTemplate}"/>
-            <Setter Property="ItemsPanel">
-                <Setter.Value>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
-        </Style>
 
-        <Style x:Key="TextElement" TargetType="TextBlock">
-            <Setter Property="Margin" Value="5,5,3,3"/>
-        </Style>
     </Window.Resources>
 
 
@@ -206,6 +180,19 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Button Click="RemoveFactionPortrait_Click" Grid.Row="0" Grid.Column="0" Tag="Male">Remove</Button>
+        </Grid>
+        <Grid Name="FactionIntereaction" Grid.Row="2" Grid.Column="0" Visibility="visible" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Button Click="DisplayAppend_Click" Grid.Row="0" Grid.Column="0" >Show Appended </Button>
         </Grid>
     </Grid>
 
