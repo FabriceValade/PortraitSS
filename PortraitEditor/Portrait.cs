@@ -63,6 +63,18 @@ namespace PortraitEditor
         {
             ImageGender = string.Copy(imageGender);
         }
+        public Portrait(SSFileUrl fileUrl)
+        {
+            ImageUrl = fileUrl;
+            IsCore = false;
+            ImageGender = Gender.Male;
+        }
+        public Portrait(SSFileUrl fileUrl, string imageGender)
+            :this(fileUrl)
+        {
+            ImageGender = string.Copy(imageGender);
+        }
+
 
         //methods
         public void FlipGender()
@@ -83,12 +95,12 @@ namespace PortraitEditor
         public bool Equals(Portrait other)
         {
             if (other == null) return false;
-            return (object.ReferenceEquals(this,other));
+            return (object.ReferenceEquals(this.ImageUrl,other.ImageUrl));
         }
         public static bool EqualsWithGender(Portrait other1, Portrait other2)
         {
             if (other1 == null || other2 == null) return false;
-            return (object.ReferenceEquals(other1, other2) && other1.ImageGender.Equals(other2.ImageGender));
+            return (object.ReferenceEquals(other1.ImageUrl, other2.ImageUrl) && other1.ImageGender.Equals(other2.ImageGender));
         }
         public int CompareTo(object obj)
         {

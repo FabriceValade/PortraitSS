@@ -10,27 +10,33 @@ namespace PortraitEditor
 {
     public class FactionFile
     {
-        //public string Path { get; set; }
+        //properties
         public SSFileUrl Url { get; set; }
-        //public string FileId { get; set; }
         public string DisplayName { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
         public ObservableCollection<Portrait> Portraits { get; set; } = new ObservableCollection<Portrait>();
         public ObservableCollection<Portrait> OriginalPortraits { get; set; } = new ObservableCollection<Portrait>();
+        dynamic FileRessource { get; set; }
 
-
+        //constructor
         public FactionFile() { }
         public FactionFile(SSFileUrl sSFileUrl)
         {
             Url = new SSFileUrl(sSFileUrl);
-            //Regex ExtractFactionFileName = new Regex(@"(?:.*\\)(.*)(?:.faction)");
-            //FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
+            SetupFromUrl();
+            ReadPortraits(new ObservableCollection<Portrait>());
+           
+            
+            return;
+        }
 
-            dynamic FileRessource = new JavaRessourceExtractor(Url.FullUrl).JavaRessource;
+        //private method
+        private void SetupFromUrl()
+        {
+            FileRessource = new JavaRessourceExtractor(Url.FullUrl).JavaRessource;
             DisplayName = FileRessource.displayName;
 
-            //string FormatedSource = relativePathSource.Replace("\\", "/");
             LogoPath = Url.CommonUrl + FileRessource.logo;
 
             ColorRGB = "#FFFFFFFF";
@@ -48,13 +54,26 @@ namespace PortraitEditor
                     ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
                 }
             }
+            return;
+        }
+        private void ReadPortraits(ICollection<Portrait> alreadyReferenced)
+        {
             var PortraitsMaleUrl = FileRessource.portraits.standard_male;
 
             if (PortraitsMaleUrl != null)
             {
                 foreach (var url in PortraitsMaleUrl)
                 {
-                    Portraits.Add(new Portrait(Url.CommonUrl, (string)url, Gender.Male));
+                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, (string)url);
+                    var ReferencedUrl = (from portrait in alreadyReferenced where portrait.ImageUrl.Equals(fileUrl) select portrait.ImageUrl).ToList();
+                    if (ReferencedUrl.Count > 0)
+                        Portraits.Add(new Portrait(ReferencedUrl.ElementAt(0), Gender.Male));
+                    else
+                    {
+                        Portrait newPort = new Portrait(fileUrl, Gender.Male);
+                        Portraits.Add(newPort);
+                        alreadyReferenced.Add(newPort);
+                    }
                 }
             }
             var PortraitsFemaleUrl = FileRessource.portraits.standard_female;
@@ -63,12 +82,20 @@ namespace PortraitEditor
             {
                 foreach (var url in PortraitsFemaleUrl)
                 {
-                    Portraits.Add(new Portrait(Url.CommonUrl, (string)url, Gender.Female));
+                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, (string)url);
+                    var ReferencedUrl = (from portrait in alreadyReferenced where portrait.ImageUrl.Equals(fileUrl) select portrait.ImageUrl).ToList();
+                    if (ReferencedUrl.Count > 0)
+                        Portraits.Add(new Portrait(ReferencedUrl.ElementAt(0), Gender.Female));
+                    else
+                    {
+                        Portrait newPort = new Portrait(fileUrl, Gender.Female);
+                        Portraits.Add(newPort);
+                        alreadyReferenced.Add(newPort);
+                    }
                 }
             }
-            return;
         }
-
+        //public method
         public void SetOriginal()
         {
             foreach (Portrait p in Portraits)

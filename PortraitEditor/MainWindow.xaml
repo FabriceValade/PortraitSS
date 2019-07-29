@@ -127,7 +127,7 @@
             <DockPanel.DataContext>
                 <Binding Path="AllPortraits" />
             </DockPanel.DataContext>
-            <Image DockPanel.Dock="Right"  Source="{Binding FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
+            <Image DockPanel.Dock="Right"  Source="{Binding ImageUrl.FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
             <Grid DockPanel.Dock="Left" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>

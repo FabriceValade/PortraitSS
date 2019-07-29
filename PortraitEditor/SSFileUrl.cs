@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor
 {
-    public class SSFileUrl  : INotifyPropertyChanged
+    public class SSFileUrl  : INotifyPropertyChanged, IEquatable<SSFileUrl>
     {
         //staticusefull
         public static string ExtractRelativeUrl(string CommonUrl, string FullUrl)
@@ -21,16 +21,24 @@ namespace PortraitEditor
                 if (DiminishingUrl == CommonUrl)
                     return RelativeUrl;
                 string DiminishedUrl = Path.GetDirectoryName(DiminishingUrl);
-                RelativeUrl = Path.GetFileName(DiminishingUrl) + RelativeUrl;
+                if (RelativeUrl == null)
+                    RelativeUrl = Path.GetFileName(DiminishingUrl);
+                else
+                    RelativeUrl = Path.Combine(Path.GetFileName(DiminishingUrl), RelativeUrl);
+
                 DiminishingUrl = DiminishedUrl;
             }
             throw new InvalidDataException();
         }
         //properties
         public event PropertyChangedEventHandler PropertyChanged;
-        public string FullUrl { get { return this.FullUrl; } private set { this.FullUrl = value; NotifyPropertyChanged(); } }
-        public string RelativeUrl { get { return this.RelativeUrl; } private set { this.RelativeUrl = value; NotifyPropertyChanged(); } }
-        public string CommonUrl { get { return this.CommonUrl; } private set { this.CommonUrl = value; NotifyPropertyChanged(); } }
+        private string _FullUrl;
+        private string _RelativeUrl;
+        private string _CommonUrl;
+
+        public string FullUrl { get { return this._FullUrl; } private set { this._FullUrl = value; NotifyPropertyChanged(); } }       
+        public string RelativeUrl { get { return this._RelativeUrl; } private set { this._RelativeUrl = value; NotifyPropertyChanged(); } }
+        public string CommonUrl { get { return this._CommonUrl; } private set { this._CommonUrl = value; NotifyPropertyChanged(); } }
         public string FileName { get { return Path.GetFileName(this.FullUrl); } }
 
         //constructors
@@ -42,7 +50,8 @@ namespace PortraitEditor
         }
         public SSFileUrl(string sSUrl,string relativeUrl)
         {
-            FullUrl = Path.Combine(sSUrl, relativeUrl);
+            string Tempurl= Path.Combine(sSUrl, relativeUrl);
+            FullUrl = Tempurl;
             RelativeUrl = relativeUrl;
             CommonUrl = sSUrl;
         }
@@ -80,13 +89,8 @@ namespace PortraitEditor
             RelativeUrl = relativeUrl;
             CommonUrl = sSUrl;
         }
-        public override string ToString()
-        {
-            if (RelativeUrl != null)
-                return RelativeUrl;
-            else
-                return FullUrl;
-        }
+
+        //interface and overide methods
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
@@ -94,6 +98,16 @@ namespace PortraitEditor
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
+        public override string ToString()
+        {
+            if (RelativeUrl != null)
+                return RelativeUrl;
+            else
+                return FullUrl;
+        }
+        public bool Equals(SSFileUrl other)
+        {
+            return (this.FullUrl.Equals(other.FullUrl) && this.RelativeUrl.Equals(other.RelativeUrl));
+        }
     }
 }

@@ -13,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Ookii.Dialogs.Wpf;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -67,18 +66,25 @@ namespace PortraitEditor
             AllPortraitsIntereaction.Visibility = Visibility.Hidden;
         }
 
-        private void UpdateFactionFileList(string SSpath)
-        {   
+        private void UpdateFactionFileList(string SourceFolder)
+        {
+            string FactionDirPath = Path.Combine(SourceFolder, "data");
+            FactionDirPath = Path.Combine(FactionDirPath, "world");
+            FactionDirPath = Path.Combine(FactionDirPath, "factions");
 
-            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(SSpath+ "data\\world\\factions");
+
+            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(FactionDirPath);
+            if (!CoreFactionDirectory.Exists)
+                return;
             IEnumerable<FileInfo> FactionFileList = CoreFactionDirectory.EnumerateFiles();
             foreach (FileInfo DataFile in FactionFileList)
             {
 
                 if (DataFile.Extension == ".faction")
                 {
-                    SSFileUrl FactionUrl = new SSFileUrl(DataFile.FullName);
-                    FactionFile ExtractedFile = new FactionFile(path, DataFile.FullName);
+                    string RelativeUrl = SSFileUrl.ExtractRelativeUrl(SourceFolder, DataFile.FullName);
+                    SSFileUrl FactionUrl = new SSFileUrl(SourceFolder,RelativeUrl);
+                    FactionFile ExtractedFile = new FactionFile(FactionUrl);
                     ExtractedFile.SetOriginal();
                     CoreFaction.Add(ExtractedFile);
                 }
@@ -102,7 +108,7 @@ namespace PortraitEditor
                     bool AlreadySet = AllPortraits.Contains(p,Portrait.Equals);
                     if (!AlreadySet)
                     {
-                        Portrait ExtractedPortrait = new Portrait(p.RelativePathSource, p.Url, p.ImageGender);
+                        Portrait ExtractedPortrait = new Portrait(p);
                         AllPortraits.Add(ExtractedPortrait);
                     }
                 }
@@ -125,7 +131,7 @@ namespace PortraitEditor
                 RootPathDisplay.Text = OpenRootFolder.SelectedPath;
                 FileExplorer.InstalationUrl = OpenRootFolder.SelectedPath;
                 RootPath = OpenRootFolder.SelectedPath;
-                UpdateFactionFileList(RootPath+"\\starsector-core\\");
+                UpdateFactionFileList(Path.Combine(RootPath, "starsector-core"));
                 ExtractAllPortraits(CoreFaction);
             }
             return;
@@ -135,7 +141,7 @@ namespace PortraitEditor
             Button sent = sender as Button;
             FactionFile ReceivingFaction = (FactionFile) CFactionList.Items.CurrentItem;
             Portrait Referencing = (Portrait)AllPortraitList.Items.CurrentItem;
-            Portrait Transfering = new Portrait(Referencing.RelativePathSource, Referencing.Url, (String)sent.Tag);
+            Portrait Transfering = new Portrait(Referencing,(String)sent.Tag);
             ReceivingFaction.AddPortrait(Transfering);
             PortraitList.Items.MoveCurrentToFirst();
             return;
