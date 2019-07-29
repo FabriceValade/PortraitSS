@@ -9,23 +9,48 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor
 {
-    class SSFileUrl  : INotifyPropertyChanged
+    public class SSFileUrl  : INotifyPropertyChanged
     {
+        //staticusefull
+        public static string ExtractRelativeUrl(string CommonUrl, string FullUrl)
+        {
+            string DiminishingUrl = string.Copy(FullUrl);
+            string RelativeUrl = null;
+            while (DiminishingUrl != null)
+            {
+                if (DiminishingUrl == CommonUrl)
+                    return RelativeUrl;
+                string DiminishedUrl = Path.GetDirectoryName(DiminishingUrl);
+                RelativeUrl = Path.GetFileName(DiminishingUrl) + RelativeUrl;
+                DiminishingUrl = DiminishedUrl;
+            }
+            throw new InvalidDataException();
+        }
         //properties
         public event PropertyChangedEventHandler PropertyChanged;
-        private string FullUrl { get { return this.FullUrl; } set { this.FullUrl = value; NotifyPropertyChanged(); } }
-        private string RelativeUrl { get { return this.RelativeUrl; } set { this.RelativeUrl = value; NotifyPropertyChanged(); } }
+        public string FullUrl { get { return this.FullUrl; } private set { this.FullUrl = value; NotifyPropertyChanged(); } }
+        public string RelativeUrl { get { return this.RelativeUrl; } private set { this.RelativeUrl = value; NotifyPropertyChanged(); } }
+        public string CommonUrl { get { return this.CommonUrl; } private set { this.CommonUrl = value; NotifyPropertyChanged(); } }
+        public string FileName { get { return Path.GetFileName(this.FullUrl); } }
 
         //constructors
         public SSFileUrl(string url)
         {
             FullUrl = url;
             RelativeUrl = null;
+            CommonUrl = url;
         }
-        public SSFileUrl(string SSurl,string relativeUrl)
+        public SSFileUrl(string sSUrl,string relativeUrl)
         {
-            FullUrl = Path.Combine(SSurl, relativeUrl);
+            FullUrl = Path.Combine(sSUrl, relativeUrl);
             RelativeUrl = relativeUrl;
+            CommonUrl = sSUrl;
+        }
+        public SSFileUrl(SSFileUrl other)
+        {
+            FullUrl = string.Copy(other.FullUrl);
+            RelativeUrl = string.Copy(other.RelativeUrl);
+            CommonUrl = string.Copy(other.CommonUrl);
         }
 
         //method
@@ -36,15 +61,24 @@ namespace PortraitEditor
             else
                 return false;
         }
+        public bool IsRelative()
+        {
+            if (RelativeUrl == null)
+                return false;
+            else
+                return true;
+        }
         public void ChangeUrl(string newUrl)
         {
             FullUrl = newUrl;
             RelativeUrl = null;
+            CommonUrl = CommonUrl;
         }
-        public void ChangeUrl(string SSurl,string relativeUrl)
+        public void ChangeUrl(string sSUrl,string relativeUrl)
         {
-            FullUrl = Path.Combine(SSurl, relativeUrl);
+            FullUrl = Path.Combine(sSUrl, relativeUrl);
             RelativeUrl = relativeUrl;
+            CommonUrl = sSUrl;
         }
         public override string ToString()
         {

@@ -10,8 +10,9 @@ namespace PortraitEditor
 {
     public class FactionFile
     {
-        public string Path { get; set; }
-        public string FileId { get; set; }
+        //public string Path { get; set; }
+        public SSFileUrl Url { get; set; }
+        //public string FileId { get; set; }
         public string DisplayName { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
@@ -20,17 +21,17 @@ namespace PortraitEditor
 
 
         public FactionFile() { }
-        public FactionFile(string relativePathSource, string newPath)
+        public FactionFile(SSFileUrl sSFileUrl)
         {
-            Path = newPath;
-            Regex ExtractFactionFileName = new Regex(@"(?:.*\\)(.*)(?:.faction)");
-            FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
+            Url = new SSFileUrl(sSFileUrl);
+            //Regex ExtractFactionFileName = new Regex(@"(?:.*\\)(.*)(?:.faction)");
+            //FileId = ExtractFactionFileName.Match(Path).Groups[1].ToString();
 
-            dynamic FileRessource = new JavaRessourceExtractor(Path).JavaRessource;
+            dynamic FileRessource = new JavaRessourceExtractor(Url.FullUrl).JavaRessource;
             DisplayName = FileRessource.displayName;
 
-            string FormatedSource = relativePathSource.Replace("\\", "/");
-            LogoPath = FormatedSource + FileRessource.logo;
+            //string FormatedSource = relativePathSource.Replace("\\", "/");
+            LogoPath = Url.CommonUrl + FileRessource.logo;
 
             ColorRGB = "#FFFFFFFF";
             if (FileRessource.HasProperty("color"))
@@ -53,7 +54,7 @@ namespace PortraitEditor
             {
                 foreach (var url in PortraitsMaleUrl)
                 {
-                    Portraits.Add(new Portrait(relativePathSource, (string)url, Gender.Male));
+                    Portraits.Add(new Portrait(Url.CommonUrl, (string)url, Gender.Male));
                 }
             }
             var PortraitsFemaleUrl = FileRessource.portraits.standard_female;
@@ -62,7 +63,7 @@ namespace PortraitEditor
             {
                 foreach (var url in PortraitsFemaleUrl)
                 {
-                    Portraits.Add(new Portrait(relativePathSource, (string)url, Gender.Female));
+                    Portraits.Add(new Portrait(Url.CommonUrl, (string)url, Gender.Female));
                 }
             }
             return;
@@ -72,7 +73,7 @@ namespace PortraitEditor
         {
             foreach (Portrait p in Portraits)
             {
-                Portrait Originaling = new Portrait(p.RelativePathSource, p.Url, p.ImageGender);
+                Portrait Originaling = new Portrait(p);
                 OriginalPortraits.Add(Originaling);
             }
         }

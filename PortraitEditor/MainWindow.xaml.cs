@@ -67,16 +67,17 @@ namespace PortraitEditor
             AllPortraitsIntereaction.Visibility = Visibility.Hidden;
         }
 
-        private void UpdateFactionFileList(string path)
+        private void UpdateFactionFileList(string SSpath)
         {   
 
-            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(path+ "data\\world\\factions");
+            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(SSpath+ "data\\world\\factions");
             IEnumerable<FileInfo> FactionFileList = CoreFactionDirectory.EnumerateFiles();
             foreach (FileInfo DataFile in FactionFileList)
             {
 
                 if (DataFile.Extension == ".faction")
                 {
+                    SSFileUrl FactionUrl = new SSFileUrl(DataFile.FullName);
                     FactionFile ExtractedFile = new FactionFile(path, DataFile.FullName);
                     ExtractedFile.SetOriginal();
                     CoreFaction.Add(ExtractedFile);

@@ -52,7 +52,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
-                            <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding FileId}"/>
+                            <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding Url.FileName}"/>
                             <GridViewColumn Header="Faction name"  DisplayMemberBinding="{Binding DisplayName}"/>
                         </GridView>
                     </ListView.View>
@@ -71,7 +71,7 @@
             <TextBlock Text="Faction Name: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
             <TextBlock Text="{Binding Path=CoreFaction/DisplayName}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
             <TextBlock Text="Source file url:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-            <TextBlock Text="{Binding Path=CoreFaction/Path}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
+            <TextBlock Text="{Binding Path=CoreFaction/Url.RelativeUrl}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
         </Grid>
         <!-- displaying portraits in faction info -->
         <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/Portraits}"  Style="{StaticResource PortraitListviewStyle}"  >
@@ -95,7 +95,7 @@
                     <DockPanel.DataContext>
                         <Binding Path="CoreFaction/Portraits" />
                     </DockPanel.DataContext>
-                    <Image DockPanel.Dock="Right"  Source="{Binding FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
+                    <Image DockPanel.Dock="Right"  Source="{Binding ImageUrl.FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
                     <Grid DockPanel.Dock="Left" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -110,12 +110,12 @@
                         </Grid.RowDefinitions>
                         <TextBlock Text="Faction portrait"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource TextElement}" FontSize="14"/>
                         <TextBlock Text="Name: "   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding Name}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding ImageUrl.FileName}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                         <TextBlock Text="Gender: "   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                         <TextBlock Text="{Binding ImageGender}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                         
                         <TextBlock Text="Source file url:"   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding Url}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                        <TextBlock Text="{Binding ImageUrl}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                         <TextBlock Text="Is core?: "   Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                         <TextBlock Text="{Binding IsCore}"   Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                     </Grid>
@@ -142,12 +142,12 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="General portrait"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource TextElement}" FontSize="14"/>
                 <TextBlock Text="Name: "   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="{Binding Name}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                <TextBlock Text="{Binding ImageUrl.FileName}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                 <TextBlock Text="Gender: "   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                 <TextBlock Text="{Binding ImageGender}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
 
                 <TextBlock Text="Source file url:"   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="{Binding Url}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                <TextBlock Text="{Binding ImageUrl}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                 <TextBlock Text="Is core?: "   Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                 <TextBlock Text="{Binding IsCore}"   Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
             </Grid>
