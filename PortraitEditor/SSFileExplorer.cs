@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -46,8 +48,9 @@ namespace PortraitEditor
             File.WriteAllText(pathString, ModInfoJson);
             return;
         }
-        public void AppendFileCreation()
+        public void AppendFileCreation( ObservableCollection<Portrait> Portraits)
         {
+            var a = Portraits.GetType();
             Dictionary<string, Dictionary<string, List<string>>> AppendDict = new Dictionary<string, Dictionary<string, List<string>>>();
             AppendDict.Add("portrait", new Dictionary<string, List<string>>());
             AppendDict["portrait"].Add("standard_male", new List<string>());
@@ -59,5 +62,16 @@ namespace PortraitEditor
             File.WriteAllText(pathString, DotFaction);
             return ;
         }
+        public void AppendFileCreation(JObject PortraitJson)
+        {
+            string DotFaction = JsonConvert.SerializeObject(PortraitJson, Formatting.Indented);
+            string pathString = Path.Combine(FactionDirectory, "test.faction");
+            File.WriteAllText(pathString, DotFaction);
+            return;
+        }
+    }
+    public interface IJsonDictionary
+    {
+
     }
 }

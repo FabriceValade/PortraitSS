@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace PortraitEditor
 {
-    public class Portrait : IEquatable<Portrait>, IComparable
+    public class Portrait : IEquatable<Portrait>, IComparable, IJsonConvertable
     {
+        public static string MalePropertyName = "Standard_male";
+        public static string FemalePropertyName = "Standard_female";
         public string Url { get; set; }
         public bool IsCore { get; set; }
         public string Name { get; set; }
@@ -82,6 +85,18 @@ namespace PortraitEditor
             }
             else
                 throw new ArgumentException("Object is not a Portrait");
+        }
+
+        public JObject JsonEquivalent()
+        {
+            string PropertyName;
+            if (ImageGender == Gender.Male)
+                PropertyName = Portrait.MalePropertyName;
+            else
+                PropertyName = Portrait.FemalePropertyName;
+
+            JObject Result = new JObject(new JProperty(PropertyName, Url));
+            return Result;
         }
     }
 }

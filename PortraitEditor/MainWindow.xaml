@@ -195,7 +195,7 @@
             </Grid.RowDefinitions>
             <Button Click="DisplayAppend_Click" Grid.Row="0" Grid.Column="0" >Show Appended </Button>
             <Button Click="ModHierarchy_Click" Grid.Row="0" Grid.Column="1" >Create/find Hierarchy</Button>
-            <Button Click="AppendFile_Click" Grid.Row="0" Grid.Column="2" >Create/find Hierarchy</Button>
+            <Button Click="AppendFile_Click" Grid.Row="0" Grid.Column="2" >Create append file</Button>
         </Grid>
     </Grid>
 

@@ -19,6 +19,8 @@ using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.ComponentModel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace PortraitEditor
 {
@@ -37,6 +39,27 @@ namespace PortraitEditor
 
         public MainWindow()
         {
+
+
+
+            ////JObject ss = new JObject(
+            //                        new JProperty("Male", "ha"),
+            //                        new JProperty("Female", 
+            //                                    new JObject(
+            //                                        new JProperty("title","lol"),
+            //                                        new JProperty("name","Ada"))));
+
+            //JObject ss2 = new JObject(
+            //                        new JProperty("Male", new List<string>() { "Hella" , "je"}),
+            //                        new JProperty("Female", new JObject(
+            //                                        new JProperty("title", "lloa"),
+            //                                        new JProperty("name", "Ada"))),
+                                    //new JProperty("Fele", "lloa"));
+
+
+
+
+
             DataContext = this;
             InitializeComponent();
             PortraitsIntereaction.Visibility = Visibility.Hidden;
@@ -150,7 +173,10 @@ namespace PortraitEditor
         }
         private void AppendFile_Click(object sender, RoutedEventArgs e)
         {
-            FileExplorer.AppendFileCreation();
+            FactionFile DisplayingFaction = (FactionFile)CFactionList.Items.CurrentItem;
+            JObject PortraitsJson = new JObject(new JProperty("portraits", DisplayingFaction.Portraits.FlattenToJson()));
+            //FileExplorer.AppendFileCreation(DisplayingFaction.Portraits);
+            FileExplorer.AppendFileCreation(PortraitsJson);
             return;
         }
     }
@@ -160,15 +186,19 @@ namespace PortraitEditor
     {
         public static string Male = "Male";
         public static string Female = "Female";
-    }
 
+    }
+    public interface IJsonConvertable
+    {
+        JObject JsonEquivalent();
+    }
     public static class CollectionExtensions
     {
         public static bool Contains<TSource>(this IEnumerable<TSource> collection, TSource itemTofind, Func<TSource, TSource, bool> equalizer)
         {
             foreach (var item in collection)
             {
-                if (equalizer(item,itemTofind))
+                if (equalizer(item, itemTofind))
                 {
                     return true;
                 }
@@ -184,11 +214,61 @@ namespace PortraitEditor
             {
                 if (equalizer(item, itemTofind))
                 {
-                        Position.Add(PosCounter);
+                    Position.Add(PosCounter);
                 }
                 PosCounter++;
             }
             return Position;
+        }
+
+        
+
+        public static JObject FlattenToJson(this IEnumerable<IJsonConvertable> collection )
+        {
+            JObject Result = new JObject();
+            foreach (IJsonConvertable obj in collection)
+            {
+                Result.ConcatRecursive(obj.JsonEquivalent());
+            }
+            return Result;
+        }
+        public static void ConcatRecursive(this JObject Modified, JObject Concatened)
+        {
+            foreach (KeyValuePair<string, JToken> x in Concatened)
+            {
+                if (Modified.ContainsKey(x.Key))
+                {
+                    JToken ModifiedToken = Modified.Value<JToken>(x.Key);
+                    
+
+                    if (ModifiedToken.Type == JTokenType.Object && x.Value.Type == JTokenType.Object)
+                    {
+                        (ModifiedToken as JObject).ConcatRecursive(x.Value as JObject);
+                    }
+                    else
+                    {
+                        JArray United = new JArray();
+                        JArray SourceArray;
+                        if (ModifiedToken.Type != JTokenType.Array) { SourceArray = new JArray(ModifiedToken); }
+                        else { SourceArray = ModifiedToken as JArray; }
+                        JArray AddedArray;
+                        if (x.Value.Type != JTokenType.Array) { AddedArray = new JArray(x.Value); }
+                        else { AddedArray = x.Value as JArray; }
+
+                        foreach (JToken SourcePart in SourceArray)
+                            United.Add(SourcePart);
+                        foreach (JToken AddedPart in AddedArray)
+                            United.Add(AddedPart);
+
+                        JProperty NewOuter = new JProperty(x.Key, United);
+                        Modified.Property(x.Key).Replace(NewOuter);
+                    }
+
+                    
+                }
+                else
+                { Modified.Add(x.Key, x.Value); }
+            }
         }
     }
 
