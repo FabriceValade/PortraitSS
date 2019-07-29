@@ -74,19 +74,22 @@
             <TextBlock Text="{Binding Path=CoreFaction/Url.RelativeUrl}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
         </Grid>
         <!-- displaying portraits in faction info -->
-        <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/Portraits}"  Style="{StaticResource PortraitListviewStyle}"  >
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ImageGender}" Value="Male">
-                                    <Setter Property="Background" Value="Blue" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ImageGender}" Value="Female">
-                                    <Setter Property="Background" Value="Yellow" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
+        <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/Portraits}"  Style="{StaticResource PortraitListviewStyle}" ItemContainerStyle="{StaticResource PortraitListItemStyle}">
+            <!--<ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">-->
+                    
+                    <!--<Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Name="Border" BorderBrush="Red" BorderThickness="2">
+                                    <ContentPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>-->
+                <!--</Style>
+
+            </ListView.ItemContainerStyle>-->
                 </ListView>
              
                 <!-- displaying selected portrait info -->

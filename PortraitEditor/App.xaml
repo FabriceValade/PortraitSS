@@ -27,7 +27,16 @@
             </Setter>
             <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
         </Style>
-
+        <Style x:Key="PortraitListItemStyle" TargetType="ListViewItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ImageGender}" Value="Male">
+                    <Setter Property="Background" Value="Blue" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ImageGender}" Value="Female">
+                    <Setter Property="Background" Value="Yellow" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="TextElement" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,5,3,3"/>
         </Style>

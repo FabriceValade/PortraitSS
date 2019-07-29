@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace PortraitEditor
 {
@@ -42,7 +43,8 @@ namespace PortraitEditor
             FileRessource = new JavaRessourceExtractor(Url.FullUrl).JavaRessource;
             DisplayName = FileRessource.displayName;
 
-            LogoPath = Url.CommonUrl + FileRessource.logo;
+            LogoPath=Path.Combine(Url.CommonUrl, FileRessource.logo);
+            //LogoPath = Url.CommonUrl + FileRessource.logo;
 
             ColorRGB = "#FFFFFFFF";
             if (FileRessource.HasProperty("color"))
@@ -69,7 +71,9 @@ namespace PortraitEditor
             {
                 foreach (var url in PortraitsMaleUrl)
                 {
-                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, (string)url);
+                    string strUrl = (string)url;
+                    //strUrl = strUrl.Replace('/','\\');
+                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, strUrl);
                     var ReferencedUrl = (from portrait in alreadyReferenced where portrait.ImageUrl.Equals(fileUrl) select portrait.ImageUrl).ToList();
                     if (ReferencedUrl.Count > 0)
                         Portraits.Add(new Portrait(ReferencedUrl.ElementAt(0), Gender.Male));
@@ -87,7 +91,9 @@ namespace PortraitEditor
             {
                 foreach (var url in PortraitsFemaleUrl)
                 {
-                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, (string)url);
+                    string strUrl = (string)url;
+                    //strUrl = strUrl.Replace('/', '\\');
+                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, strUrl);
                     var ReferencedUrl = (from portrait in alreadyReferenced where portrait.ImageUrl.Equals(fileUrl) select portrait.ImageUrl).ToList();
                     if (ReferencedUrl.Count > 0)
                         Portraits.Add(new Portrait(ReferencedUrl.ElementAt(0), Gender.Female));
