@@ -26,8 +26,13 @@ namespace PortraitEditor
             Url = new SSFileUrl(sSFileUrl);
             SetupFromUrl();
             ReadPortraits(new ObservableCollection<Portrait>());
-           
-            
+            return;
+        }
+        public FactionFile(SSFileUrl sSFileUrl, ICollection<Portrait> alreadyReferenced)
+        {
+            Url = new SSFileUrl(sSFileUrl);
+            SetupFromUrl();
+            ReadPortraits(alreadyReferenced);
             return;
         }
 
@@ -94,6 +99,7 @@ namespace PortraitEditor
                     }
                 }
             }
+            return;
         }
         //public method
         public void SetOriginal()

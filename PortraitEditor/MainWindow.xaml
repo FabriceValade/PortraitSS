@@ -143,13 +143,11 @@
                 <TextBlock Text="General portrait"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource TextElement}" FontSize="14"/>
                 <TextBlock Text="Name: "   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                 <TextBlock Text="{Binding ImageUrl.FileName}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="Gender: "   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="{Binding ImageGender}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
 
                 <TextBlock Text="Source file url:"   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
                 <TextBlock Text="{Binding ImageUrl}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="Is core?: "   Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="{Binding IsCore}"   Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                <TextBlock Text="Is relative?: "   Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                <TextBlock Text="{Binding ImageUrl.IsRelative}"   Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
             </Grid>
         </DockPanel>
         <!-- interaction Allportraits  -->
@@ -166,6 +164,7 @@
             </Grid.RowDefinitions>
             <Button Click="AddGenericPortrait_Click" Grid.Row="0" Grid.Column="0" Tag="Male"> Add Male </Button>
             <Button Click="AddGenericPortrait_Click" Grid.Row="0" Grid.Column="1" Tag="Female"> Add Female</Button>
+            <Button Click="BtnAddPortraitSource_Click" Grid.Row="0" Grid.Column="2" >Add Portrait</Button>
         </Grid>
         <!-- interaction faction portraits  -->
         <Grid Name="PortraitsIntereaction" Grid.Row="2" Grid.Column="1" Visibility="Visible" >

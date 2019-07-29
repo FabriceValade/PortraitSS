@@ -40,6 +40,7 @@ namespace PortraitEditor
         public string RelativeUrl { get { return this._RelativeUrl; } private set { this._RelativeUrl = value; NotifyPropertyChanged(); } }
         public string CommonUrl { get { return this._CommonUrl; } private set { this._CommonUrl = value; NotifyPropertyChanged(); } }
         public string FileName { get { return Path.GetFileName(this.FullUrl); } }
+        public bool IsRelative { get { if (RelativeUrl == null) return false; else return true; } }
 
         //constructors
         public SSFileUrl(string url)
@@ -69,13 +70,6 @@ namespace PortraitEditor
                 return true;
             else
                 return false;
-        }
-        public bool IsRelative()
-        {
-            if (RelativeUrl == null)
-                return false;
-            else
-                return true;
         }
         public void ChangeUrl(string newUrl)
         {

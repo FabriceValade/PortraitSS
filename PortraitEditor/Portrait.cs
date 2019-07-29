@@ -124,8 +124,8 @@ namespace PortraitEditor
 
         public JObject JsonEquivalent()
         {
-            if (ImageUrl.IsRelative() == false)
-                return null;
+            //if (ImageUrl.IsRelative() == false)
+            //    return null;
             string PropertyName;
             if (ImageGender == Gender.Male)
                 PropertyName = Portrait.MalePropertyName;

@@ -84,7 +84,8 @@ namespace PortraitEditor
                 {
                     string RelativeUrl = SSFileUrl.ExtractRelativeUrl(SourceFolder, DataFile.FullName);
                     SSFileUrl FactionUrl = new SSFileUrl(SourceFolder,RelativeUrl);
-                    FactionFile ExtractedFile = new FactionFile(FactionUrl);
+                    //updating the faction file list will update the available portraits
+                    FactionFile ExtractedFile = new FactionFile(FactionUrl,AllPortraits);
                     ExtractedFile.SetOriginal();
                     CoreFaction.Add(ExtractedFile);
                 }
@@ -92,28 +93,9 @@ namespace PortraitEditor
                 
             }
             CFactionList.Items.MoveCurrentToFirst();
+            AllPortraitList.Items.MoveCurrentToFirst();
             PortraitsIntereaction.Visibility = Visibility.Visible;
             FactionIntereaction.Visibility = Visibility.Visible;
-            //Data.Concat(RootDirectory.EnumerateFiles());
-
-            return;
-        }
-        private void ExtractAllPortraits(ObservableCollection<FactionFile> factionFiles)
-        {
-            foreach (FactionFile OneFactionFile in factionFiles)
-            {
-                foreach (var p in OneFactionFile.Portraits)
-                {
-                    //bool AlreadySet = AllPortraits.Contains(p);
-                    bool AlreadySet = AllPortraits.Contains(p,Portrait.Equals);
-                    if (!AlreadySet)
-                    {
-                        Portrait ExtractedPortrait = new Portrait(p);
-                        AllPortraits.Add(ExtractedPortrait);
-                    }
-                }
-            }           
-            AllPortraitList.Items.MoveCurrentToFirst();
             AllPortraitsIntereaction.Visibility = Visibility.Visible;
             return;
         }
@@ -121,18 +103,13 @@ namespace PortraitEditor
 
         private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            //OpenFileDialog openFileDialog = new OpenFileDialog();
-            //openFileDialog.Filter = "faction files (*.faction)|*.faction";
-            //if (openFileDialog.ShowDialog() == true)
-            //    txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
             VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
             if (OpenRootFolder.ShowDialog() == true)
             {
                 RootPathDisplay.Text = OpenRootFolder.SelectedPath;
                 FileExplorer.InstalationUrl = OpenRootFolder.SelectedPath;
-                RootPath = OpenRootFolder.SelectedPath;
+                RootPath = OpenRootFolder.SelectedPath;                
                 UpdateFactionFileList(Path.Combine(RootPath, "starsector-core"));
-                ExtractAllPortraits(CoreFaction);
             }
             return;
         }
@@ -184,6 +161,17 @@ namespace PortraitEditor
             JObject PortraitsJson = new JObject(new JProperty("portraits", DisplayingFaction.Portraits.FlattenToJson()));
             //FileExplorer.AppendFileCreation(DisplayingFaction.Portraits);
             FileExplorer.AppendFileCreation(PortraitsJson);
+            return;
+        }
+        private void BtnAddPortraitSource_Click(object sender, RoutedEventArgs e)
+        {
+            VistaOpenFileDialog SelectNewFileSource = new VistaOpenFileDialog();
+
+            if (SelectNewFileSource.ShowDialog() == true)
+            {
+                SSFileUrl NewUrl = new SSFileUrl(SelectNewFileSource.FileName);
+                AllPortraits.Add(new Portrait(NewUrl));
+            }
             return;
         }
     }
