@@ -53,12 +53,13 @@ namespace PortraitEditor
             //                        new JProperty("Female", new JObject(
             //                                        new JProperty("title", "lloa"),
             //                                        new JProperty("name", "Ada"))),
-                                    //new JProperty("Fele", "lloa"));
+            //new JProperty("Fele", "lloa"));
 
 
 
 
-
+            SSFileSetupWindow sSFileSetup= new SSFileSetupWindow();
+            sSFileSetup.ShowDialog();
             DataContext = this;
             InitializeComponent();
             PortraitsIntereaction.Visibility = Visibility.Hidden;
