@@ -8,7 +8,11 @@
         Title="MainWindow" Height="650" Width="925">
 
     <Window.Resources>
-
+        <CollectionViewSource x:Key="X" Source="{Binding Path=CoreFaction/Portraits}"  >
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="ImageGender"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
     </Window.Resources>
 
 
@@ -74,15 +78,17 @@
             <TextBlock Text="{Binding Path=CoreFaction/Url.RelativeUrl}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
         </Grid>
         <!-- displaying portraits in faction info -->
-        <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Path=CoreFaction/Portraits}"  Style="{StaticResource PortraitListviewStyle}" ItemContainerStyle="{StaticResource PortraitListItemStyle}">
-            <!--<GroupStyle HeaderTemplate="{StaticResource PortraitGroupTemplate}" />-->
+        <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Source={ StaticResource X}}"  Style="{StaticResource PortraitListviewStyle}" ItemContainerStyle="{StaticResource PortraitListItemStyle}">
+            <ListView.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource PortraitGroupTemplate}" />
+            </ListView.GroupStyle>
         </ListView>
              
                 <!-- displaying selected portrait info -->
             
             <DockPanel  Grid.Row="1" Grid.Column="1" Name="MPortraitStat">
                     <DockPanel.DataContext>
-                        <Binding Path="CoreFaction/Portraits" />
+                <Binding Source="{ StaticResource X}" />
                     </DockPanel.DataContext>
                     <Image DockPanel.Dock="Right"  Source="{Binding ImageUrl.FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
                     <Grid DockPanel.Dock="Left" >
@@ -111,6 +117,7 @@
                 </DockPanel>
         <!-- displaying Allportraits  -->
         <ListView Name="AllPortraitList" Grid.Column="2" Grid.Row="0" ItemsSource="{Binding Path=AllPortraits}"  Style="{StaticResource PortraitListviewStyle}"  >
+
         </ListView>
         <DockPanel  Grid.Row="1" Grid.Column="2" Name="AllPortraitStat">
             <DockPanel.DataContext>

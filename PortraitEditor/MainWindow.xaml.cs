@@ -64,7 +64,8 @@ namespace PortraitEditor
             PortraitsIntereaction.Visibility = Visibility.Hidden;
             FactionIntereaction.Visibility = Visibility.Hidden;
             AllPortraitsIntereaction.Visibility = Visibility.Hidden;
-            
+            ListCollectionView view = new ListCollectionView(AllPortraits);
+            view.GroupDescriptions.Add(new PropertyGroupDescription("ImageGender"));
         }
 
         private void UpdateFactionFileList(string SourceFolder)
