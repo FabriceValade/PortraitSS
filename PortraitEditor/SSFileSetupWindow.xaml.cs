@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ookii.Dialogs.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -26,11 +27,33 @@ namespace PortraitEditor
         public ObservableCollection<ModFolder> ModList = new ObservableCollection<ModFolder>();
         SSFolderActions PessFolderAction;
         SSFolderActions ModFolderAction;
-        
+
+        public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
 
         public SSFileSetupWindow()
         {
             InitializeComponent();
+        }
+
+        private void OpenFolderCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void OpenFolderCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("The New command was invoked");
+        }
+
+        private void BtnOpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
+            if (OpenRootFolder.ShowDialog() == true)
+            {
+                ((sender as Button).Tag as SSFileUrl).ChangeUrl(OpenRootFolder.SelectedPath);
+                return;
+            }
+            return;
         }
     }
 
@@ -43,7 +66,12 @@ namespace PortraitEditor
         public ObservableCollection<FactionAction> FactionActionList = new ObservableCollection<FactionAction>();
         public String FactionName { get; set; }
     }
+    public static class SSFileSetupCommand
+    {
+        public static readonly RoutedUICommand OpenFolder = new RoutedUICommand("Open a Folder","OpenFolder",typeof(SSFileSetupCommand));
 
-    
-    
+    }
+
+
+
 }

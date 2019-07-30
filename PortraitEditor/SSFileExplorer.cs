@@ -17,6 +17,11 @@ namespace PortraitEditor
         public string RootModDirectory = "";
         public string FactionDirectory = "";
 
+        SSFileUrl _SSUrl = new SSFileUrl();
+        SSFileUrl _PeSSUrl = new SSFileUrl();
+        public SSFileUrl SSUrl { get { return _SSUrl; }  }
+        public SSFileUrl PeSSUrl { get { return _PeSSUrl; }  }
+
         Dictionary<string, string> ModInfo = new Dictionary<string, string>
         {
             { "id", "L_PeSS" },

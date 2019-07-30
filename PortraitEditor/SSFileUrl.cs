@@ -43,6 +43,12 @@ namespace PortraitEditor
         public bool IsRelative { get { if (RelativeUrl == null) return false; else return true; } }
 
         //constructors
+        public SSFileUrl()
+        {
+            FullUrl = null;
+            RelativeUrl = null;
+            CommonUrl = null;
+        }
         public SSFileUrl(string url)
         {
             FullUrl = url;
@@ -75,7 +81,7 @@ namespace PortraitEditor
         {
             FullUrl = newUrl;
             RelativeUrl = null;
-            CommonUrl = CommonUrl;
+            CommonUrl =newUrl;
         }
         public void ChangeUrl(string sSUrl,string relativeUrl)
         {
