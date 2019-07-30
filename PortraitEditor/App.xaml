@@ -14,6 +14,10 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
                 <Image Source="{Binding ImageUrl.FullUrl}" Height="60"/>
             </StackPanel>
+        </DataTemplate >
+
+        <DataTemplate x:Key="PortraitGroupTemplate">
+            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
         </DataTemplate>
         <Style x:Key="PortraitListviewStyle" TargetType="ListView">
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -27,7 +31,10 @@
             </Setter>
             <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
         </Style>
+
+
         <Style x:Key="PortraitListItemStyle" TargetType="ListViewItem">
+            <Setter Property="Opacity" Value="0.5" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ImageGender}" Value="Male">
                     <Setter Property="Background" Value="Blue" />
@@ -35,6 +42,12 @@
                 <DataTrigger Binding="{Binding ImageGender}" Value="Female">
                     <Setter Property="Background" Value="Yellow" />
                 </DataTrigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Trigger.Setters>
+                        <Setter Property="Opacity" Value="1.0" />
+                        <Setter Property="BorderBrush" Value="Red" />
+                    </Trigger.Setters>
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="TextElement" TargetType="TextBlock">

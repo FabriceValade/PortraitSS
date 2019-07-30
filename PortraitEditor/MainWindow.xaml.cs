@@ -64,6 +64,7 @@ namespace PortraitEditor
             PortraitsIntereaction.Visibility = Visibility.Hidden;
             FactionIntereaction.Visibility = Visibility.Hidden;
             AllPortraitsIntereaction.Visibility = Visibility.Hidden;
+            
         }
 
         private void UpdateFactionFileList(string SourceFolder)
@@ -92,8 +93,14 @@ namespace PortraitEditor
                     
                 
             }
+
+
             CFactionList.Items.MoveCurrentToFirst();
+
+
+
             AllPortraitList.Items.MoveCurrentToFirst();
+
             PortraitsIntereaction.Visibility = Visibility.Visible;
             FactionIntereaction.Visibility = Visibility.Visible;
             AllPortraitsIntereaction.Visibility = Visibility.Visible;
