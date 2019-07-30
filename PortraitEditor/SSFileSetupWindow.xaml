@@ -6,9 +6,6 @@
         xmlns:local="clr-namespace:PortraitEditor"
         mc:Ignorable="d"
         Title="SSFileSetupWindow" Height="600" Width="600">
-    <Window.CommandBindings>
-        <CommandBinding Command="local:SSFileSetupCommand.OpenFolder" Executed="OpenFolderCommand_Executed" CanExecute="OpenFolderCommand_CanExecute" />
-    </Window.CommandBindings>
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="5,2"/>
@@ -101,7 +98,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0">
             <ItemsControl Style="{StaticResource GridUrlSelector}">
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="StarSector Folder" VerticalAlignment="Bottom"/>
-                <Button Command="local:SSFileSetupCommand.OpenFolder" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Tag="{Binding Path=FileExplore.SSUrl}">Select Folder</Button>
+                <Button Command="{Binding Path=ButtonCommand}" CommandParameter="Hai"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" >Select Folder</Button>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=SSUrl}"/>
             </ItemsControl>
             <ItemsControl Style="{StaticResource GridUrlSelector}">

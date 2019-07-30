@@ -30,19 +30,26 @@ namespace PortraitEditor
 
         public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
 
+        private ICommand m_ButtonCommand;
+        public ICommand ButtonCommand
+        {
+            get
+            {
+                return m_ButtonCommand;
+            }
+            set
+            {
+                m_ButtonCommand = value;
+            }
+        }
+
+        
+
         public SSFileSetupWindow()
         {
+            ButtonCommand = new RelayCommand<string>(new Action<object>(ShowMessage));
             InitializeComponent();
-        }
-
-        private void OpenFolderCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void OpenFolderCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show("The New command was invoked");
+            DataContext = this;
         }
 
         private void BtnOpenFolder_Click(object sender, RoutedEventArgs e)
@@ -54,6 +61,10 @@ namespace PortraitEditor
                 return;
             }
             return;
+        }
+        public void ShowMessage(object obj)
+        {
+            MessageBox.Show(obj.ToString());
         }
     }
 
@@ -71,6 +82,7 @@ namespace PortraitEditor
         public static readonly RoutedUICommand OpenFolder = new RoutedUICommand("Open a Folder","OpenFolder",typeof(SSFileSetupCommand));
 
     }
+    
 
 
 
