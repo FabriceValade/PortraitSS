@@ -29,8 +29,8 @@
                                 <RowDefinition Height="25"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </ItemsPanelTemplate>
@@ -88,7 +88,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -98,29 +98,33 @@
         <StackPanel Grid.Row="0" Grid.Column="0">
             <ItemsControl Style="{StaticResource GridUrlSelector}">
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="StarSector Folder" VerticalAlignment="Bottom"/>
-                <Button Command="{Binding Path=ButtonCommand}" CommandParameter="Hai"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" >Select Folder</Button>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=SSUrl}"/>
+                <Button Command="{Binding Path=UrlSelectorButtonCommand}" CommandParameter="{Binding Path=FileExplorer.SSUrl}"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" >Select Folder</Button>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=FileExplorer.SSUrl, Mode=OneWay}" IsReadOnly="True" />
             </ItemsControl>
             <ItemsControl Style="{StaticResource GridUrlSelector}">
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="PeSS Folder" VerticalAlignment="Bottom"/>
-                <Button Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Select Folder</Button>
-                <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                <Button Command="{Binding Path=UrlSelectorButtonCommand}" CommandParameter="{Binding Path=FileExplorer.PeSSUrl}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Select Folder</Button>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=FileExplorer.PeSSUrl, Mode=OneWay}" IsReadOnly="True" ></TextBox>
             </ItemsControl>
-            <StackPanel Margin="10" Orientation="Vertical">
-                <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mod Action</Label>
-                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <RadioButton Style="{StaticResource RadioButton}">Clear</RadioButton>
-                    <RadioButton Style="{StaticResource RadioButton}">Ignore</RadioButton>
-                    <RadioButton Style="{StaticResource RadioButton}" IsChecked="True">Use</RadioButton>
+            <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mod file action</Label>
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton Style="{StaticResource RadioButton}">Clear</RadioButton>
+                        <RadioButton Style="{StaticResource RadioButton}">Ignore</RadioButton>
+                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="True">Use</RadioButton>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">PeSS Previous files action</Label>
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton Style="{StaticResource RadioButton}">Ignore</RadioButton>
+                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="True">Use</RadioButton>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Margin="10" Orientation="Vertical">
-                <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">PeSS Previous files</Label>
-                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <RadioButton Style="{StaticResource RadioButton}">Ignore</RadioButton>
-                    <RadioButton Style="{StaticResource RadioButton}" IsChecked="True">Use</RadioButton>
-                </StackPanel>
-            </StackPanel>
+        
         </StackPanel>
+        
     </Grid>
 </Window>

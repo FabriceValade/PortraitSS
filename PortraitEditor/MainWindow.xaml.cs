@@ -60,6 +60,7 @@ namespace PortraitEditor
 
             SSFileSetupWindow sSFileSetup= new SSFileSetupWindow();
             sSFileSetup.ShowDialog();
+            return;
             DataContext = this;
             InitializeComponent();
             PortraitsIntereaction.Visibility = Visibility.Hidden;

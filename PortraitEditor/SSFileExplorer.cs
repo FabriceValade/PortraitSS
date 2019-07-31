@@ -3,24 +3,27 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PortraitEditor
 {
-    public class SSFileExplorer
+    public class SSFileExplorer : INotifyPropertyChanged
     {
         public string ModName = "L_PeSS";
         public string InstalationUrl { get; set; }
         public string RootModDirectory = "";
         public string FactionDirectory = "";
+        public event PropertyChangedEventHandler PropertyChanged;
 
         SSFileUrl _SSUrl = new SSFileUrl();
         SSFileUrl _PeSSUrl = new SSFileUrl();
-        public SSFileUrl SSUrl { get { return _SSUrl; }  }
-        public SSFileUrl PeSSUrl { get { return _PeSSUrl; }  }
+        public SSFileUrl SSUrl { get { return _SSUrl; } set { _SSUrl = value; NotifyPropertyChanged(); } }
+        public SSFileUrl PeSSUrl { get { return _PeSSUrl; } set { _PeSSUrl = value; NotifyPropertyChanged(); } }
 
         Dictionary<string, string> ModInfo = new Dictionary<string, string>
         {
@@ -32,7 +35,12 @@ namespace PortraitEditor
         };
 
 
-        public SSFileExplorer() { }
+        public SSFileExplorer()
+        {
+            //think about implementing the action controls library
+            SSUrl.PropertyChanged += (Sender, e) => NotifyPassThrough(Sender, e, "SSUrl");
+            PeSSUrl.PropertyChanged += (Sender, e) => NotifyPassThrough(Sender, e, "PeSSUrl");
+        }
 
         public void CreateModStructure()
         {
@@ -74,9 +82,18 @@ namespace PortraitEditor
             File.WriteAllText(pathString, DotFaction);
             return;
         }
-    }
-    public interface IJsonDictionary
-    {
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
+        private void NotifyPassThrough(object sender, Object e, string property)
+        {
+            NotifyPropertyChanged(property);
+        }
     }
+
 }

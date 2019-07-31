@@ -25,31 +25,19 @@ namespace PortraitEditor
 
         public ObservableCollection<Portrait> AllPortraits = new ObservableCollection<Portrait>();
         public ObservableCollection<ModFolder> ModList = new ObservableCollection<ModFolder>();
-        SSFolderActions PessFolderAction;
-        SSFolderActions ModFolderAction;
 
         public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
 
-        private ICommand m_ButtonCommand;
-        public ICommand ButtonCommand
-        {
-            get
-            {
-                return m_ButtonCommand;
-            }
-            set
-            {
-                m_ButtonCommand = value;
-            }
-        }
+        public ICommand UrlSelectorButtonCommand { get; set; }
 
         
 
         public SSFileSetupWindow()
         {
-            ButtonCommand = new RelayCommand<string>(new Action<object>(ShowMessage));
-            InitializeComponent();
             DataContext = this;
+            UrlSelectorButtonCommand = new RelayCommand<SSFileUrl>(new Action<object>(ShowMessage));
+            InitializeComponent();
+            
         }
 
         private void BtnOpenFolder_Click(object sender, RoutedEventArgs e)
@@ -64,7 +52,14 @@ namespace PortraitEditor
         }
         public void ShowMessage(object obj)
         {
-            MessageBox.Show(obj.ToString());
+            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
+            if (OpenRootFolder.ShowDialog() == true)
+            {
+                SSFileUrl fileUrl = obj as SSFileUrl;
+                fileUrl.ChangeUrl(OpenRootFolder.SelectedPath);
+
+            }
+            return;
         }
     }
 
