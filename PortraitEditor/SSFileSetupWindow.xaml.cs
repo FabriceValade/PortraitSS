@@ -23,34 +23,26 @@ namespace PortraitEditor
     {
         enum SSFolderActions { Ignore, Clear, Use }
 
-        public ObservableCollection<Portrait> AllPortraits = new ObservableCollection<Portrait>();
-        public ObservableCollection<ModFolder> ModList = new ObservableCollection<ModFolder>();
+        
 
         public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
 
         public ICommand UrlSelectorButtonCommand { get; set; }
+        public ICommand ExploreFolderCommand { get; set; }
 
-        
+
 
         public SSFileSetupWindow()
         {
             DataContext = this;
-            UrlSelectorButtonCommand = new RelayCommand<SSFileUrl>(new Action<object>(ShowMessage));
+            UrlSelectorButtonCommand = new RelayCommand<SSFileUrl>(new Action<object>(SelectUrl));
+            ExploreFolderCommand = new RelayCommand<SSFileUrl>(new Action<object>(d => FileExplorer.ExploreCoreFolder()));
             InitializeComponent();
             
         }
 
-        private void BtnOpenFolder_Click(object sender, RoutedEventArgs e)
-        {
-            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
-            if (OpenRootFolder.ShowDialog() == true)
-            {
-                ((sender as Button).Tag as SSFileUrl).ChangeUrl(OpenRootFolder.SelectedPath);
-                return;
-            }
-            return;
-        }
-        public void ShowMessage(object obj)
+
+        public void SelectUrl(object obj)
         {
             VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
             if (OpenRootFolder.ShowDialog() == true)
@@ -68,15 +60,18 @@ namespace PortraitEditor
         public enum FactionAction { Ignore, Remove };
         public enum SourceOfFaction { Core, PeSS, Mod };
         public SSFileUrl ModUrl { get; set; }
-        public ObservableCollection<FactionFile> FactionList = new ObservableCollection<FactionFile>();
+        private ObservableCollection<FactionFile> _FactionList = new ObservableCollection<FactionFile>();
+        public ObservableCollection<FactionFile> FactionList
+        {
+            get { return _FactionList; }
+            set { _FactionList = value; }
+        }
         public ObservableCollection<FactionAction> FactionActionList = new ObservableCollection<FactionAction>();
-        public String FactionName { get; set; }
-    }
-    public static class SSFileSetupCommand
-    {
-        public static readonly RoutedUICommand OpenFolder = new RoutedUICommand("Open a Folder","OpenFolder",typeof(SSFileSetupCommand));
+        public String ModName { get; set; }
 
+        public ModFolder(){ }
     }
+
     
 
 

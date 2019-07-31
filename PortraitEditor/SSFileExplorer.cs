@@ -33,7 +33,14 @@ namespace PortraitEditor
             { "description", "Modify or add to all ingame faction portraits" },
             { "gameVersion", "0.9.1a" }
         };
+        public ObservableCollection<Portrait> AllPortraits = new ObservableCollection<Portrait>();
 
+        private ObservableCollection<ModFolder> _ModList = new ObservableCollection<ModFolder>();
+        public ObservableCollection<ModFolder> ModList
+        {
+            get { return _ModList; }
+            set { _ModList = value; }
+        }
 
         public SSFileExplorer()
         {
@@ -42,6 +49,37 @@ namespace PortraitEditor
             PeSSUrl.PropertyChanged += (Sender, e) => NotifyPassThrough(Sender, e, "PeSSUrl");
         }
 
+        public void ExploreCoreFolder()
+        {
+            if (SSUrl.ToString() == null)
+                return;
+            string CorePath = Path.Combine(SSUrl.ToString(), "starsector-core");
+            string FactionDirPath = Path.Combine(CorePath, "data");
+            FactionDirPath = Path.Combine(FactionDirPath, "world");
+            FactionDirPath = Path.Combine(FactionDirPath, "factions");
+            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(FactionDirPath);
+            if (!CoreFactionDirectory.Exists)
+                return;
+
+            ModFolder coreFolder = new ModFolder(){
+                ModName ="Core",
+                ModUrl = new SSFileUrl(SSUrl.FullUrl,"starsector-core")};
+
+            IEnumerable<FileInfo> FileList = CoreFactionDirectory.EnumerateFiles();
+            var Potential = from file in FileList
+                            where file.Extension == ".faction"
+                            select file;
+            foreach (FileInfo file in Potential)
+            {
+                string RelativeUrl = SSFileUrl.ExtractRelativeUrl(FactionDirPath, file.FullName);
+                SSFileUrl FactionUrl = new SSFileUrl(FactionDirPath, RelativeUrl);
+                FactionFile ExtractedFile = new FactionFile(FactionUrl, AllPortraits);
+                ExtractedFile.SetOriginal();
+                coreFolder.FactionList.Add(ExtractedFile);
+            }
+            ModList.Add(coreFolder);
+            return;
+        }
         public void CreateModStructure()
         {
             RootModDirectory = Path.Combine(InstalationUrl, @"mods\"+ModName);

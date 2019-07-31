@@ -123,8 +123,21 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-        
+            <Button Command="{Binding Path=ExploreFolderCommand}"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Explore Folder</Button>
         </StackPanel>
-        
+        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=FileExplorer.ModList}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:ModFolder}" ItemsSource="{Binding FactionList}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ModName}" /> 
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type local:FactionFile}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding DisplayName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </TreeView.Resources>
+        </TreeView>
     </Grid>
 </Window>
