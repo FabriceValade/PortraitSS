@@ -20,6 +20,7 @@ using System.Globalization;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PortraitEditor.ViewModel;
 
 namespace PortraitEditor
 {
@@ -47,13 +48,13 @@ namespace PortraitEditor
                 return _ExploreFolderCommand;
             }
         }
-
+        public URLViewModel uRLViewModel { get; set; }
 
         public MainWindow()
         {
 
 
-
+            uRLViewModel=new URLViewModel("c://hallo","test");
             DataContext = this;
             
             InitializeComponent();
@@ -66,7 +67,7 @@ namespace PortraitEditor
 
         public void ChangeExplorerUrl ()
         {
-            if (SSFileSetup.ShowDialog() == true) ;
+            if (SSFileSetup.ShowDialog() == true) 
             {
                 CoreFaction.Clear();
                 foreach (FactionFile faction in SSFileSetup.FileExplorer.GetFactionList())
