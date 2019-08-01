@@ -34,14 +34,14 @@ namespace PortraitEditor
         public ObservableCollection<Portrait> AllPortraits { get; set; } = new ObservableCollection<Portrait>();
         public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
         public string RootPath { get; set; }
-
+        SSFileSetupWindow sSFileSetup { get; set; } = new SSFileSetupWindow();
 
         public MainWindow()
         {
 
 
 
-            SSFileSetupWindow sSFileSetup= new SSFileSetupWindow();
+            
             if (sSFileSetup.ShowDialog()==true);
             {
                 CoreFaction = sSFileSetup.FileExplorer.GetFactionList();
@@ -49,11 +49,11 @@ namespace PortraitEditor
             }
             DataContext = this;
             InitializeComponent();
-            PortraitsIntereaction.Visibility = Visibility.Hidden;
-            FactionIntereaction.Visibility = Visibility.Hidden;
-            AllPortraitsIntereaction.Visibility = Visibility.Hidden;
-            ListCollectionView view = new ListCollectionView(AllPortraits);
-            view.GroupDescriptions.Add(new PropertyGroupDescription("ImageGender"));
+            //PortraitsIntereaction.Visibility = Visibility.Hidden;
+            //FactionIntereaction.Visibility = Visibility.Hidden;
+            //AllPortraitsIntereaction.Visibility = Visibility.Hidden;
+            //ListCollectionView view = new ListCollectionView(AllPortraits);
+            //view.GroupDescriptions.Add(new PropertyGroupDescription("ImageGender"));
         }
 
         private void UpdateFactionFileList(string SourceFolder)
