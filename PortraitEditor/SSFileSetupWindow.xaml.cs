@@ -29,7 +29,6 @@ namespace PortraitEditor
 
         public ICommand UrlSelectorButtonCommand { get; set; }
         public ICommand ExploreFolderCommand { get; set; }
-
         public ICommand CloseWindowCommand { get; set; }
 
         public SSFileSetupWindow()

@@ -41,8 +41,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <Button Name="btnOpenFile" Click="BtnOpenFile_Click" Grid.Column="0" Margin="5,5,5,5">Select root folder</Button>
-                <TextBox Name="RootPathDisplay" Grid.Column="1" Margin="5,5,5,5"/>
+                <Button Name="btnOpenFile" Command="{Binding Path=ExploreFolderCommand}" Grid.Column="0" Margin="5,5,5,5">Select root folder</Button>
+                <TextBox Name="RootPathDisplay" Text="{Binding Path=SSFileSetup.FileExplorer.SSUrl.FullUrl , Mode=OneWay}" Grid.Column="1" Margin="5,5,5,5" IsReadOnly="True"/>
             </Grid>
             <!-- Main grid -->
             

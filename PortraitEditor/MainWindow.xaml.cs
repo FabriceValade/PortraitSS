@@ -34,26 +34,51 @@ namespace PortraitEditor
         public ObservableCollection<Portrait> AllPortraits { get; set; } = new ObservableCollection<Portrait>();
         public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
         public string RootPath { get; set; }
-        SSFileSetupWindow sSFileSetup { get; set; } = new SSFileSetupWindow();
+        public SSFileSetupWindow SSFileSetup { get; set; } = new SSFileSetupWindow();
+        ICommand _ExploreFolderCommand;
+        public ICommand ExploreFolderCommand
+        {
+            get
+            {
+                if (_ExploreFolderCommand == null)
+                {
+                    _ExploreFolderCommand = new RelayCommand<object>(param => this.ChangeExplorerUrl());
+                }
+                return _ExploreFolderCommand;
+            }
+        }
+
 
         public MainWindow()
         {
 
 
 
-            
-            if (sSFileSetup.ShowDialog()==true);
-            {
-                CoreFaction = sSFileSetup.FileExplorer.GetFactionList();
-                AllPortraits = sSFileSetup.FileExplorer.AllPortraits;
-            }
             DataContext = this;
+            
             InitializeComponent();
             //PortraitsIntereaction.Visibility = Visibility.Hidden;
             //FactionIntereaction.Visibility = Visibility.Hidden;
             //AllPortraitsIntereaction.Visibility = Visibility.Hidden;
             //ListCollectionView view = new ListCollectionView(AllPortraits);
             //view.GroupDescriptions.Add(new PropertyGroupDescription("ImageGender"));
+        }
+
+        public void ChangeExplorerUrl ()
+        {
+            if (SSFileSetup.ShowDialog() == true) ;
+            {
+                CoreFaction.Clear();
+                foreach (FactionFile faction in SSFileSetup.FileExplorer.GetFactionList())
+                {
+                    CoreFaction.Add(faction);
+                }
+                AllPortraits.Clear();
+                foreach (Portrait portrait in SSFileSetup.FileExplorer.AllPortraits)
+                {
+                    AllPortraits.Add(portrait);
+                }
+            }
         }
 
         private void UpdateFactionFileList(string SourceFolder)
@@ -95,20 +120,18 @@ namespace PortraitEditor
             AllPortraitsIntereaction.Visibility = Visibility.Visible;
             return;
         }
-
-
-        private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
-        {
-            VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
-            if (OpenRootFolder.ShowDialog() == true)
-            {
-                RootPathDisplay.Text = OpenRootFolder.SelectedPath;
-                FileExplorer.InstalationUrl = OpenRootFolder.SelectedPath;
-                RootPath = OpenRootFolder.SelectedPath;                
-                UpdateFactionFileList(Path.Combine(RootPath, "starsector-core"));
-            }
-            return;
-        }
+        //private void BtnOpenFile_Click(object sender, RoutedEventArgs e)
+        //{
+        //    VistaFolderBrowserDialog OpenRootFolder = new VistaFolderBrowserDialog();
+        //    if (OpenRootFolder.ShowDialog() == true)
+        //    {
+        //        RootPathDisplay.Text = OpenRootFolder.SelectedPath;
+        //        FileExplorer.InstalationUrl = OpenRootFolder.SelectedPath;
+        //        RootPath = OpenRootFolder.SelectedPath;                
+        //        UpdateFactionFileList(Path.Combine(RootPath, "starsector-core"));
+        //    }
+        //    return;
+        //}
         private void AddGenericPortrait_Click(object sender, RoutedEventArgs e)
         {
             Button sent = sender as Button;

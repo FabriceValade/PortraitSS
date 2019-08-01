@@ -42,7 +42,7 @@ namespace PortraitEditor
 
         public void ExploreCoreFolder()
         {
-            if (SSUrl == new SSFileUrl())
+            if (SSUrl.FullUrl == null)
                 return;
             string FactionDirPath = Path.Combine("data", "world");
             FactionDirPath = Path.Combine(FactionDirPath, "factions");
