@@ -9,7 +9,7 @@
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="5,2"/>
-            <Setter Property="Width" Value="120"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
         </Style>
@@ -29,7 +29,7 @@
                                 <RowDefinition Height="25"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                         </Grid>
@@ -123,7 +123,8 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <Button Command="{Binding Path=ExploreFolderCommand}"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Explore Folder</Button>
+            <Button Command="{Binding Path=ExploreFolderCommand}" Margin="5" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Explore Folder</Button>
+            <Button Command="{Binding Path=CloseWindowCommand}" Margin="5" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Modify Selected Faction</Button>
         </StackPanel>
         <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=FileExplorer.ModList}" Background="Black">
             <TreeView.Resources>

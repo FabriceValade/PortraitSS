@@ -38,8 +38,7 @@ namespace PortraitEditor
         public ObservableCollection<ModFolder> ModList { get; set; } = new ObservableCollection<ModFolder>();
 
         public SSFileExplorer()
-        {
-        }
+        {        }
 
         public void ExploreCoreFolder()
         {
@@ -72,10 +71,26 @@ namespace PortraitEditor
                 // warning this modify allportraits
                 FactionFile ExtractedFile = new FactionFile(FactionUrl, AllPortraits);
                 ExtractedFile.SetOriginal();
+                ExtractedFile.ActionToMake = FactionFile.FactionAction.Modify;
+                ExtractedFile.FactionSource = FactionFile.SourceOfFaction.Core;
                 coreFolder.FactionList.Add(ExtractedFile);
             }
             ModList.Add(coreFolder);
             return;
+        }
+
+        public ObservableCollection<FactionFile> GetFactionList ()
+        {
+            ObservableCollection<FactionFile> Result = new ObservableCollection<FactionFile>();
+            foreach(ModFolder mod in ModList)
+            {
+                foreach(FactionFile faction in mod.FactionList)
+                {
+                    if (faction.ActionToMake == FactionFile.FactionAction.Modify)
+                        Result.Add(faction);
+                }
+            }
+            return Result;
         }
         public void CreateModStructure()
         {
@@ -129,6 +144,20 @@ namespace PortraitEditor
         {
             NotifyPropertyChanged(property);
         }
+    }
+    public class ModFolder
+    {
+
+        public SSFileUrl ModFactionUrl { get; set; }
+        private ObservableCollection<FactionFile> _FactionList = new ObservableCollection<FactionFile>();
+        public ObservableCollection<FactionFile> FactionList
+        {
+            get { return _FactionList; }
+            set { _FactionList = value; }
+        }
+        public String ModName { get; set; }
+
+        public ModFolder() { }
     }
 
 }

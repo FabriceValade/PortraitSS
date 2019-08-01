@@ -30,13 +30,14 @@ namespace PortraitEditor
         public ICommand UrlSelectorButtonCommand { get; set; }
         public ICommand ExploreFolderCommand { get; set; }
 
-
+        public ICommand CloseWindowCommand { get; set; }
 
         public SSFileSetupWindow()
         {
             DataContext = this;
             UrlSelectorButtonCommand = new RelayCommand<SSFileUrl>(new Action<object>(SelectUrl));
             ExploreFolderCommand = new RelayCommand<SSFileUrl>(new Action<object>(d => FileExplorer.ExploreCoreFolder()));
+            CloseWindowCommand = new RelayCommand<object>(new Action<object>(d => CloseWindow()));
             InitializeComponent();
             
         }
@@ -54,25 +55,14 @@ namespace PortraitEditor
             }
             return;
         }
-    }
-
-    public class ModFolder
-    {
-        public enum FactionAction { Ignore, Remove };
-        public enum SourceOfFaction { Core, PeSS, Mod };
-        public SSFileUrl ModFactionUrl { get; set; }
-        private ObservableCollection<FactionFile> _FactionList = new ObservableCollection<FactionFile>();
-        public ObservableCollection<FactionFile> FactionList
+        public void CloseWindow()
         {
-            get { return _FactionList; }
-            set { _FactionList = value; }
+            DialogResult = true;
+            Close();
         }
-        public ObservableCollection<FactionAction> FactionActionList = new ObservableCollection<FactionAction>();
-        public String ModName { get; set; }
-
-        public ModFolder(){ }
     }
 
+    
     
 
 

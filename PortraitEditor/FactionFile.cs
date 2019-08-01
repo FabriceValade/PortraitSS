@@ -11,6 +11,9 @@ namespace PortraitEditor
 {
     public class FactionFile
     {
+        public enum FactionAction { Ignore, Modify, Remove };
+        public enum SourceOfFaction { Core, PeSS, Mod };
+
         //properties
         public SSFileUrl Url { get; set; }
         public string DisplayName { get; set; }
@@ -19,6 +22,9 @@ namespace PortraitEditor
         public ObservableCollection<Portrait> Portraits { get; set; } = new ObservableCollection<Portrait>();
         public ObservableCollection<Portrait> OriginalPortraits { get; set; } = new ObservableCollection<Portrait>();
         dynamic FileRessource { get; set; }
+
+        public SourceOfFaction FactionSource { get; set; }
+        public FactionAction ActionToMake { get; set; } 
 
         //constructor
         public FactionFile() { }

@@ -41,25 +41,12 @@ namespace PortraitEditor
 
 
 
-            ////JObject ss = new JObject(
-            //                        new JProperty("Male", "ha"),
-            //                        new JProperty("Female", 
-            //                                    new JObject(
-            //                                        new JProperty("title","lol"),
-            //                                        new JProperty("name","Ada"))));
-
-            //JObject ss2 = new JObject(
-            //                        new JProperty("Male", new List<string>() { "Hella" , "je"}),
-            //                        new JProperty("Female", new JObject(
-            //                                        new JProperty("title", "lloa"),
-            //                                        new JProperty("name", "Ada"))),
-            //new JProperty("Fele", "lloa"));
-
-
-
             SSFileSetupWindow sSFileSetup= new SSFileSetupWindow();
-            sSFileSetup.ShowDialog();
-            return;
+            if (sSFileSetup.ShowDialog()==true);
+            {
+                CoreFaction = sSFileSetup.FileExplorer.GetFactionList();
+                AllPortraits = sSFileSetup.FileExplorer.AllPortraits;
+            }
             DataContext = this;
             InitializeComponent();
             PortraitsIntereaction.Visibility = Visibility.Hidden;
