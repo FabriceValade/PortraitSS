@@ -99,7 +99,7 @@
             <ItemsControl Style="{StaticResource GridUrlSelector}">
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="StarSector Folder" VerticalAlignment="Bottom"/>
                 <Button Command="{Binding Path=UrlSelectorButtonCommand}" CommandParameter="{Binding Path=FileExplorer.SSUrl}"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" >Select Folder</Button>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=FileExplorer.SSUrl, Mode=OneWay}" IsReadOnly="True" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=FileExplorer.SSUrl.FullUrl, Mode=OneWay}" IsReadOnly="True" />
             </ItemsControl>
             <ItemsControl Style="{StaticResource GridUrlSelector}">
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="PeSS Folder" VerticalAlignment="Bottom"/>
@@ -125,16 +125,19 @@
             </StackPanel>
             <Button Command="{Binding Path=ExploreFolderCommand}"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">Explore Folder</Button>
         </StackPanel>
-        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=FileExplorer.ModList}">
+        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=FileExplorer.ModList}" Background="Black">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type local:ModFolder}" ItemsSource="{Binding FactionList}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ModName}" /> 
+                        <TextBlock Text="{Binding ModName}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Foreground="White" /> 
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 <DataTemplate DataType="{x:Type local:FactionFile}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding DisplayName}" />
+                        <Image Source="{Binding LogoPath}" Height="30"/>
+                        <Border Margin="7,2,7,2" BorderBrush="{Binding ColorRGB}" BorderThickness="1">
+                            <TextBlock Text="{Binding DisplayName}" Foreground="{Binding ColorRGB}" FontSize="12" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                        </Border>
                     </StackPanel>
                 </DataTemplate>
             </TreeView.Resources>

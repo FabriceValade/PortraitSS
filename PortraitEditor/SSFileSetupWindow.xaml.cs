@@ -48,7 +48,8 @@ namespace PortraitEditor
             if (OpenRootFolder.ShowDialog() == true)
             {
                 SSFileUrl fileUrl = obj as SSFileUrl;
-                fileUrl.ChangeUrl(OpenRootFolder.SelectedPath);
+                fileUrl.Clear();
+                fileUrl.CommonUrl=OpenRootFolder.SelectedPath;
 
             }
             return;
@@ -59,7 +60,7 @@ namespace PortraitEditor
     {
         public enum FactionAction { Ignore, Remove };
         public enum SourceOfFaction { Core, PeSS, Mod };
-        public SSFileUrl ModUrl { get; set; }
+        public SSFileUrl ModFactionUrl { get; set; }
         private ObservableCollection<FactionFile> _FactionList = new ObservableCollection<FactionFile>();
         public ObservableCollection<FactionFile> FactionList
         {

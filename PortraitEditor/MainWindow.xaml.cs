@@ -57,7 +57,6 @@ namespace PortraitEditor
 
 
 
-
             SSFileSetupWindow sSFileSetup= new SSFileSetupWindow();
             sSFileSetup.ShowDialog();
             return;

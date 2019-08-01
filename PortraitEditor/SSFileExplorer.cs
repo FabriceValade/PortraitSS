@@ -35,44 +35,41 @@ namespace PortraitEditor
         };
         public ObservableCollection<Portrait> AllPortraits = new ObservableCollection<Portrait>();
 
-        private ObservableCollection<ModFolder> _ModList = new ObservableCollection<ModFolder>();
-        public ObservableCollection<ModFolder> ModList
-        {
-            get { return _ModList; }
-            set { _ModList = value; }
-        }
+        public ObservableCollection<ModFolder> ModList { get; set; } = new ObservableCollection<ModFolder>();
 
         public SSFileExplorer()
         {
-            //think about implementing the action controls library
-            SSUrl.PropertyChanged += (Sender, e) => NotifyPassThrough(Sender, e, "SSUrl");
-            PeSSUrl.PropertyChanged += (Sender, e) => NotifyPassThrough(Sender, e, "PeSSUrl");
         }
 
         public void ExploreCoreFolder()
         {
-            if (SSUrl.ToString() == null)
+            if (SSUrl == new SSFileUrl())
                 return;
-            string CorePath = Path.Combine(SSUrl.ToString(), "starsector-core");
-            string FactionDirPath = Path.Combine(CorePath, "data");
-            FactionDirPath = Path.Combine(FactionDirPath, "world");
+            string FactionDirPath = Path.Combine("data", "world");
             FactionDirPath = Path.Combine(FactionDirPath, "factions");
-            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(FactionDirPath);
+            SSFileUrl CoreFactionUrl = new SSFileUrl(SSUrl, "starsector-core", FactionDirPath);
+
+            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(CoreFactionUrl.FullUrl);
             if (!CoreFactionDirectory.Exists)
                 return;
 
-            ModFolder coreFolder = new ModFolder(){
-                ModName ="Core",
-                ModUrl = new SSFileUrl(SSUrl.FullUrl,"starsector-core")};
+            ModFolder coreFolder = new ModFolder()
+            {
+                ModName = "Core",
+                ModFactionUrl = CoreFactionUrl
+            };
 
             IEnumerable<FileInfo> FileList = CoreFactionDirectory.EnumerateFiles();
             var Potential = from file in FileList
                             where file.Extension == ".faction"
                             select file;
+            AllPortraits.Clear();
+            ModList.Clear();
             foreach (FileInfo file in Potential)
             {
-                string RelativeUrl = SSFileUrl.ExtractRelativeUrl(FactionDirPath, file.FullName);
-                SSFileUrl FactionUrl = new SSFileUrl(FactionDirPath, RelativeUrl);
+                string RelativeUrl = SSFileUrl.ExtractRelativeUrl(CoreFactionUrl.LinkedUrl, file.FullName);
+                SSFileUrl FactionUrl = new SSFileUrl(SSUrl,"starsector-core", RelativeUrl);
+                // warning this modify allportraits
                 FactionFile ExtractedFile = new FactionFile(FactionUrl, AllPortraits);
                 ExtractedFile.SetOriginal();
                 coreFolder.FactionList.Add(ExtractedFile);

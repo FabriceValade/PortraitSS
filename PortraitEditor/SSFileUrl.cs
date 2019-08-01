@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor
 {
-    public class SSFileUrl  : INotifyPropertyChanged, IEquatable<SSFileUrl>
+    public class SSFileUrl : INotifyPropertyChanged, IEquatable<SSFileUrl>
     {
         //staticusefull
         public static string ExtractRelativeUrl(string CommonUrl, string FullUrl)
@@ -32,43 +32,97 @@ namespace PortraitEditor
         }
         //properties
         public event PropertyChangedEventHandler PropertyChanged;
-        private string _FullUrl;
         private string _RelativeUrl;
         private string _CommonUrl;
+        private string _LinkFolder;
 
-        public string FullUrl { get { return this._FullUrl; } private set { this._FullUrl = value; NotifyPropertyChanged(); } }       
-        public string RelativeUrl { get { return this._RelativeUrl; } private set { this._RelativeUrl = value; NotifyPropertyChanged(); } }
-        public string CommonUrl { get { return this._CommonUrl; } private set { this._CommonUrl = value; NotifyPropertyChanged(); } }
+        //returning value, target for binding
+        //one way
+        public string FullUrl
+        {
+            get
+            {
+                string result = CommonUrl;
+                if (LinkFolder != null)
+                    result = Path.Combine(result, LinkFolder);
+                if (RelativeUrl != null)
+                    result = Path.Combine(result, RelativeUrl);
+                return result;
+            }
+        }
+        public string LinkedUrl
+        {
+            get
+            {
+                string result = CommonUrl;
+                if (LinkFolder != null)
+                    result = Path.Combine(result, LinkFolder);
+                return result;
+            }
+        }
+
+        //two way
+        public string RelativeUrl 
+        {
+            get { return _RelativeUrl; }
+            set { _RelativeUrl = value; NotifyPropertyChanged("FullUrl"); NotifyPropertyChanged(); }
+        }
+        public string LinkFolder
+        {
+            get { return _LinkFolder; }
+            set { _LinkFolder = value; NotifyPropertyChanged("FullUrl"); NotifyPropertyChanged("LinkedUrl"); NotifyPropertyChanged(); }
+        }
+        public string CommonUrl
+        {
+            get { return _CommonUrl; }
+            set { _CommonUrl = value; NotifyPropertyChanged("FullUrl"); NotifyPropertyChanged("LinkedUrl"); NotifyPropertyChanged(); }
+        }
+
+        //usefull properties that should no be bound due to having no property changed
         public string FileName { get { return Path.GetFileName(this.FullUrl); } }
         public bool IsRelative { get { if (RelativeUrl == null) return false; else return true; } }
 
         //constructors
         public SSFileUrl()
         {
-            FullUrl = null;
+            LinkFolder = null;
             RelativeUrl = null;
             CommonUrl = null;
         }
-        public SSFileUrl(string url)
+        public SSFileUrl(string commonUrl)
         {
-            FullUrl = url;
+            
             RelativeUrl = null;
-            CommonUrl = url;
+            LinkFolder = null;
+            CommonUrl = commonUrl;
         }
-        public SSFileUrl(string sSUrl,string relativeUrl)
+        public SSFileUrl(string commonUrl,string linkFolder)
         {
-            string Tempurl= Path.Combine(sSUrl, relativeUrl);
-            FullUrl = Tempurl;
+
+            RelativeUrl = null;
+            LinkFolder = linkFolder;
+            CommonUrl = commonUrl;
+        }
+
+        public SSFileUrl(string commonUrl, string linkFolder, string relativeUrl)
+        {
+
             RelativeUrl = relativeUrl;
-            CommonUrl = sSUrl;
+            LinkFolder = linkFolder;
+            CommonUrl = commonUrl;
         }
         public SSFileUrl(SSFileUrl other)
         {
-            FullUrl = string.Copy(other.FullUrl);
+            LinkFolder = string.Copy(other.LinkFolder);
             RelativeUrl = string.Copy(other.RelativeUrl);
             CommonUrl = string.Copy(other.CommonUrl);
         }
-
+        public SSFileUrl(SSFileUrl other, string linkfolder,  string relativeFromOther)
+        {
+            LinkFolder = linkfolder;
+            RelativeUrl = string.Copy(relativeFromOther);
+            CommonUrl = string.Copy(other.FullUrl);
+        }
         //method
         public bool IsAvailable()
         {
@@ -77,17 +131,12 @@ namespace PortraitEditor
             else
                 return false;
         }
-        public void ChangeUrl(string newUrl)
+
+        public void Clear()
         {
-            FullUrl = newUrl;
+            LinkFolder = null;
             RelativeUrl = null;
-            CommonUrl =newUrl;
-        }
-        public void ChangeUrl(string sSUrl,string relativeUrl)
-        {
-            FullUrl = Path.Combine(sSUrl, relativeUrl);
-            RelativeUrl = relativeUrl;
-            CommonUrl = sSUrl;
+            CommonUrl = null;
         }
 
         //interface and overide methods
@@ -100,14 +149,18 @@ namespace PortraitEditor
         }
         public override string ToString()
         {
-            if (RelativeUrl != null)
-                return RelativeUrl;
-            else
-                return FullUrl;
+                return "Url wrongly bound";
         }
         public bool Equals(SSFileUrl other)
         {
-            return (this.FullUrl.Equals(other.FullUrl) && this.RelativeUrl.Equals(other.RelativeUrl));
+            return (this.FullUrl.Equals(other.FullUrl));
+        }
+        public override bool Equals(object other)
+        {
+            if (other == null) return false;
+            SSFileUrl objAsSSFileUrl = other as SSFileUrl;
+            if (objAsSSFileUrl == null) return false;
+            else return Equals(objAsSSFileUrl);
         }
     }
 }

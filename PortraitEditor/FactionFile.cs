@@ -43,7 +43,7 @@ namespace PortraitEditor
             FileRessource = new JavaRessourceExtractor(Url.FullUrl).JavaRessource;
             DisplayName = FileRessource.displayName;
 
-            LogoPath=Path.Combine(Url.CommonUrl, FileRessource.logo);
+            LogoPath=Path.Combine(Url.LinkedUrl, FileRessource.logo);
             //LogoPath = Url.CommonUrl + FileRessource.logo;
 
             ColorRGB = "#FFFFFFFF";
@@ -73,7 +73,7 @@ namespace PortraitEditor
                 {
                     string strUrl = (string)url;
                     //strUrl = strUrl.Replace('/','\\');
-                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, strUrl);
+                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl,Url.LinkFolder, strUrl);
                     var ReferencedUrl = (from portrait in alreadyReferenced where portrait.ImageUrl.Equals(fileUrl) select portrait.ImageUrl).ToList();
                     if (ReferencedUrl.Count > 0)
                         Portraits.Add(new Portrait(ReferencedUrl.ElementAt(0), Gender.Male));
@@ -93,7 +93,7 @@ namespace PortraitEditor
                 {
                     string strUrl = (string)url;
                     //strUrl = strUrl.Replace('/', '\\');
-                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, strUrl);
+                    SSFileUrl fileUrl = new SSFileUrl(Url.CommonUrl, Url.LinkFolder, strUrl);
                     var ReferencedUrl = (from portrait in alreadyReferenced where portrait.ImageUrl.Equals(fileUrl) select portrait.ImageUrl).ToList();
                     if (ReferencedUrl.Count > 0)
                         Portraits.Add(new Portrait(ReferencedUrl.ElementAt(0), Gender.Female));
