@@ -4,11 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitEditor.View"
+        xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
         mc:Ignorable="d"
         Title="Window1" Height="450" Width="800">
     <Grid>
-        <Border Width="200" Height="100" BorderThickness="1" BorderBrush="Azure">
-            <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch"></ContentControl>            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Border Width="200" Height="100" BorderThickness="1" BorderBrush="Black">
+                <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch"></ContentControl>
+            </Border>
+            <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
+        </StackPanel>
+        <Border  BorderThickness="1" BorderBrush="Black" Grid.Column="1">
+            <!--<ContentControl  Content="{Binding Path=ModCollection[0]}"  HorizontalAlignment="Stretch"></ContentControl>-->
+        
+
+        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Background="white">
+            <!--<TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type vm:ModViewModel}" ItemsSource="{Binding FactionList}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ModName}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Foreground="White" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>-->
+        </TreeView>
         </Border>
     </Grid>
 </Window>

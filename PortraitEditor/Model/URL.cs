@@ -93,6 +93,8 @@ namespace PortraitEditor.Model
         {
             get
             {
+                if (base.CommonUrl == null)
+                    return null;
                 string result = base.CommonUrl;
                 if (base.LinkingUrl != null)
                     result = Path.Combine(result, base.LinkingUrl);

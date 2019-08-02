@@ -35,6 +35,8 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region Constructor
+        public ModViewModel()
+        { }
         public ModViewModel(string name, URLViewModel url)
         {
             Name = name;

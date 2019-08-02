@@ -25,7 +25,7 @@ namespace PortraitEditor.ViewModel
             {
                 if (_ExploreFolderCommand == null)
                 {
-                    _ExploreFolderCommand = new RelayCommand<object>(param => this.ExploreFolder());
+                    _ExploreFolderCommand = new RelayCommand<object>(param => this.ExploreCoreFolder());
                 }
                 return _ExploreFolderCommand;
             }
@@ -50,7 +50,14 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region Constructors
-        public FileExplorerViewModel() { }
+        public FileExplorerViewModel()
+        {
+            URLViewModel ModUrl = new URLViewModel() { CommonUrl="show"};
+            ModUrl.DisplayName = null;
+            ModUrl.LinkingUrl = "starsector-core";
+
+            ModCollection.Add(new ModViewModel() { Name = "Hello",Url= ModUrl });
+        }
         #endregion
 
         #region Helper function
@@ -86,6 +93,56 @@ namespace PortraitEditor.ViewModel
                 return true;
 
             return false;
+        }
+
+        public void ExploreCoreFolder()
+        {
+            if (StarsectorFolderUrl.UrlState != URLstate.Acceptable)
+                return;
+            string FactionDirPath = Path.Combine("data", "world");
+            FactionDirPath = Path.Combine(FactionDirPath, "factions");
+            URLViewModel CoreFactionUrl = new URLViewModel()
+            {
+                CommonUrl = StarsectorFolderUrl.DisplayUrl,
+                LinkingUrl = "starsector-core",
+                RelativeUrl = FactionDirPath
+            };
+            URLViewModel CoreModUrl = new URLViewModel()
+            {
+                CommonUrl = StarsectorFolderUrl.DisplayUrl,
+                LinkingUrl = "starsector-core"
+            };
+
+            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(CoreFactionUrl.DisplayUrl);
+            if (!CoreFactionDirectory.Exists)
+                return;
+
+            ModViewModel CoreFolder = new ModViewModel()
+            {
+                Name = "Core",
+                Url = CoreFactionUrl
+            };
+            ModCollection.Clear();
+            ModCollection.Add(CoreFolder);
+            //IEnumerable<FileInfo> FileList = CoreFactionDirectory.EnumerateFiles();
+            //var Potential = from file in FileList
+            //                where file.Extension == ".faction"
+            //                select file;
+            //AllPortraits.Clear();
+            //ModList.Clear();
+            //foreach (FileInfo file in Potential)
+            //{
+            //    string RelativeUrl = SSFileUrl.ExtractRelativeUrl(CoreFactionUrl.LinkedUrl, file.FullName);
+            //    SSFileUrl FactionUrl = new SSFileUrl(SSUrl, "starsector-core", RelativeUrl);
+            //    // warning this modify allportraits
+            //    FactionFile ExtractedFile = new FactionFile(FactionUrl, AllPortraits);
+            //    ExtractedFile.SetOriginal();
+            //    ExtractedFile.ActionToMake = FactionFile.FactionAction.Modify;
+            //    ExtractedFile.FactionSource = FactionFile.SourceOfFaction.Core;
+            //    coreFolder.FactionList.Add(ExtractedFile);
+            //}
+            //ModList.Add(coreFolder);
+            return;
         }
         #endregion
     }
