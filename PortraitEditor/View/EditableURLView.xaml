@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PortraitEditor.View.URLView"
+﻿<UserControl x:Class="PortraitEditor.View.EditableURLView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,18 +13,18 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="{Binding Path=DisplayName}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-        <TextBox Grid.Row="1" Text="{Binding Path=DisplayUrl, Mode=OneWay }" IsReadOnly="True" Style="{StaticResource TextBoxStyle}">
+        <Button Command="{Binding Path=SelectNewUrlCommand}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Content="{Binding Path=ButtonName}" />
+        <TextBlock Grid.Column="1"  Text="{Binding Path=DisplayName}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=DisplayUrl, Mode=OneWay }" IsReadOnly="True" Style="{StaticResource TextBoxStyle}">
         </TextBox>
-
     </Grid>
 </UserControl>

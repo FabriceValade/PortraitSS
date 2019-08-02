@@ -21,6 +21,7 @@ using System.ComponentModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PortraitEditor.ViewModel;
+using PortraitEditor.View;
 
 namespace PortraitEditor
 {
@@ -49,12 +50,16 @@ namespace PortraitEditor
             }
         }
         public URLViewModel uRLViewModel { get; set; }
+        public EditableURLViewModel EditURLViewModel { get; set; }
 
         public MainWindow()
         {
 
-
-            uRLViewModel=new URLViewModel("c://hallo","test");
+            FileExplorerWindow FEW = new FileExplorerWindow();
+            FEW.ShowDialog();
+            uRLViewModel=new URLViewModel(null);
+            uRLViewModel.CommonUrl = @"C:\Users\fabrice\Documents\Projet\ProjetPortraitSS";
+            EditURLViewModel = new EditableURLViewModel("oui", "Press me!");
             DataContext = this;
             
             InitializeComponent();

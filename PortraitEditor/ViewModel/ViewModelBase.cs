@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace PortraitEditor.ViewModel
 {
-    public abstract class  ViewModelBase : INotifyPropertyChanged, IDisposable
+    public abstract class  ViewModelBase : INotifyPropertyChanged //, IDisposable
     {
         #region Constructor
 
@@ -69,25 +69,25 @@ namespace PortraitEditor.ViewModel
         }
         #endregion
 
-        #region IDisposable Members
+        //#region IDisposable Members
 
-        /// <summary>
-        /// Invoked when this object is being removed from the application
-        /// and will be subject to garbage collection.
-        /// </summary>
-        public void Dispose()
-        {
-            this.OnDispose();
-        }
+        ///// <summary>
+        ///// Invoked when this object is being removed from the application
+        ///// and will be subject to garbage collection.
+        ///// </summary>
+        //public void Dispose()
+        //{
+        //    this.OnDispose();
+        //}
 
-        /// <summary>
-        /// Child classes can override this method to perform 
-        /// clean-up logic, such as removing event handlers.
-        /// </summary>
-        protected virtual void OnDispose()
-        {
-        }
+        ///// <summary>
+        ///// Child classes can override this method to perform 
+        ///// clean-up logic, such as removing event handlers.
+        ///// </summary>
+        //protected virtual void OnDispose()
+        //{
+        //}
 
-        #endregion 
+        //#endregion 
     }
 }

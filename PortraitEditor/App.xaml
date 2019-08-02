@@ -61,11 +61,13 @@
 
 
         <!-- 
-  This template applies an AllCustomersView to an instance 
-  of the AllCustomersViewModel class shown in the main window.
+  This template applies the view to instanc eof the viewmodel
   -->
         <DataTemplate DataType="{x:Type vm:URLViewModel}">
             <vw:URLView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EditableURLViewModel}">
+            <vw:EditableURLView />
         </DataTemplate>
     </Application.Resources>
 </Application>

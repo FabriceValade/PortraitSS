@@ -70,11 +70,18 @@
       <DependentUpon>SSFileSetupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SSFileUrl.cs" />
+    <Compile Include="ViewModel\FileExplorerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />
     <Compile Include="View\URLView.xaml.cs">
       <DependentUpon>URLView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditableURLView.xaml.cs">
+      <DependentUpon>EditableURLView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FileExplorerWindow.xaml.cs">
+      <DependentUpon>FileExplorerWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -100,7 +107,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\URLViewDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\URLView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditableURLView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FileExplorerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
