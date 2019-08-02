@@ -5,10 +5,10 @@
 
     <Style TargetType="TextBox" x:Key="TextBoxStyle">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding UrlState, Mode=OneWay}" Value="{x:Static vm:URLstate.Exist}">
+            <DataTrigger Binding="{Binding UrlState, Mode=OneWay}" Value="{x:Static vm:URLstate.Acceptable}">
                 <Setter Property="TextBox.Background"  Value="#5500ff00" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding UrlState, Mode=OneWay}" Value="{x:Static vm:URLstate.ExistNot}">
+            <DataTrigger Binding="{Binding UrlState, Mode=OneWay}" Value="{x:Static vm:URLstate.Rejected}">
                 <Setter Property="TextBox.Background" Value="#55ff0000" />
             </DataTrigger>
         </Style.Triggers>

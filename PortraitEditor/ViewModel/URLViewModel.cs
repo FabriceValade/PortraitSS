@@ -9,7 +9,7 @@ using PortraitEditor.Model;
 
 namespace PortraitEditor.ViewModel
 {
-    public enum URLstate { Exist, ExistNot, Unset }
+    public enum URLstate { Acceptable, Rejected, Unset }
     public class URLViewModel : ViewModelBase
     {
         #region Field
@@ -54,25 +54,59 @@ namespace PortraitEditor.ViewModel
             }
         }
         public string DisplayName { get; set; }
+        public Predicate<URL> ValidityChecker { get; set; } = null;
         public URLstate UrlState
         {
             get 
             {
                 if (_PointedUrl.FullUrl == null)
                     return URLstate.Unset;
-                if (_PointedUrl.Exist() == true)
-                    return URLstate.Exist;
+                if (ValidityChecker==null)
+                {
+                    if (_PointedUrl.Exist() == true)
+                        return URLstate.Acceptable;
+                    else
+                        return URLstate.Rejected;
+                }
                 else
-                    return URLstate.ExistNot;
+                {
+                    if (ValidityChecker(this.PointedUrl) == true)
+                        return URLstate.Acceptable;
+                    else
+                        return URLstate.Rejected;
+                }
+                
             }
         }
         #endregion
 
         #region Constructors
+        public URLViewModel()
+        {
+            PointedUrl = new URLRelative();
+            DisplayName = null;
+        }
         public URLViewModel(string displayName)
         {
             PointedUrl = new URLRelative();
             DisplayName = displayName;
+        }
+        public URLViewModel(URLViewModel other)
+        {
+            this.PointedUrl = new URLRelative();
+            this.CommonUrl = other.CommonUrl;
+            this.LinkingUrl = other.LinkingUrl;
+            this.RelativeUrl = other.RelativeUrl;
+            this.DisplayName = other.DisplayName;
+        }
+        #endregion
+
+        #region method
+        public void Replace(URLViewModel otherUrl)
+        {
+            this.CommonUrl = otherUrl.CommonUrl;
+            this.LinkingUrl = otherUrl.LinkingUrl;
+            this.RelativeUrl = otherUrl.RelativeUrl;
         }
         #endregion
 
@@ -96,10 +130,13 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region Properties
-        public string ButtonName { get; set; }
+        public string ButtonName { get; set; } = "Edit Url";
         #endregion
 
         #region Constructors
+        public EditableURLViewModel()
+            : base()
+        {}
         public EditableURLViewModel(string displayName,string buttonName)
             :base(displayName)
         {

@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="SSFileUrl.cs" />
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
+    <Compile Include="ViewModel\ModViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />

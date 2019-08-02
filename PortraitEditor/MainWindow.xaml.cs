@@ -57,14 +57,14 @@ namespace PortraitEditor
 
             //FileExplorerWindow FEW = new FileExplorerWindow();
             //FEW.ShowDialog();
-            uRLViewModel = new URLViewModel(null);
-            uRLViewModel.CommonUrl = @"C:\Users\fabrice\Documents\Projet\ProjetPortraitSS";
-            EditURLViewModel = new EditableURLViewModel("oui", "Press me!");
+            uRLViewModel = new URLViewModel() { CommonUrl = @"C:\Users\fabrice\Documents\Projet\ProjetPortraitSS" };
+            EditURLViewModel = new EditableURLViewModel("oui", null);
             DataContext = this;
             
             InitializeComponent();
-            //FileExplorerViewModel FEVM = new FileExplorerViewModel();
-            //FEVM.ShowDialog();
+            FileExplorerViewModel FEVM = new FileExplorerViewModel();
+            FEVM.ShowDialog();
+            uRLViewModel.Replace(FEVM.StarsectorFolderUrl);
             //PortraitsIntereaction.Visibility = Visibility.Hidden;
             //FactionIntereaction.Visibility = Visibility.Hidden;
             //AllPortraitsIntereaction.Visibility = Visibility.Hidden;

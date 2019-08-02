@@ -129,5 +129,9 @@ namespace PortraitEditor.Model
             this.RelativeUrl = relativeUrl;
         }
         #endregion
+
+        #region method
+        
+        #endregion
     }
 }
