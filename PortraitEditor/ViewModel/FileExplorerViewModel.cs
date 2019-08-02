@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PortraitEditor.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.ViewModel
 {
-    class FileExplorerViewModel : ViewModelBase
+    public class FileExplorerViewModel : ViewModelBase
     {
         EditableURLViewModel _EditableURLViewModel;
         public EditableURLViewModel EditableURLViewModel
@@ -19,5 +20,11 @@ namespace PortraitEditor.ViewModel
             }
         }
         public FileExplorerViewModel() { }
+
+        public void ShowDialog()
+        {
+            FileExplorerWindow NewWindow = new FileExplorerWindow(this);
+            NewWindow.ShowDialog();
+        }
     }
 }

@@ -25,5 +25,11 @@ namespace PortraitEditor.View
             DataContext = new FileExplorerViewModel();
             InitializeComponent();
         }
+        public FileExplorerWindow(FileExplorerViewModel fileExplorer)
+        {
+            DataContext = fileExplorer;
+            InitializeComponent();
+
+        }
     }
 }
