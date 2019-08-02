@@ -99,49 +99,22 @@ namespace PortraitEditor.ViewModel
         {
             if (StarsectorFolderUrl.UrlState != URLstate.Acceptable)
                 return;
-            string FactionDirPath = Path.Combine("data", "world");
-            FactionDirPath = Path.Combine(FactionDirPath, "factions");
-            URLViewModel CoreFactionUrl = new URLViewModel()
-            {
-                CommonUrl = StarsectorFolderUrl.DisplayUrl,
-                LinkingUrl = "starsector-core",
-                RelativeUrl = FactionDirPath
-            };
+            
             URLViewModel CoreModUrl = new URLViewModel()
             {
                 CommonUrl = StarsectorFolderUrl.DisplayUrl,
                 LinkingUrl = "starsector-core"
             };
 
-            DirectoryInfo CoreFactionDirectory = new DirectoryInfo(CoreFactionUrl.DisplayUrl);
-            if (!CoreFactionDirectory.Exists)
-                return;
-
             ModViewModel CoreFolder = new ModViewModel()
             {
                 Name = "Core",
-                Url = CoreFactionUrl
+                Url = CoreModUrl
             };
+            CoreFolder.ExploreFactionFile();
             ModCollection.Clear();
             ModCollection.Add(CoreFolder);
-            //IEnumerable<FileInfo> FileList = CoreFactionDirectory.EnumerateFiles();
-            //var Potential = from file in FileList
-            //                where file.Extension == ".faction"
-            //                select file;
-            //AllPortraits.Clear();
-            //ModList.Clear();
-            //foreach (FileInfo file in Potential)
-            //{
-            //    string RelativeUrl = SSFileUrl.ExtractRelativeUrl(CoreFactionUrl.LinkedUrl, file.FullName);
-            //    SSFileUrl FactionUrl = new SSFileUrl(SSUrl, "starsector-core", RelativeUrl);
-            //    // warning this modify allportraits
-            //    FactionFile ExtractedFile = new FactionFile(FactionUrl, AllPortraits);
-            //    ExtractedFile.SetOriginal();
-            //    ExtractedFile.ActionToMake = FactionFile.FactionAction.Modify;
-            //    ExtractedFile.FactionSource = FactionFile.SourceOfFaction.Core;
-            //    coreFolder.FactionList.Add(ExtractedFile);
-            //}
-            //ModList.Add(coreFolder);
+            
             return;
         }
         #endregion

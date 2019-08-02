@@ -81,11 +81,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Faction.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SSFileSetupWindow.xaml.cs">
       <DependentUpon>SSFileSetupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SSFileUrl.cs" />
+    <Compile Include="ViewModel\FactionViewModel.cs" />
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
     <Compile Include="ViewModel\ModViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
