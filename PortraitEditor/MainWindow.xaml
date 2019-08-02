@@ -191,8 +191,8 @@
             <Button Click="DisplayAppend_Click" Grid.Row="0" Grid.Column="0" >Show Appended </Button>
             <Button Click="ModHierarchy_Click" Grid.Row="0" Grid.Column="1" >Create/find Hierarchy</Button>
             <Button Click="AppendFile_Click" Grid.Row="0" Grid.Column="2" >Create append file</Button>
-            <!--<ContentControl Grid.Row="1" Content="{Binding Path=uRLViewModel}" Width="25" HorizontalAlignment="Center"></ContentControl>
-            <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding Path=EditURLViewModel}" Width="75" HorizontalAlignment="Center"></ContentControl>-->
+            <ContentControl Grid.Row="1" Content="{Binding Path=uRLViewModel}" Width="25" HorizontalAlignment="Center"></ContentControl>
+            <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding Path=EditURLViewModel}" Width="75" HorizontalAlignment="Center"></ContentControl>
         </Grid>
     </Grid>
 

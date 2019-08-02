@@ -36,7 +36,7 @@ namespace PortraitEditor
         public ObservableCollection<Portrait> AllPortraits { get; set; } = new ObservableCollection<Portrait>();
         public SSFileExplorer FileExplorer { get; set; } = new SSFileExplorer();
         public string RootPath { get; set; }
-        public SSFileSetupWindow SSFileSetup { get; set; } = new SSFileSetupWindow();
+        //public SSFileSetupWindow SSFileSetup { get; set; } = new SSFileSetupWindow();
         ICommand _ExploreFolderCommand;
         public ICommand ExploreFolderCommand
         {
@@ -54,12 +54,12 @@ namespace PortraitEditor
 
         public MainWindow()
         {
-            
+
             //FileExplorerWindow FEW = new FileExplorerWindow();
             //FEW.ShowDialog();
-            //uRLViewModel=new URLViewModel(null);
-            //uRLViewModel.CommonUrl = @"C:\Users\fabrice\Documents\Projet\ProjetPortraitSS";
-            //EditURLViewModel = new EditableURLViewModel("oui", "Press me!");
+            uRLViewModel = new URLViewModel(null);
+            uRLViewModel.CommonUrl = @"C:\Users\fabrice\Documents\Projet\ProjetPortraitSS";
+            EditURLViewModel = new EditableURLViewModel("oui", "Press me!");
             DataContext = this;
             
             InitializeComponent();
@@ -72,9 +72,10 @@ namespace PortraitEditor
             //view.GroupDescriptions.Add(new PropertyGroupDescription("ImageGender"));
         }
 
-        public void ChangeExplorerUrl ()
+        public void ChangeExplorerUrl()
         {
-            if (SSFileSetup.ShowDialog() == true) 
+            SSFileSetupWindow SSFileSetup = new SSFileSetupWindow();
+            if (SSFileSetup.ShowDialog() == true)
             {
                 CoreFaction.Clear();
                 foreach (FactionFile faction in SSFileSetup.FileExplorer.GetFactionList())
