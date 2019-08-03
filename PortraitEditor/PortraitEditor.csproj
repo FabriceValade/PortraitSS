@@ -82,6 +82,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Faction.cs" />
+    <Compile Include="Model\SSFiles\SSfile.cs" />
+    <Compile Include="Model\SSFiles\SSFileDirectory.cs" />
+    <Compile Include="Model\SSFiles\SSFileGroup.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SSFileSetupWindow.xaml.cs">
       <DependentUpon>SSFileSetupWindow.xaml</DependentUpon>

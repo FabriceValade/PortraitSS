@@ -57,7 +57,7 @@ namespace PortraitEditor.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             //this.VerifyPropertyName(propertyName);
             PropertyChangedEventHandler handler = this.PropertyChanged;

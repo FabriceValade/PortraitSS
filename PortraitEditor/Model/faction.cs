@@ -11,7 +11,8 @@ namespace PortraitEditor.Model
 {
     public class Faction
     {
-        public string Name { get; set; }
+        public string FileName { get; set; }
+        public string DisplayName { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
 
@@ -26,8 +27,10 @@ namespace PortraitEditor.Model
             var result = Regex.Replace(ReadResult, "#.*", "");
             var result2 = Regex.Replace(result, "},[^,}]*$", "}");
             JsonFile = JObject.Parse(result2);
-            JToken a = JsonFile["displayName"];
-            Name = a.Value<string>();
+            JToken DisplayNameToken;
+            if (JsonFile.TryGetValue("displayName", out DisplayNameToken))
+                DisplayName = JsonFile["displayName"].Value<string>();
+            
             //LogoPath = Path.Combine(FactionFileUrl.CommonUrl,FactionFileUrl.LinkingUrl, JsonFile.logo);
             //LogoPath = Url.CommonUrl + FileRessource.logo;
 

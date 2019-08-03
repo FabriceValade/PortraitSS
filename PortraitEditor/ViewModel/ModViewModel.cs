@@ -13,6 +13,7 @@ namespace PortraitEditor.ViewModel
         #region Field
         string _Name;
         URLViewModel _Url;
+        public ObservableCollection<FactionViewModel> _FactionCollection = new ObservableCollection<FactionViewModel>();
         #endregion
 
         #region properties
@@ -35,7 +36,15 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        public ObservableCollection<FactionViewModel> FactionCollection { get; } = new ObservableCollection<FactionViewModel>();
+        public ObservableCollection<FactionViewModel> FactionCollection
+        {
+            get => _FactionCollection;
+            set
+            {
+                _FactionCollection = value;
+                NotifyPropertyChanged("FactionCollection");
+            }
+        } 
         #endregion
 
         #region Constructor
@@ -48,6 +57,7 @@ namespace PortraitEditor.ViewModel
         }
         #endregion
 
+        #region method
         public void ExploreFactionFile()
         {
             string FactionDirPath = Path.Combine("data", "world");
@@ -80,7 +90,8 @@ namespace PortraitEditor.ViewModel
                 FactionCollection.Add(faction);
             }
             return;
-        }
+        } 
+        #endregion
 
     }
 }

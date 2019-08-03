@@ -9,46 +9,54 @@ namespace PortraitEditor.ViewModel
 {
     public class FactionViewModel : ViewModelBase
     {
+        #region field
         Faction _Faction;
+        URLViewModel _FactionUrl; 
+        #endregion
+
+        #region properties
         public Faction Faction
         {
             get => _Faction;
             set
             {
                 _Faction = value;
-                NotifyPropertyChanged();
-                NotifyPropertyChanged("FactionUrl");
-                NotifyPropertyChanged("Name");
+                base.NotifyPropertyChanged();
+                base.NotifyPropertyChanged("FactionUrl");
+                base.NotifyPropertyChanged("Name");
             }
         }
 
         public string Name
         {
-            get=>Faction.Name;
+            get => Faction.Name;
             set
             {
                 Faction.Name = value;
-                NotifyPropertyChanged();
+                base.NotifyPropertyChanged();
             }
         }
-        URLViewModel _FactionUrl;
+
         public URLViewModel FactionUrl
         {
             get
             {
                 if (_FactionUrl == null)
-                    _FactionUrl = new URLViewModel() { PointedUrl=Faction.FactionFileUrl};
+                    _FactionUrl = new URLViewModel() { PointedUrl = Faction.FactionFileUrl };
                 return _FactionUrl;
             }
-        }
+        } 
+        #endregion
 
-        public FactionViewModel() { }
+        #region constructors
+        private FactionViewModel() { }
         public FactionViewModel(URLViewModel FactionPath)
         {
             Faction PotentialFaction = new Faction();
-            PotentialFaction.FactionFileUrl= FactionPath.PointedUrl;
+            PotentialFaction.FactionFileUrl = FactionPath.PointedUrl;
             PotentialFaction.ReadJson();
             Faction = PotentialFaction;
-        }
+        } 
+        #endregion
     }
 }
