@@ -82,7 +82,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Faction.cs" />
-    <Compile Include="Model\SSFiles\SSfile.cs" />
+    <Compile Include="Model\SSFiles\SSFile.cs" />
+    <Compile Include="Model\SSFiles\SSFileBase.cs" />
     <Compile Include="Model\SSFiles\SSFileDirectory.cs" />
     <Compile Include="Model\SSFiles\SSFileGroup.cs" />
     <Compile Include="RelayCommand.cs" />
