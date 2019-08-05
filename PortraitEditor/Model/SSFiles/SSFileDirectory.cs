@@ -7,20 +7,27 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.Model.SSFiles
 {
-    public abstract class SSFileDirectory<F>  where F:SSFileGroup<SSFile>
+    public class SSFileDirectory<G>  where G:SSFileGroup<SSFile>
     {
-        public List<F> List { get; set; } = new List<F>();
+        public List<G> List { get; set; } = new List<G>();
 
-        public void AddFile(URL url, string Modsource)
+        public SSFile AddFile(URL url, string modSource)
         {
             FileInfo info = new FileInfo(url.FullUrl);
             string newFileName = info.Name;
-            F Matching = (from fileGroup in List
+            G Matching = (from fileGroup in List
                     where fileGroup.FileName == newFileName
                     select fileGroup).FirstOrDefault();
             SSFile newFile;
             if (Matching != null)
-                newFile = Matching.Add(url, Modsource);
+                newFile = Matching.Add(url, modSource);
+            else
+            {
+                G newGroup = Activator.CreateInstance(typeof(G), new Object[] { url, modSource }) as G;
+                List.Add(newGroup);
+                newFile = newGroup.GroupFileList.Single();
+            }
+            return newFile;
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using PortraitEditor.Model;
+using PortraitEditor.Model.SSFiles;
 using PortraitEditor.View;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,9 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        public ObservableCollection<ModViewModel> ModCollection { get; } = new ObservableCollection<ModViewModel>();
+        public ObservableCollection<SSModViewModel> ModCollection { get; } = new ObservableCollection<SSModViewModel>();
+
+        SSFileDirectory<SSFileGroup<SSFile>> _Directory = new SSFileDirectory<SSFileGroup<SSFile>>(); SSFileDirectory<SSFileGroup<SSFile>> Directory { get => _Directory; }
         #endregion
 
         #region Constructors
@@ -56,7 +59,7 @@ namespace PortraitEditor.ViewModel
             ModUrl.DisplayName = null;
             ModUrl.LinkingUrl = "starsector-core";
 
-            ModCollection.Add(new ModViewModel() { Name = "Hello",Url= ModUrl });
+            //ModCollection.Add(new ModViewModel() { Name = "Hello",Url= ModUrl });
         }
         #endregion
 
@@ -106,11 +109,8 @@ namespace PortraitEditor.ViewModel
                 LinkingUrl = "starsector-core"
             };
 
-            ModViewModel CoreFolder = new ModViewModel()
-            {
-                Name = "Core",
-                Url = CoreModUrl
-            };
+            SSModViewModel CoreFolder = new SSModViewModel("Core", CoreModUrl, Directory);
+
             CoreFolder.ExploreFactionFile();
             ModCollection.Clear();
             ModCollection.Add(CoreFolder);

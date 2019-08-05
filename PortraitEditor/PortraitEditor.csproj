@@ -82,6 +82,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Faction.cs" />
+    <Compile Include="Model\SSFiles\SSFaction.cs" />
     <Compile Include="Model\SSFiles\SSFile.cs" />
     <Compile Include="Model\SSFiles\SSFileBase.cs" />
     <Compile Include="Model\SSFiles\SSFileDirectory.cs" />
@@ -94,6 +95,8 @@
     <Compile Include="ViewModel\FactionViewModel.cs" />
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
     <Compile Include="ViewModel\ModViewModel.cs" />
+    <Compile Include="ViewModel\SSFactionViewModel.cs" />
+    <Compile Include="ViewModel\SSModViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />

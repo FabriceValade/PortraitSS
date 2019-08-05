@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.Model.SSFiles
 {
-    public class SSFileGroup<F> : SSFileBase where F:SSFile 
+    public class SSFileGroup<F> : SSFileBase where F:SSFile
     {
         #region Event
         public event EventHandler GroupChanged;
@@ -25,7 +25,7 @@ namespace PortraitEditor.Model.SSFiles
         } 
         #endregion
 
-        public F Add(URL url, string modSource)
+        public F BaseAdd(URL url, string modSource)
         {
             F newfile = Activator.CreateInstance(typeof(F), new Object[] {this,url,modSource }) as F;
             GroupFileList.Add(newfile);
@@ -36,9 +36,10 @@ namespace PortraitEditor.Model.SSFiles
             return newfile;
         }
 
-        public virtual void SynchroniseGroupMembers()
+        public virtual  F Add(URL url, string modSource)
         {
-            return;
+            
+            return BaseAdd(url, modSource); 
         }
     }
 }

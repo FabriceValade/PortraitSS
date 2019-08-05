@@ -24,14 +24,14 @@
 
         <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Background="white">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type vm:ModViewModel}" ItemsSource="{Binding FactionCollection}">
+                    <HierarchicalDataTemplate DataType="{x:Type vm:SSModViewModel}" ItemsSource="{Binding FactionCollection}">
                         <local:ModView />
                         <!--<StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Foreground="Black" />
                         </StackPanel>-->
                     </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type vm:FactionViewModel}">
-                        <TextBlock Text="{Binding Name}" FontSize="12" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                    <DataTemplate DataType="{x:Type vm:SSFactionViewModel}">
+                        <TextBlock Text="{Binding DisplayName}" FontSize="12" VerticalAlignment="Center" Margin="10,0,10,0"/>
                     </DataTemplate>
                 </TreeView.Resources>
             </TreeView>

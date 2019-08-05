@@ -11,7 +11,7 @@ namespace PortraitEditor.Model
 {
     public class Faction
     {
-        public string FileName { get; set; }
+        public string Name { get; set; }
         public string DisplayName { get; set; }
         public string LogoPath { get; set; }
         public string ColorRGB { get; set; }
