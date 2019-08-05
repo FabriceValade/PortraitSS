@@ -9,37 +9,56 @@ namespace PortraitEditor.Model.SSFiles
 {
     public class SSFaction : SSFile
     {
-        string _DisplayName; public string DisplayName
+        #region Properties of this kind f file
+        string _DisplayName;
+        public string DisplayName
         {
-            get
-            {
-                if (_DisplayName != null)
-                    return _DisplayName;
-
-                JToken DisplayNameToken;
-                if (JsonContent.TryGetValue("displayName", out DisplayNameToken))
-                    _DisplayName = JsonContent["displayName"].Value<string>();
-
-                return _DisplayName;
-            }
+            get => _DisplayName;
         }
+        #endregion
+
         #region constructor
-        public SSFaction(SSFile owningGroup, URL url, string modsource) : base(owningGroup, url, modsource) { } 
+        public SSFaction( URL url, string modsource) : base( url, modsource)
+        {
+            this.ParseJson();
+        }
+        #endregion
+
+        #region Helper method
+        public void ParseJson()
+        {
+            JToken DisplayNameToken;
+            if (JsonContent.TryGetValue("displayName", out DisplayNameToken))
+                _DisplayName = JsonContent["displayName"].Value<string>();
+        }
         #endregion
     }
 
     public class SSFactionGroup : SSFileGroup<SSFaction>
     {
-        string _DisplayName; public string DisplayName { get => _DisplayName;}
-        public SSFactionGroup(URL url, string modSource) : base(url, modSource) { }
+        #region Properties of this kind of group
+        string _DisplayName;
+        public string DisplayName { get => _DisplayName;}
+        #endregion
 
-        public override SSFaction Add(URL url, string modSource)
+        #region Constructors
+        public SSFactionGroup(SSFaction newFile) : base(newFile)
         {
-            SSFaction newfaction = base.BaseAdd(url, modSource);
-
             _DisplayName = (from file in base.GroupFileList
                             select file.DisplayName).Distinct().SingleOrDefault();
-            return newfaction;
         }
+        #endregion
+
+        #region Overiden method
+        public override void Add(SSFaction newFile)
+        {
+            base.Add(newFile);
+
+            //synchronisation
+            _DisplayName = (from file in base.GroupFileList
+                            select file.DisplayName).Distinct().SingleOrDefault();
+            return;
+        }
+        #endregion
     }
 }

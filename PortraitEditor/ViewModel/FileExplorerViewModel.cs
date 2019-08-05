@@ -49,7 +49,7 @@ namespace PortraitEditor.ViewModel
 
         public ObservableCollection<SSModViewModel> ModCollection { get; } = new ObservableCollection<SSModViewModel>();
 
-        SSFileDirectory<SSFileGroup<SSFile>> _Directory = new SSFileDirectory<SSFileGroup<SSFile>>(); SSFileDirectory<SSFileGroup<SSFile>> Directory { get => _Directory; }
+        SSFileDirectory<SSFactionGroup, SSFaction> _Directory = new SSFileDirectory<SSFactionGroup, SSFaction>(); SSFileDirectory<SSFactionGroup, SSFaction> Directory { get => _Directory; }
         #endregion
 
         #region Constructors

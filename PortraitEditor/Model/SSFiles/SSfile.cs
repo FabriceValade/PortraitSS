@@ -12,29 +12,34 @@ namespace PortraitEditor.Model.SSFiles
     public class SSFile : SSFileBase
     {
         #region Properties
-        public string FileName { get;}
-        public URL Url { get; }
-        public JObject JsonContent { get;}
-        public string ModSource { get; }
+        string _FileName;
+        public string FileName { get => _FileName; }
+
+        URL _Url;
+        public URL Url { get=>_Url; }
+
+        JObject _JsonContent;
+        public JObject JsonContent { get=>_JsonContent;}
+
+        string _ModSource;
+        public string ModSource { get=>_ModSource; }
         #endregion
 
         #region Constructors
-        public SSFile(SSFileBase OwningGroup, URL url, string modSource) : base(OwningGroup)
+        public SSFile( URL url, string modSource)
         {
-            ModSource = modSource;
-            Url = url ?? throw new ArgumentNullException("The Url cannot be null.");
+            _ModSource = modSource;
+            _Url = url ?? throw new ArgumentNullException("The Url cannot be null.");
             FileInfo info = new FileInfo(Url.FullUrl);
-            FileName = info.Name;
+            _FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
             string ReadResult = File.ReadAllText(Url.FullUrl);
             var result = Regex.Replace(ReadResult, "#.*", "");
             var result2 = Regex.Replace(result, "},[^,}]*$", "}");
-            JsonContent = JObject.Parse(result2);
+            _JsonContent = JObject.Parse(result2);
         }
         #endregion
+        
 
-        #region method
-
-        #endregion
     }
 }
 

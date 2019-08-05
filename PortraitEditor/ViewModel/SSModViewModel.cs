@@ -49,11 +49,11 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        SSFileDirectory<SSFileGroup<SSFile>> _Directory;
+        SSFileDirectory<SSFactionGroup,SSFaction> _Directory;
         #endregion
 
         #region Constructor
-        public SSModViewModel(string name, URLViewModel url, SSFileDirectory<SSFileGroup<SSFile>> directory)
+        public SSModViewModel(string name, URLViewModel url, SSFileDirectory<SSFactionGroup, SSFaction> directory)
         {
             Name = name;
             Url = new URLViewModel(url);
@@ -90,7 +90,8 @@ namespace PortraitEditor.ViewModel
                     LinkingUrl = Url.LinkingUrl,
                     RelativeUrl = Path.Combine(FactionDirPath, file.Name)
                 };
-                SSFaction NewFaction=_Directory.AddFile(FactionFileUrl, Name) as SSFaction;
+                SSFaction NewFaction = new SSFaction(FactionFileUrl, this.Name);
+                _Directory.AddFile(NewFaction);
                 SSFactionViewModel factionViewModel = new SSFactionViewModel(NewFaction);
                 FactionCollection.Add(factionViewModel);
             }

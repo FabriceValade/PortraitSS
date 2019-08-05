@@ -19,27 +19,23 @@ namespace PortraitEditor.Model.SSFiles
         #region properties
         public string FileName { get; set; }
         public List<F> GroupFileList { get; set; } = new List<F>();
-        public SSFileGroup(URL url, string modSource)
+        public SSFileGroup(F newFile)
         {
-            this.Add(url, modSource);
+            newFile.OwningGroup = this;
+            this.FileName = newFile.FileName ?? throw new ArgumentNullException("The FileName cannot be null.");
+            GroupFileList.Add(newFile);
         } 
         #endregion
 
-        public F BaseAdd(URL url, string modSource)
-        {
-            F newfile = Activator.CreateInstance(typeof(F), new Object[] {this,url,modSource }) as F;
-            GroupFileList.Add(newfile);
-            if (FileName == null)
-                FileName = newfile.FileName;
-            else if (newfile.FileName != FileName)
-                throw new NotSupportedException("Cannot add to group with wrongly named file");
-            return newfile;
-        }
 
-        public virtual  F Add(URL url, string modSource)
+
+        public virtual void  Add(F newFile)
         {
-            
-            return BaseAdd(url, modSource); 
+            if (newFile.FileName != this.FileName)
+                throw (new InvalidOperationException("Cannot group file with differing filename"));
+            newFile.OwningGroup = this;
+            GroupFileList.Add(newFile);
+            return;
         }
     }
 }
