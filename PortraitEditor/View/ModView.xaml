@@ -16,9 +16,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Reparation society" Margin="10,3,10,3" Foreground="Black" FontSize="18" FontWeight="Bold" VerticalAlignment="Bottom"/>
+        <TextBlock Text="{Binding Path=Name}" Margin="10,3,10,3" Foreground="Black" FontSize="18" FontWeight="Bold" VerticalAlignment="Bottom"/>
         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" CornerRadius="15" VerticalAlignment="Bottom">
-        <TextBlock Name="FactionCounter"  Text="100" Margin="3,3,3,3" FontSize="18" VerticalAlignment="Bottom"/>
+        <TextBlock Name="FactionCounter"  Text="{Binding Path=FactionCollection.Count}" Margin="3,3,3,3" FontSize="18" VerticalAlignment="Bottom" Focusable="False"/>
         </Border>
         <ContentControl Grid.Row="0" Grid.Column="2" Content="{Binding Path=Url}" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Bottom"></ContentControl>
     </Grid>

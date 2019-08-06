@@ -63,6 +63,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -92,16 +93,17 @@
       <DependentUpon>SSFileSetupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SSFileUrl.cs" />
-    <Compile Include="ViewModel\FactionViewModel.cs" />
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
-    <Compile Include="ViewModel\ModViewModel.cs" />
     <Compile Include="ViewModel\SSFactionViewModel.cs" />
-    <Compile Include="ViewModel\SSModViewModel.cs" />
+    <Compile Include="ViewModel\ModViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />
     <Compile Include="View\ModView.xaml.cs">
       <DependentUpon>ModView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SSFactionView.xaml.cs">
+      <DependentUpon>SSFactionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\URLView.xaml.cs">
       <DependentUpon>URLView.xaml</DependentUpon>
@@ -141,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ModView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSFactionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

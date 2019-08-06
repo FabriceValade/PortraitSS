@@ -10,9 +10,9 @@ namespace PortraitEditor.Model.SSFiles
     {
         #region Event
         public event EventHandler GroupChanged;
-        protected virtual void OnGroupChanged(EventArgs e)
+        protected virtual void OnGroupChanged()
         {
-            GroupChanged?.Invoke(this, e);
+            GroupChanged?.Invoke(this, null);
         } 
         #endregion
 

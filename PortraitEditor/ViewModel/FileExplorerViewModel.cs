@@ -26,10 +26,36 @@ namespace PortraitEditor.ViewModel
             {
                 if (_ExploreFolderCommand == null)
                 {
-                    _ExploreFolderCommand = new RelayCommand<object>(param => this.ExploreCoreFolder());
+                    _ExploreFolderCommand = new RelayCommand<object>(param => this.ExploreFolder());
                 }
                 return _ExploreFolderCommand;
             }
+        }
+        #endregion
+
+        #region Mod radiobutton properties
+        public enum SSModFolderActions { Ignore, Use }
+        SSModFolderActions _ModAction = SSModFolderActions.Use;
+        public SSModFolderActions ModAction
+        {
+            get => _ModAction;
+            set
+            {
+                _ModAction = value;
+                NotifyPropertyChanged("ModFolderRadioAsIgnore");
+                NotifyPropertyChanged("ModFolderRadioAsUse");
+            }
+
+        }
+        public bool ModFolderRadioAsIgnore
+        {
+            get => ModAction.Equals(SSModFolderActions.Ignore);
+            set => ModAction = SSModFolderActions.Ignore; 
+        }
+        public bool ModFolderRadioAsUse
+        {
+            get => ModAction.Equals(SSModFolderActions.Use);
+            set => ModAction = SSModFolderActions.Use;
         }
         #endregion
 
@@ -47,7 +73,7 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        public ObservableCollection<SSModViewModel> ModCollection { get; } = new ObservableCollection<SSModViewModel>();
+        public ObservableCollection<ModViewModel> ModCollection { get; } = new ObservableCollection<ModViewModel>();
 
         SSFileDirectory<SSFactionGroup, SSFaction> _Directory = new SSFileDirectory<SSFactionGroup, SSFaction>(); SSFileDirectory<SSFactionGroup, SSFaction> Directory { get => _Directory; }
         #endregion
@@ -73,7 +99,9 @@ namespace PortraitEditor.ViewModel
 
         public void ExploreFolder()
         {
-
+            ExploreCoreFolder();
+            if (ModAction == SSModFolderActions.Use)
+                ExploreModFolder();
             return;
         }
 
@@ -109,7 +137,7 @@ namespace PortraitEditor.ViewModel
                 LinkingUrl = "starsector-core"
             };
 
-            SSModViewModel CoreFolder = new SSModViewModel("Core", CoreModUrl, Directory);
+            ModViewModel CoreFolder = new ModViewModel("Core", CoreModUrl, Directory);
 
             CoreFolder.ExploreFactionFile();
             ModCollection.Clear();
@@ -117,6 +145,32 @@ namespace PortraitEditor.ViewModel
             
             return;
         }
+
+        public void ExploreModFolder()
+        {
+            if (StarsectorFolderUrl.UrlState != URLstate.Acceptable)
+                return;
+            string ModFolderPath = Path.Combine(StarsectorFolderUrl.DisplayUrl, "mods");
+            DirectoryInfo ModsDirectory = new DirectoryInfo(ModFolderPath);
+            IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
+            foreach (DirectoryInfo ModDirectory in ModsEnumerable)
+            {
+                URLViewModel ModUrl = new URLViewModel()
+                {
+                    CommonUrl = StarsectorFolderUrl.DisplayUrl,
+                    LinkingUrl = Path.Combine("mods", ModDirectory.Name)
+                };
+                ModViewModel ModFolder = new ModViewModel(ModDirectory.Name, ModUrl, Directory);
+                if (ModFolder.ContainsFaction)
+                {
+                    ModFolder.ExploreFactionFile();
+                    ModCollection.Add(ModFolder);
+                }
+            }
+   
+        }
+      
+
         #endregion
     }
 }

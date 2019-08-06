@@ -17,21 +17,39 @@
                 <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch"></ContentControl>
             </Border>
             <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
+            <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">PeSS Previous files action</Label>
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton Style="{StaticResource RadioButton}">Clear</RadioButton>
+                        <RadioButton Style="{StaticResource RadioButton}">Ignore</RadioButton>
+                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="True">Use</RadioButton>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mod file action</Label>
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding ModFolderRadioAsIgnore}">Ignore</RadioButton>
+                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding ModFolderRadioAsUse}">Use</RadioButton>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
         <Border  BorderThickness="1" BorderBrush="Black" Grid.Column="1">
             <!--<ContentControl  Content="{Binding Path=ModCollection[0]}"  HorizontalAlignment="Stretch"></ContentControl>-->
         
 
-        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Background="white">
+        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Background="white" Focusable="False">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type vm:SSModViewModel}" ItemsSource="{Binding FactionCollection}">
+                    <HierarchicalDataTemplate DataType="{x:Type vm:ModViewModel}" ItemsSource="{Binding FactionCollection}">
                         <local:ModView />
                         <!--<StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Foreground="Black" />
                         </StackPanel>-->
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type vm:SSFactionViewModel}">
-                        <TextBlock Text="{Binding DisplayName}" FontSize="12" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                        <local:SSFactionView />
+                        <!--<TextBlock Text="{Binding DisplayName}" FontSize="12" VerticalAlignment="Center" Margin="10,0,10,0"/>-->
                     </DataTemplate>
                 </TreeView.Resources>
             </TreeView>

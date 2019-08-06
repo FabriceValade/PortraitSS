@@ -55,7 +55,53 @@
         <Setter Property="Margin" Value="5,5,3,3"/>
     </Style>
 
-
+    <Style x:Key="RadioButton" TargetType="RadioButton">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="Text" Panel.ZIndex="2" FontFamily="Segoe Ui Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Foreground="Black" Text="{TemplateBinding Content}" FontSize="12" FontWeight="SemiBold" Margin="5,5,5,5" />
+                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="Border" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" >
+                                    <Grid Margin="2,2,2,2" >
+                                        <Rectangle  Fill="Transparent" StrokeThickness="0" Stroke="Black" Stretch="UniformToFill" />
+                                        <Rectangle x:Name="CheckMark" Margin="1" Fill="DarkGray" HorizontalAlignment="Stretch"/>
+                                    </Grid>
+                                </Border>
+                            </BulletDecorator.Bullet>
+                        </BulletDecorator>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Text" Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="LightGray" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Background" Value="White" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <!-- 
   This template applies the view to instanc eof the viewmodel
