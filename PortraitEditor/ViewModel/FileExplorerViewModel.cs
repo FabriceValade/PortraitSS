@@ -137,12 +137,11 @@ namespace PortraitEditor.ViewModel
                 LinkingUrl = "starsector-core"
             };
 
-            ModViewModel CoreFolder = new ModViewModel("Core", CoreModUrl, Directory);
+            ModViewModel CoreFolder = new ModViewModel(PortraitEditorConfiguration.CoreModName, CoreModUrl, Directory);
 
             CoreFolder.ExploreFactionFile();
             ModCollection.Clear();
             ModCollection.Add(CoreFolder);
-            
             return;
         }
 

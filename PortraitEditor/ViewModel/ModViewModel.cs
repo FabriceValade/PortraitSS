@@ -19,7 +19,8 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region properties
-        string _Name; public string Name
+        string _Name;
+        public string Name
         {
             get => _Name;
             set
@@ -29,7 +30,8 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        URLViewModel _Url; public URLViewModel Url
+        URLViewModel _Url;
+        public URLViewModel Url
         {
             get => _Url;
             set
@@ -83,7 +85,9 @@ namespace PortraitEditor.ViewModel
             _Directory = directory;
             FactionCollection.CollectionChanged += FactionCollection_CollectionChanged;
         }
+        #endregion
 
+        #region event handler
         private void FactionCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             NotifyPropertyChanged("FactionCount");
@@ -91,7 +95,7 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region method
-        public void ExploreFactionFile()
+        public void ExploreFactionFile(SSFileDirectory<SSFaction,SSFactionGroup> directory)
         {
             string FactionDirPath = Path.Combine("data", "world");
             FactionDirPath = Path.Combine(FactionDirPath, "factions");
@@ -124,6 +128,16 @@ namespace PortraitEditor.ViewModel
                 SSFactionViewModel factionViewModel = new SSFactionViewModel(NewFaction);
                 FactionCollection.Add(factionViewModel);
             }
+            return;
+        }
+
+        public void RemoveFaction(SSFaction faction)
+        {
+            SSFactionViewModel Container = (from factionViewModel in FactionCollection
+                                            where factionViewModel.FactionModel == faction
+                                            select factionViewModel).SingleOrDefault();
+            _Directory.RemoveFile(Container.FactionModel);
+            FactionCollection.Remove(Container);
             return;
         }
         #endregion

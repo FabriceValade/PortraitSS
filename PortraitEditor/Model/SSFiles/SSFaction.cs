@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +37,6 @@ namespace PortraitEditor.Model.SSFiles
             if (JsonContent.TryGetValue("logo", out LogoToken))
                 LogoPath = Path.Combine(base.ModUrl.FullUrl,LogoToken.Value<string>());
 
-            ColorRGB = "#FFFFFFFF";
             JToken ColorToken;
             if (JsonContent.TryGetValue("color", out ColorToken))
             {
@@ -62,11 +62,12 @@ namespace PortraitEditor.Model.SSFiles
             get
             {
                 if (_DisplayName == null)
-                    return "DisplayName not set";
+                    return FileName;
                 return _DisplayName;
             }
             private set => _DisplayName = value;
         }
+
         string _LogoPath;
         public string LogoPath
         {
@@ -78,6 +79,7 @@ namespace PortraitEditor.Model.SSFiles
             }
             private set =>_LogoPath=value;
         }
+
         string _ColorRGB;
         public string ColorRGB
         {
@@ -111,13 +113,57 @@ namespace PortraitEditor.Model.SSFiles
 
         public void SynchroniseGroup()
         {
-            DisplayName = (from file in base.GroupFileList
-                           select file.DisplayName).Distinct().SingleOrDefault();
+            //DisplayName = (from file in base.GroupFileList
+            //               where file.DisplayName!=null
+            //               select file.DisplayName).Distinct().SingleOrDefault();
+            SynchroniseParameter("DisplayName");
             LogoPath = (from file in base.GroupFileList
-                           select file.LogoPath).Distinct().SingleOrDefault();
+                        where file.LogoPath != null
+                        select file.LogoPath).Distinct().SingleOrDefault();
             ColorRGB = (from file in base.GroupFileList
-                           select file.ColorRGB).Distinct().SingleOrDefault();
+                        where file.ColorRGB != null
+                        select file.ColorRGB).Distinct().SingleOrDefault();
 
+        }
+        public void SynchroniseParameter(string ParameterName)
+        {
+            SSFaction CoreModFile = (from file in base.GroupFileList
+                                     where file.ModSource == PortraitEditorConfiguration.CoreModName
+                                     select file).SingleOrDefault();
+            string CoreProperty=null;
+            if (CoreModFile != null)
+                CoreProperty = CoreModFile.GetType().GetProperty(ParameterName).GetValue(CoreModFile) as string;
+
+            List<SSFaction> ContributingModsFaction = (from file in base.GroupFileList
+                                                       where file.ModSource != PortraitEditorConfiguration.CoreModName && file.GetType().GetProperty(ParameterName).GetValue(file) != null
+                                                       select file).ToList<SSFaction>();
+            string ModProperty=null;
+            if (ContributingModsFaction.Count() > 0)
+            {
+                List<string> modsName = (from faction in ContributingModsFaction
+                                        select faction.ModSource).ToList<string>();
+                modsName.Sort();
+                string winningmodname = modsName.Last();
+                ModProperty = (from faction in ContributingModsFaction
+                               where faction.ModSource== winningmodname
+                               select faction.GetType().GetProperty(ParameterName).GetValue(faction) as string).SingleOrDefault();
+            }
+            PropertyInfo PropertyInfoThis = this.GetType().GetProperty(ParameterName);
+            if (CoreProperty == null && ModProperty==null)
+            { return; }
+            else
+            {
+                if (ModProperty != null)
+                {
+                    PropertyInfoThis.SetValue(this, ModProperty);
+                    return;
+                }
+                if (CoreProperty != null)
+                {
+                    PropertyInfoThis.SetValue(this, CoreProperty);
+                    return;
+                }
+            }
         }
         #endregion
     }

@@ -11,7 +11,7 @@ namespace PortraitEditor.Model.SSFiles
     {
         public List<G> Directory { get; set; } = new List<G>();
 
-        public SSFile AddFile(F newFile)
+        public void AddFile(F newFile)
         {
             G Matching = (from fileGroup in Directory
                     where fileGroup.FileName == newFile.FileName
@@ -24,9 +24,18 @@ namespace PortraitEditor.Model.SSFiles
                 G newGroup = Activator.CreateInstance(typeof(G), new Object[] { newFile }) as G;
                 Directory.Add(newGroup);
             }
-            return newFile;
+            return;
         }
 
-
+        public void RemoveFile(F file)
+        {
+            G Matching = (from fileGroup in Directory
+                          where fileGroup.GroupFileList.Contains(file)
+                          select fileGroup).SingleOrDefault();
+            Matching.GroupFileList.Remove(file);
+            if (Matching.GroupFileList.Count() == 0)
+                Directory.Remove(Matching);
+            return;
+        }
     }
 }

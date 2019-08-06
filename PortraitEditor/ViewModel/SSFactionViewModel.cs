@@ -46,6 +46,8 @@ namespace PortraitEditor.ViewModel
                 if (_ColorRGB != null)
                     return _ColorRGB;
                 _ColorRGB = ((FactionModel.OwningGroup) as SSFactionGroup).ColorRGB;
+                if (_ColorRGB==null)
+                    _ColorRGB="#FFFFFFFF";
                 return _ColorRGB;
 
             }
