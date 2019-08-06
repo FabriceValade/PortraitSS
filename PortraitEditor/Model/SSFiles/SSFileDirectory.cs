@@ -9,7 +9,7 @@ namespace PortraitEditor.Model.SSFiles
 {
     public class SSFileDirectory<G, F>  where G:SSFileGroup<F> where F:SSFile
     {
-        public List<G> Directory { get; set; } = new List<G>();
+        public List<G> Directory { get; private set; } = new List<G>();
 
         public void AddFile(F newFile)
         {
@@ -26,6 +26,13 @@ namespace PortraitEditor.Model.SSFiles
             }
             return;
         }
+        public void AddRange(List<F> FileList)
+        {
+            foreach (F newFile in FileList)
+            {
+                this.AddFile(newFile);
+            }
+        }
 
         public void RemoveFile(F file)
         {
@@ -36,6 +43,20 @@ namespace PortraitEditor.Model.SSFiles
             if (Matching.GroupFileList.Count() == 0)
                 Directory.Remove(Matching);
             return;
+        }
+        public void RemoveGroup(G Group)
+        {
+            foreach (F file in Group.GroupFileList)
+            {
+                file.RemoveFromMod();
+            }
+            Group.GroupFileList.Clear();
+            Directory.Remove(Group);
+
+        }
+        public void Clear()
+        {
+            Directory.Clear();
         }
     }
 }

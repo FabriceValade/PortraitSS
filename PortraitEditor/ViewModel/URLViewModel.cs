@@ -99,6 +99,10 @@ namespace PortraitEditor.ViewModel
             this.RelativeUrl = other.RelativeUrl;
             this.DisplayName = other.DisplayName;
         }
+        public URLViewModel(URLRelative model)
+        {
+            PointedUrl = model;
+        }
         #endregion
 
         #region method

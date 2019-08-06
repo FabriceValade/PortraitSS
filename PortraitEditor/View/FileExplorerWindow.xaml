@@ -17,7 +17,7 @@
                 <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch"></ContentControl>
             </Border>
             <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
-            <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
                 <StackPanel Margin="0" Orientation="Vertical">
                     <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">PeSS Previous files action</Label>
                     <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -33,6 +33,13 @@
                         <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding ModFolderRadioAsUse}">Use</RadioButton>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Incomplete file action</Label>
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding RemoveIncompleteFactionActionTrue}">Ignore</RadioButton>
+                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding RemoveIncompleteFactionActionFalse}">Use</RadioButton>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
         <Border  BorderThickness="1" BorderBrush="Black" Grid.Column="1">
@@ -41,7 +48,7 @@
 
         <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Background="white" Focusable="False">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type vm:ModViewModel}" ItemsSource="{Binding FactionCollection}">
+                    <HierarchicalDataTemplate DataType="{x:Type vm:ModFactionViewModel}" ItemsSource="{Binding FactionCollection}">
                         <local:ModView />
                         <!--<StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Foreground="Black" />

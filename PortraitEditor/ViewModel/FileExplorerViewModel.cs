@@ -57,6 +57,29 @@ namespace PortraitEditor.ViewModel
             get => ModAction.Equals(SSModFolderActions.Use);
             set => ModAction = SSModFolderActions.Use;
         }
+
+        bool _RemoveIncompleteFactionAction = true;
+        public bool RemoveIncompleteFactionAction
+        {
+            get => _RemoveIncompleteFactionAction;
+            set
+            {
+                _RemoveIncompleteFactionAction = value;
+                NotifyPropertyChanged("RemoveIncompleteFactionActionFalse");
+                NotifyPropertyChanged("RemoveIncompleteFactionActionTrue");
+            }
+
+        }
+        public bool RemoveIncompleteFactionActionFalse
+        {
+            get => RemoveIncompleteFactionAction == false;
+            set => RemoveIncompleteFactionAction = false;
+        }
+        public bool RemoveIncompleteFactionActionTrue
+        {
+            get => RemoveIncompleteFactionAction == true;
+            set => RemoveIncompleteFactionAction = true;
+        }
         #endregion
 
         #region Properties
@@ -73,9 +96,9 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        public ObservableCollection<ModViewModel> ModCollection { get; } = new ObservableCollection<ModViewModel>();
+        public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
 
-        SSFileDirectory<SSFactionGroup, SSFaction> _Directory = new SSFileDirectory<SSFactionGroup, SSFaction>(); SSFileDirectory<SSFactionGroup, SSFaction> Directory { get => _Directory; }
+        SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; set; } = new SSFileDirectory<SSFactionGroup, SSFaction>();
         #endregion
 
         #region Constructors
@@ -99,9 +122,23 @@ namespace PortraitEditor.ViewModel
 
         public void ExploreFolder()
         {
+            FactionDirectory.Clear();
+            ModCollection.Clear();
             ExploreCoreFolder();
             if (ModAction == SSModFolderActions.Use)
                 ExploreModFolder();
+            if (RemoveIncompleteFactionAction)
+            {
+                List<SSFactionGroup> Incomplete = (from grouped in FactionDirectory.Directory
+                                                   where grouped.IsIncomplete
+                                                   select grouped).ToList();
+                foreach (SSFactionGroup factionGroup in Incomplete)
+                {
+                    FactionDirectory.RemoveGroup(factionGroup);
+                }
+
+
+            }
             return;
         }
 
@@ -131,17 +168,17 @@ namespace PortraitEditor.ViewModel
             if (StarsectorFolderUrl.UrlState != URLstate.Acceptable)
                 return;
             
-            URLViewModel CoreModUrl = new URLViewModel()
+            URLRelative CoreModUrl = new URLRelative()
             {
                 CommonUrl = StarsectorFolderUrl.DisplayUrl,
                 LinkingUrl = "starsector-core"
             };
 
-            ModViewModel CoreFolder = new ModViewModel(PortraitEditorConfiguration.CoreModName, CoreModUrl, Directory);
+            SSMod CoreMod = new SSMod(CoreModUrl, PortraitEditorConfiguration.CoreModName);
 
-            CoreFolder.ExploreFactionFile();
-            ModCollection.Clear();
-            ModCollection.Add(CoreFolder);
+            FactionDirectory.AddRange(CoreMod.ExploreFactionFile());
+            ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
+            ModCollection.Add(CoreModViewModel);
             return;
         }
 
@@ -154,21 +191,24 @@ namespace PortraitEditor.ViewModel
             IEnumerable<DirectoryInfo> ModsEnumerable = ModsDirectory.EnumerateDirectories();
             foreach (DirectoryInfo ModDirectory in ModsEnumerable)
             {
-                URLViewModel ModUrl = new URLViewModel()
+                URLRelative ModUrl = new URLRelative()
                 {
                     CommonUrl = StarsectorFolderUrl.DisplayUrl,
                     LinkingUrl = Path.Combine("mods", ModDirectory.Name)
                 };
-                ModViewModel ModFolder = new ModViewModel(ModDirectory.Name, ModUrl, Directory);
-                if (ModFolder.ContainsFaction)
+
+                SSMod mod = new SSMod(ModUrl, ModDirectory.Name);
+                if (mod.ContainsFaction)
                 {
-                    ModFolder.ExploreFactionFile();
+                    FactionDirectory.AddRange(mod.ExploreFactionFile());
+                    ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
                     ModCollection.Add(ModFolder);
+
                 }
             }
-   
+
         }
-      
+
 
         #endregion
     }

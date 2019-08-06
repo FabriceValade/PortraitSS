@@ -19,21 +19,17 @@ namespace PortraitEditor.Model.SSFiles
         URL _Url;
         public URL Url { get=>_Url; }
 
-        URL _ModUrl;
-        public URL ModUrl { get => _ModUrl; }
-
         JObject _JsonContent;
         public JObject JsonContent { get=>_JsonContent;}
 
-        string _ModSource;
-        public string ModSource { get=>_ModSource; }
+        SSMod _ModSource;
+        public SSMod ModSource { get=>_ModSource; }
         #endregion
 
         #region Constructors
-        public SSFile( URL url, string modSource, URL modUrl)
+        public SSFile( URL url, SSMod modSource)
         {
-            _ModSource = modSource;
-            _ModUrl = modUrl ?? throw new ArgumentNullException("The Mod url cannot be null.");
+            _ModSource = modSource;          
             _Url = url ?? throw new ArgumentNullException("The Url cannot be null.");
             FileInfo info = new FileInfo(Url.FullUrl);
             _FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
@@ -44,6 +40,15 @@ namespace PortraitEditor.Model.SSFiles
             _JsonContent = JsonConvert.DeserializeObject(result2, new JsonSerializerSettings { Error = HandleDeserializationError }) as JObject;
         }
         #endregion
+
+        public void RemoveFromMod()
+        {
+            if (ModSource != null)
+            {
+                ModSource.RemoveFile(this);
+            }
+        }
+
         public void HandleDeserializationError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs errorArgs)
         {
             var currentError = errorArgs.ErrorContext.Error.Message;

@@ -18,7 +18,7 @@ namespace PortraitEditor.Model.SSFiles
         #endregion
 
         #region constructor
-        public SSFaction( URL url, string modsource, URL modUrl) : base( url, modsource, modUrl)
+        public SSFaction( URL url, SSMod modsource) : base( url, modsource)
         {
             this.ParseJson();
         }
@@ -35,7 +35,7 @@ namespace PortraitEditor.Model.SSFiles
 
             JToken LogoToken;
             if (JsonContent.TryGetValue("logo", out LogoToken))
-                LogoPath = Path.Combine(base.ModUrl.FullUrl,LogoToken.Value<string>());
+                LogoPath = Path.Combine(base.ModSource.Url.FullUrl,LogoToken.Value<string>());
 
             JToken ColorToken;
             if (JsonContent.TryGetValue("color", out ColorToken))
@@ -91,6 +91,16 @@ namespace PortraitEditor.Model.SSFiles
             }
             private set => _ColorRGB = value;
         }
+
+        public bool IsIncomplete
+        {
+            get
+            {
+                if (LogoPath == "Logo not set" || DisplayName == FileName)
+                    return true;
+                return false;
+            }
+        }
         #endregion
 
         #region Constructors
@@ -104,7 +114,6 @@ namespace PortraitEditor.Model.SSFiles
         public override void Add(SSFaction newFile)
         {
             base.Add(newFile);
-
             //synchronisation
             SynchroniseGroup();
             OnGroupChanged();
@@ -128,24 +137,24 @@ namespace PortraitEditor.Model.SSFiles
         public void SynchroniseParameter(string ParameterName)
         {
             SSFaction CoreModFile = (from file in base.GroupFileList
-                                     where file.ModSource == PortraitEditorConfiguration.CoreModName
+                                     where file.ModSource.Name == PortraitEditorConfiguration.CoreModName
                                      select file).SingleOrDefault();
             string CoreProperty=null;
             if (CoreModFile != null)
                 CoreProperty = CoreModFile.GetType().GetProperty(ParameterName).GetValue(CoreModFile) as string;
 
             List<SSFaction> ContributingModsFaction = (from file in base.GroupFileList
-                                                       where file.ModSource != PortraitEditorConfiguration.CoreModName && file.GetType().GetProperty(ParameterName).GetValue(file) != null
+                                                       where file.ModSource.Name != PortraitEditorConfiguration.CoreModName && file.GetType().GetProperty(ParameterName).GetValue(file) != null
                                                        select file).ToList<SSFaction>();
             string ModProperty=null;
             if (ContributingModsFaction.Count() > 0)
             {
                 List<string> modsName = (from faction in ContributingModsFaction
-                                        select faction.ModSource).ToList<string>();
+                                        select faction.ModSource.Name).ToList<string>();
                 modsName.Sort();
                 string winningmodname = modsName.Last();
                 ModProperty = (from faction in ContributingModsFaction
-                               where faction.ModSource== winningmodname
+                               where faction.ModSource.Name== winningmodname
                                select faction.GetType().GetProperty(ParameterName).GetValue(faction) as string).SingleOrDefault();
             }
             PropertyInfo PropertyInfoThis = this.GetType().GetProperty(ParameterName);

@@ -112,7 +112,7 @@
     <DataTemplate DataType="{x:Type vm:EditableURLViewModel}">
         <vw:EditableURLView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:ModViewModel}">
+    <DataTemplate DataType="{x:Type vm:ModFactionViewModel}">
         <vw:ModView />
     </DataTemplate>
 </ResourceDictionary>
