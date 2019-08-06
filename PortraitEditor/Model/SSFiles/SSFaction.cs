@@ -96,7 +96,7 @@ namespace PortraitEditor.Model.SSFiles
         {
             get
             {
-                if (LogoPath == "Logo not set" || DisplayName == FileName)
+                if (DisplayName == FileName)
                     return true;
                 return false;
             }
