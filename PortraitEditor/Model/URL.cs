@@ -14,6 +14,9 @@ namespace PortraitEditor.Model
         public string LinkingUrl { get; set; } = null;
         public string RelativeUrl { get; set; } = null;
 
+        #endregion //Properties
+
+        #region read  only property
         public string FullUrl
         {
             get
@@ -28,14 +31,24 @@ namespace PortraitEditor.Model
                 return result;
             }
         }
+        public bool IsComplete
+        {
+            get
+            {
+                if (CommonUrl == null || LinkingUrl == null || RelativeUrl == null)
+                    return false;
+                return true;
+            }
+        } 
+        #endregion
 
 
-        #endregion //Properties
+        
 
         #region Contructors
         public URLRelative() { }
 
-        public URLRelative(string commonUrl, string linkingUrl, string relativeUrl)
+        public URLRelative( string commonUrl, string linkingUrl, string relativeUrl)
         {
             this.CommonUrl = commonUrl;
             this.LinkingUrl = linkingUrl;
@@ -57,6 +70,11 @@ namespace PortraitEditor.Model
         {
             return FullUrl;
         }
+        #endregion
+
+        #region static method
+
+        
         #endregion
     }
 }

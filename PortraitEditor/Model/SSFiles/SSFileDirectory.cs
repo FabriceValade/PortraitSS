@@ -10,9 +10,13 @@ namespace PortraitEditor.Model.SSFiles
     public class SSFileDirectory<G, F>  where G:SSFileGroup<F> where F:SSFile
     {
         public List<G> Directory { get; private set; } = new List<G>();
+        public List<string> AvailableLinkingUrl = new List<string>();
 
         public void AddFile(F newFile)
         {
+            string newFileLink = newFile.Url.LinkingUrl;
+            if (!AvailableLinkingUrl.Contains(newFileLink))
+                AvailableLinkingUrl.Add(newFileLink);
             G Matching = (from fileGroup in Directory
                     where fileGroup.FileName == newFile.FileName
                     select fileGroup).SingleOrDefault();
@@ -21,7 +25,7 @@ namespace PortraitEditor.Model.SSFiles
                 Matching.Add(newFile);
             else
             {
-                G newGroup = Activator.CreateInstance(typeof(G), new Object[] { newFile }) as G;
+                G newGroup = Activator.CreateInstance(typeof(G), new Object[] { newFile , AvailableLinkingUrl}) as G;
                 Directory.Add(newGroup);
             }
             return;

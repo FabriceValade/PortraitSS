@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,10 @@ namespace PortraitEditor.Model.SSFiles
         #region properties
         public string FileName { get; set; }
         public List<F> GroupFileList { get; set; } = new List<F>();
-        public SSFileGroup(F newFile)
+        public List<string> AvailableLink { get; set; }
+        public SSFileGroup(F newFile, List<string> availableLink)
         {
+            AvailableLink = availableLink;
             newFile.OwningGroup = this;
             this.FileName = newFile.FileName ?? throw new ArgumentNullException("The FileName cannot be null.");
             GroupFileList.Add(newFile);
@@ -36,6 +39,19 @@ namespace PortraitEditor.Model.SSFiles
             newFile.OwningGroup = this;
             GroupFileList.Add(newFile);
             return;
+        }
+
+        protected List<string> CheckFileLinkingExist(string commonUrl, string relativeUrl)
+        {
+            List<string> result = new List<string>();
+            foreach (string link in AvailableLink)
+            {
+                FileInfo possibleFile = new FileInfo(Path.Combine(commonUrl, link, relativeUrl));
+                if (possibleFile.Exists)
+                    result.Add(possibleFile.FullName);
+
+            }
+            return result;
         }
     }
 }

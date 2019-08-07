@@ -15,7 +15,7 @@ namespace PortraitEditor.ViewModel
     public class FileExplorerViewModel : ViewModelBase
     {
         #region Field
-        EditableURLViewModel _StarsectorFolderUrl;
+        
         #endregion
 
         #region Command properties
@@ -83,6 +83,7 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region Properties
+        EditableURLViewModel _StarsectorFolderUrl;
         public EditableURLViewModel StarsectorFolderUrl
         {
             get

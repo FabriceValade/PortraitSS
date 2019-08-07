@@ -35,7 +35,7 @@ namespace PortraitEditor.Model.SSFiles
 
             JToken LogoToken;
             if (JsonContent.TryGetValue("logo", out LogoToken))
-                LogoPath = Path.Combine(base.ModSource.Url.FullUrl,LogoToken.Value<string>());
+                LogoPath = LogoToken.Value<string>();
 
             JToken ColorToken;
             if (JsonContent.TryGetValue("color", out ColorToken))
@@ -55,6 +55,8 @@ namespace PortraitEditor.Model.SSFiles
 
     public class SSFactionGroup : SSFileGroup<SSFaction>
     {
+        
+
         #region Properties of this kind of group
         string _DisplayName;
         public string DisplayName
@@ -101,10 +103,12 @@ namespace PortraitEditor.Model.SSFiles
                 return false;
             }
         }
+
+        public string LogoRelativePath { get; set; }
         #endregion
 
         #region Constructors
-        public SSFactionGroup(SSFaction newFile) : base(newFile)
+        public SSFactionGroup(SSFaction newFile, List<string> availableLink) : base(newFile, availableLink)
         {
             SynchroniseGroup();
         }
@@ -119,32 +123,36 @@ namespace PortraitEditor.Model.SSFiles
             OnGroupChanged();
             return;
         }
+        #endregion
 
+        #region method
         public void SynchroniseGroup()
         {
             //DisplayName = (from file in base.GroupFileList
             //               where file.DisplayName!=null
             //               select file.DisplayName).Distinct().SingleOrDefault();
-            SynchroniseParameter("DisplayName");
-            LogoPath = (from file in base.GroupFileList
-                        where file.LogoPath != null
-                        select file.LogoPath).Distinct().SingleOrDefault();
-            ColorRGB = (from file in base.GroupFileList
-                        where file.ColorRGB != null
-                        select file.ColorRGB).Distinct().SingleOrDefault();
+            SynchroniseParameter("DisplayName", "DisplayName");
+            SynchroniseParameter("LogoPath", "LogoRelativePath");
+            if (LogoRelativePath != null)
+            {
+                List<string> PossiblePath = CheckFileLinkingExist(base.GroupFileList.First().Url.CommonUrl, LogoRelativePath);
+                if (PossiblePath.Count() > 0)
+                    LogoPath = PossiblePath.First();
+            }
+            SynchroniseParameter("ColorRGB", "ColorRGB");
 
         }
-        public void SynchroniseParameter(string ParameterName)
+        public void SynchroniseParameter(string factionParameterName, string thisParameterName)
         {
             SSFaction CoreModFile = (from file in base.GroupFileList
                                      where file.ModSource.Name == PortraitEditorConfiguration.CoreModName
                                      select file).SingleOrDefault();
             string CoreProperty=null;
             if (CoreModFile != null)
-                CoreProperty = CoreModFile.GetType().GetProperty(ParameterName).GetValue(CoreModFile) as string;
+                CoreProperty = CoreModFile.GetType().GetProperty(factionParameterName).GetValue(CoreModFile) as string;
 
             List<SSFaction> ContributingModsFaction = (from file in base.GroupFileList
-                                                       where file.ModSource.Name != PortraitEditorConfiguration.CoreModName && file.GetType().GetProperty(ParameterName).GetValue(file) != null
+                                                       where file.ModSource.Name != PortraitEditorConfiguration.CoreModName && file.GetType().GetProperty(factionParameterName).GetValue(file) != null
                                                        select file).ToList<SSFaction>();
             string ModProperty=null;
             if (ContributingModsFaction.Count() > 0)
@@ -155,9 +163,9 @@ namespace PortraitEditor.Model.SSFiles
                 string winningmodname = modsName.Last();
                 ModProperty = (from faction in ContributingModsFaction
                                where faction.ModSource.Name== winningmodname
-                               select faction.GetType().GetProperty(ParameterName).GetValue(faction) as string).SingleOrDefault();
+                               select faction.GetType().GetProperty(factionParameterName).GetValue(faction) as string).SingleOrDefault();
             }
-            PropertyInfo PropertyInfoThis = this.GetType().GetProperty(ParameterName);
+            PropertyInfo PropertyInfoThis = this.GetType().GetProperty(thisParameterName);
             if (CoreProperty == null && ModProperty==null)
             { return; }
             else

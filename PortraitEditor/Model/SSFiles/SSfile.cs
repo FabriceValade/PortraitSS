@@ -31,6 +31,8 @@ namespace PortraitEditor.Model.SSFiles
         {
             _ModSource = modSource;          
             _Url = url ?? throw new ArgumentNullException("The Url cannot be null.");
+            if (!Url.IsComplete)
+                throw new ArgumentNullException("The Url must be complete.");
             FileInfo info = new FileInfo(Url.FullUrl);
             _FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
             string ReadResult = File.ReadAllText(Url.FullUrl);

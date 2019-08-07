@@ -11,15 +11,18 @@ namespace PortraitEditor.Model
 {
     public class Faction
     {
-        public string Name { get; set; }
-        public string DisplayName { get; set; }
-        public string LogoPath { get; set; }
-        public string ColorRGB { get; set; }
+        public string Name { get; private set; }
+        public string DisplayName { get; private set; }
+        public string LogoPath { get; private set; }
+        public string ColorRGB { get; private set; }
 
-        public URLRelative FactionFileUrl { get; set; }
-        public JObject JsonFile { get; set; }
+        public URLRelative FactionFileUrl { get; private set; }
+        public JObject JsonFile { get; private set; }
 
-        public Faction() { }
+        public Faction()
+        {
+           
+        }
 
         public void ReadJson()
         {
@@ -31,24 +34,6 @@ namespace PortraitEditor.Model
             if (JsonFile.TryGetValue("displayName", out DisplayNameToken))
                 DisplayName = JsonFile["displayName"].Value<string>();
             
-            //LogoPath = Path.Combine(FactionFileUrl.CommonUrl,FactionFileUrl.LinkingUrl, JsonFile.logo);
-            //LogoPath = Url.CommonUrl + FileRessource.logo;
-
-            //ColorRGB = "#FFFFFFFF";
-            //if (FileRessource.HasProperty("color"))
-            //{
-            //    var ColorCode = FileRessource.color;
-            //    if (ColorCode.Count == 4)
-            //    {
-            //        List<string> ColorArray = new List<string>(4);
-            //        foreach (string oneCode in ColorCode)
-            //        {
-            //            string oneRgb = Int32.Parse(oneCode).ToString("X2");
-            //            ColorArray.Add(oneRgb);
-            //        }
-            //        ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
-            //    }
-            //}
         }
     }
 }
