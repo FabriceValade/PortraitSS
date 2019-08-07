@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AvailableLinkingUrl.cs" />
     <Compile Include="Model\Faction.cs" />
     <Compile Include="Model\SSFiles\SSFaction.cs" />
     <Compile Include="Model\SSFiles\SSFile.cs" />

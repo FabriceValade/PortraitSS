@@ -54,7 +54,7 @@ namespace PortraitEditor.ViewModel
             }
         }
         public string DisplayName { get; set; }
-        public Predicate<URL> ValidityChecker { get; set; } = null;
+        public Predicate<URLRelative> ValidityChecker { get; set; } = null;
         public URLstate UrlState
         {
             get 

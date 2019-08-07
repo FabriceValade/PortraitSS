@@ -16,8 +16,8 @@ namespace PortraitEditor.Model.SSFiles
         string _FileName;
         public string FileName { get => _FileName; }
 
-        URL _Url;
-        public URL Url { get=>_Url; }
+        URLRelative _Url;
+        public URLRelative Url { get=>_Url; }
 
         JObject _JsonContent;
         public JObject JsonContent { get=>_JsonContent;}
@@ -27,7 +27,7 @@ namespace PortraitEditor.Model.SSFiles
         #endregion
 
         #region Constructors
-        public SSFile( URL url, SSMod modSource)
+        public SSFile( URLRelative url, SSMod modSource)
         {
             _ModSource = modSource;          
             _Url = url ?? throw new ArgumentNullException("The Url cannot be null.");

@@ -18,7 +18,7 @@ namespace PortraitEditor.Model.SSFiles
         #endregion
 
         #region constructor
-        public SSFaction( URL url, SSMod modsource) : base( url, modsource)
+        public SSFaction( URLRelative url, SSMod modsource) : base( url, modsource)
         {
             this.ParseJson();
         }

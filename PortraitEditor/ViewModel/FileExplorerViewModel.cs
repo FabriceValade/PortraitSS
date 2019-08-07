@@ -142,7 +142,7 @@ namespace PortraitEditor.ViewModel
             return;
         }
 
-        public bool CheckSSFolderValidity(URL url)
+        public bool CheckSSFolderValidity(URLRelative url)
         {
             if (url == null)
                 return false;
