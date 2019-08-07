@@ -58,6 +58,8 @@
     <!--application wide styleing yes-->
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="BadBackgroundBrush" Color="DarkRed" />
+    <SolidColorBrush x:Key="GoodBackgroundBrush" Color="DarkGreen" />
     <SolidColorBrush x:Key="ButtonSolid" Color="DarkCyan" />
     <SolidColorBrush x:Key="ButtonPale" Color="DarkTurquoise" />
     <SolidColorBrush x:Key="ContrastOnButton" Color="DarkSlateGray" />
@@ -69,33 +71,40 @@
     <Style TargetType="TreeView">
         <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
     </Style>
+    <Style x:Key="ElementBorder" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonSolid}"/>
+        <Setter Property="Margin" Value="3,3,3,3"/>
+    </Style>
     <!--style for all generic text-->
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
     </Style>
     
     <!--style for all generic controls-->
-    <Style x:Key="RadioButton" TargetType="RadioButton">
+    <Style x:Key="ToggleButton" TargetType="ToggleButton">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
+                <ControlTemplate TargetType="ToggleButton">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="{TemplateBinding Width}"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>
                         </Grid.RowDefinitions>
                         <TextBlock Name="Text" Panel.ZIndex="2" FontFamily="Segoe Ui Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Foreground="{StaticResource TextBrush}" Text="{TemplateBinding Content}" FontSize="12" FontWeight="SemiBold" Margin="5,5,5,5" />
-                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="{StaticResource ButtonSolid}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="{StaticResource ButtonSolid}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                             <BulletDecorator.Bullet>
-                                <Border x:Name="Border" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" >
+                                <Border x:Name="Border" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Width="{Binding ElementName=Text, Path=Width}" >
                                     <Grid Margin="2,2,2,2" >
                                         <Rectangle  Fill="{StaticResource ButtonSolid}" StrokeThickness="0" Stroke="Black" Stretch="UniformToFill" />
-                                        <Rectangle x:Name="CheckMark" Margin="1" Fill="{StaticResource ButtonPale}" HorizontalAlignment="Stretch"/>
+                                        <Rectangle x:Name="CheckMark" Margin="1" Fill="{StaticResource ButtonPale}" HorizontalAlignment="Stretch" />
                                     </Grid>
                                 </Border>
                             </BulletDecorator.Bullet>
@@ -122,7 +131,53 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    <Style x:Key="ToggleButtonBadGood" TargetType="ToggleButton">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{TemplateBinding Width}"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="Text" Panel.ZIndex="2" FontFamily="Segoe Ui Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Foreground="{StaticResource TextBrush}" Text="{TemplateBinding Content}" FontSize="12" FontWeight="SemiBold" Margin="5,5,5,5" />
+                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="{StaticResource BadBackgroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="Border" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" >
+                                    <Grid Margin="2,2,2,2" >
+                                        <Rectangle  Fill="{StaticResource BadBackgroundBrush}" StrokeThickness="0" Stroke="Black" Stretch="UniformToFill" />
+                                        <Rectangle x:Name="CheckMark" Margin="1" Fill="{StaticResource GoodBackgroundBrush}" HorizontalAlignment="Stretch" />
+                                    </Grid>
+                                </Border>
+                            </BulletDecorator.Bullet>
+                        </BulletDecorator>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Text" Property="Foreground" Value="{StaticResource TextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="LightGray" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource BadBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="TextBox">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
         <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
@@ -168,5 +223,11 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:ModFactionViewModel}">
         <vw:ModView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SSFactionGroupViewModel}">
+        <vw:SSFactionGroupView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:FactionDirectoryViewModel}">
+        <vw:SSFactionDirectoryView/>
     </DataTemplate>
 </ResourceDictionary>

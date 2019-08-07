@@ -9,44 +9,52 @@
         Title="Window1" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <Border Width="200" Height="100" BorderThickness="1" BorderBrush="Black">
-                <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch"></ContentControl>
+            <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+                <StackPanel>
+                    <Border Width="200" Height="100" BorderThickness="0" BorderBrush="Black">
+                        <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
+                    </Border>
+                    <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
+                    <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
+                        <StackPanel Margin="0" Orientation="Vertical" Visibility="Collapsed">
+                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">PeSS Previous files action</Label>
+                            <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <RadioButton Style="{StaticResource ToggleButton}">Clear</RadioButton>
+                                <RadioButton Style="{StaticResource ToggleButton}">Ignore</RadioButton>
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="True">Use</RadioButton>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mod file action</Label>
+                            <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsIgnore}" Width="60">Ignore</RadioButton>
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsUse}" Width="60">Use</RadioButton>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Incomplete file action</Label>
+                            <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding RemoveIncompleteFactionActionTrue}" Width="60">Ignore</RadioButton>
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding RemoveIncompleteFactionActionFalse}" Width="60">Use</RadioButton>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                </StackPanel>
             </Border>
-            <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
-            <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
-                <StackPanel Margin="0" Orientation="Vertical" Visibility="Collapsed">
-                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">PeSS Previous files action</Label>
-                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <RadioButton Style="{StaticResource RadioButton}">Clear</RadioButton>
-                        <RadioButton Style="{StaticResource RadioButton}">Ignore</RadioButton>
-                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="True">Use</RadioButton>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="0" Orientation="Vertical">
-                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mod file action</Label>
-                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding ModFolderRadioAsIgnore}">Ignore</RadioButton>
-                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding ModFolderRadioAsUse}">Use</RadioButton>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="0" Orientation="Vertical">
-                    <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Incomplete file action</Label>
-                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding RemoveIncompleteFactionActionTrue}">Ignore</RadioButton>
-                        <RadioButton Style="{StaticResource RadioButton}" IsChecked="{Binding RemoveIncompleteFactionActionFalse}">Use</RadioButton>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
+            <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+                <Button Content="Close Window" Width="100" Margin="3,3,3,3" Command="{Binding CloseWindowCommand}"/>
+            </Border>
         </StackPanel>
-        <Border  BorderThickness="1" BorderBrush="Black" Grid.Column="1">
+        <Border  Grid.Column="1">
             <!--<ContentControl  Content="{Binding Path=ModCollection[0]}"  HorizontalAlignment="Stretch"></ContentControl>-->
         
 
-        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Focusable="False">
+        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Focusable="False" BorderThickness="0">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type vm:ModFactionViewModel}" ItemsSource="{Binding FactionCollection}">
                         <local:ModView />

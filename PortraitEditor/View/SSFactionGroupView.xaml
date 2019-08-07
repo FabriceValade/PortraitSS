@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PortraitEditor.View.SSFactionView"
+﻿<UserControl x:Class="PortraitEditor.View.SSFactionGroupView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,6 +19,5 @@
                 <TextBlock Text="{Binding Path=DisplayName}" VerticalAlignment="Center" FontWeight="DemiBold" Margin="5,3,5,3"/>
             </StackPanel>
         </Border>
-        <CheckBox Grid.Column="1"  Content="Use file for edit" Style="{StaticResource ToggleButtonBadGood}" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="20,0,0,0" IsChecked="{Binding Path=UseForGroup}"/>
     </Grid>
 </UserControl>

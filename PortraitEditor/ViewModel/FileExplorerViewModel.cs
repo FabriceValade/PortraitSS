@@ -15,7 +15,7 @@ namespace PortraitEditor.ViewModel
     public class FileExplorerViewModel : ViewModelBase
     {
         #region Field
-        
+        FileExplorerWindow WindowView;
         #endregion
 
         #region Command properties
@@ -29,6 +29,18 @@ namespace PortraitEditor.ViewModel
                     _ExploreFolderCommand = new RelayCommand<object>(param => this.ExploreFolder());
                 }
                 return _ExploreFolderCommand;
+            }
+        }
+        RelayCommand<object> _CloseWindowCommand;
+        public ICommand CloseWindowCommand
+        {
+            get
+            {
+                if (_CloseWindowCommand == null)
+                {
+                    _CloseWindowCommand = new RelayCommand<object>(param => this.CloseWindow());
+                }
+                return _CloseWindowCommand;
             }
         }
         #endregion
@@ -99,7 +111,9 @@ namespace PortraitEditor.ViewModel
 
         public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
 
-        SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; set; } = new SSFileDirectory<SSFactionGroup, SSFaction>();
+        public SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; } = new SSFileDirectory<SSFactionGroup, SSFaction>();
+
+
         #endregion
 
         #region Constructors
@@ -116,9 +130,14 @@ namespace PortraitEditor.ViewModel
         #region Helper function
         public void ShowDialog()
         {
-            FileExplorerWindow NewWindow = new FileExplorerWindow(this);
-            NewWindow.ShowDialog();
+            WindowView = new FileExplorerWindow(this);
+            WindowView.ShowDialog();
             return;
+        }
+
+        public void CloseWindow()
+        {
+            WindowView.Close();
         }
 
         public void ExploreFolder()

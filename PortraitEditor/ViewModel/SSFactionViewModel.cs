@@ -12,6 +12,7 @@ namespace PortraitEditor.ViewModel
         SSFaction _FactionModel;
         public SSFaction FactionModel { get=>_FactionModel; }
         public SSFactionGroup OwningGroup { get => _FactionModel.OwningGroup as SSFactionGroup; }
+        public bool UseForGroup { get =>FactionModel.UseForGroup; set { FactionModel.UseForGroup = value; NotifyPropertyChanged(); } }
 
         #region Properties queried from the owning group
         string _DisplayName;

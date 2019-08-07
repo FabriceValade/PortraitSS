@@ -8,11 +8,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PortraitEditor.ViewModel
 {
     public class ModFactionViewModel : ViewModelBase
     {
+        #region Command properties
+        RelayCommand<object> _ExploreFolderCommand;
+        public ICommand CheckFactionCommand
+        {
+            get
+            {
+                if (_ExploreFolderCommand == null)
+                {
+                    _ExploreFolderCommand = new RelayCommand<object>(param => this.CheckAllFaction());
+                }
+                return _ExploreFolderCommand;
+            }
+        }
+        #endregion
         #region Field
         public SSMod Mod;
         
@@ -63,38 +78,27 @@ namespace PortraitEditor.ViewModel
                 NotifyPropertyChanged("FactionCollection");
             }
         }
-        
-        
+
+        bool _UseForGroup = true;
+        public bool UseForGroup
+        {
+            get=>_UseForGroup;
+            set
+            {
+                _UseForGroup = value;
+                foreach (SSFactionViewModel FactionViewModel in FactionCollection)
+                {
+                    FactionViewModel.UseForGroup = value;
+                }
+            } } 
         #endregion
 
         #region Constructor
         public ModFactionViewModel(SSMod mod)
         {
             Mod = mod;
-            //Mod.FileAdded += Mod_FileAdded;
-            //Mod.FileRemoved += Mod_FileRemoved;
         }
 
-        //private void Mod_FileRemoved(object sender, SSFile e)
-        //{
-        //    if (e is SSFaction)
-        //    {
-        //        SSFactionViewModel toRemove = (from factionViewModel in FactionCollection
-        //                                       where factionViewModel.FactionModel == e
-        //                                       select factionViewModel).SingleOrDefault();
-        //        FactionCollection.Remove(toRemove);
-        //        NotifyPropertyChanged("FactionCollection");
-        //    }
-        //}
-
-        //private void Mod_FileAdded(object sender, SSFile e)
-        //{
-        //    if (e is SSFaction)
-        //    {
-        //        FactionCollection.Add(new SSFactionViewModel(e as SSFaction));
-        //        NotifyPropertyChanged("FactionCollection");
-        //    }
-        //}
         #endregion
 
         #region event handler
@@ -118,6 +122,10 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region method
+        public void CheckAllFaction()
+        {
+
+        }
         #endregion
     }
 }

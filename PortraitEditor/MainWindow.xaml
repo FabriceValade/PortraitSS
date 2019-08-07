@@ -30,38 +30,28 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
     
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="34"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        
             <!-- Place to read root folder -->
-            <Grid Height="34" VerticalAlignment="Top" Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-                <Button Name="btnOpenFile" Command="{Binding Path=ExploreFolderCommand}" Grid.Column="0" Margin="5,5,5,5">Select root folder</Button>
-                <TextBox Name="RootPathDisplay" Text="{Binding Path=SSFileSetup.FileExplorer.SSUrl.FullUrl , Mode=OneWay}" Grid.Column="1" Margin="5,5,5,5" IsReadOnly="True"/>
-            </Grid>
-            <!-- Main grid -->
             
+            <!-- Main grid -->
+        <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
                 <!-- displaying found faction files -->
-                <ListView Name="CFactionList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
-                    <ListView.Resources>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Background" Value="{Binding ColorRGB}" />
-                        </Style>
-                    </ListView.Resources>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
-                            <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding Url.FileName}"/>
-                            <GridViewColumn Header="Faction name"  DisplayMemberBinding="{Binding DisplayName}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-        </Grid>
+            <ContentControl  Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
+        </Border>
+        <ListView Name="CFactionList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="{Binding ColorRGB}" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
+                    <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding Url.FileName}"/>
+                    <GridViewColumn Header="Faction name"  DisplayMemberBinding="{Binding DisplayName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <!-- displaying faction file info -->
         <Grid Grid.Column="0" Grid.Row="1" >
             <Grid.ColumnDefinitions>

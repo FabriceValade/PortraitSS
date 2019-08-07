@@ -96,7 +96,9 @@
       <DependentUpon>SSFileSetupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SSFileUrl.cs" />
+    <Compile Include="ViewModel\FactionDirectoryViewModel.cs" />
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
+    <Compile Include="ViewModel\SSFactionGroupViewModel.cs" />
     <Compile Include="ViewModel\SSFactionViewModel.cs" />
     <Compile Include="ViewModel\ModFactionViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -104,6 +106,12 @@
     <Compile Include="Model\URL.cs" />
     <Compile Include="View\ModView.xaml.cs">
       <DependentUpon>ModView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SSFactionDirectoryView.xaml.cs">
+      <DependentUpon>SSFactionDirectoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SSFactionGroupView.xaml.cs">
+      <DependentUpon>SSFactionGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SSFactionView.xaml.cs">
       <DependentUpon>SSFactionView.xaml</DependentUpon>
@@ -146,6 +154,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ModView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSFactionDirectoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSFactionGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

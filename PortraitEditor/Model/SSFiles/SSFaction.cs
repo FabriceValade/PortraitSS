@@ -17,7 +17,7 @@ namespace PortraitEditor.Model.SSFiles
         public string DisplayName { get; private set; }
         public string LogoPath { get; private set; }
         public string ColorRGB { get; private set; }
-        public bool ConsiderateForEdit { get; set; } = true;
+        public bool UseForGroup { get; set; } = true;
         #endregion
 
         #region constructor

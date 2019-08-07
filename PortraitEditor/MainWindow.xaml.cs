@@ -51,6 +51,7 @@ namespace PortraitEditor
         }
         public URLViewModel uRLViewModel { get; set; }
         public EditableURLViewModel EditURLViewModel { get; set; }
+        public FactionDirectoryViewModel DirectoryViewModel { get; set; }
 
         public MainWindow()
         {
@@ -61,10 +62,12 @@ namespace PortraitEditor
             EditURLViewModel = new EditableURLViewModel("oui", null);
             DataContext = this;
             
-            InitializeComponent();
+            
             FileExplorerViewModel FEVM = new FileExplorerViewModel();
             FEVM.ShowDialog();
+            DirectoryViewModel = new FactionDirectoryViewModel(FEVM.FactionDirectory);
             uRLViewModel.Replace(FEVM.StarsectorFolderUrl);
+            InitializeComponent();
             //PortraitsIntereaction.Visibility = Visibility.Hidden;
             //FactionIntereaction.Visibility = Visibility.Hidden;
             //AllPortraitsIntereaction.Visibility = Visibility.Hidden;
@@ -118,7 +121,7 @@ namespace PortraitEditor
             }
 
 
-            CFactionList.Items.MoveCurrentToFirst();
+            //CFactionList.Items.MoveCurrentToFirst();
 
 
 
