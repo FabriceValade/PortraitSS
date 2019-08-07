@@ -11,10 +11,13 @@ namespace PortraitEditor.Model.SSFiles
 {
     public class SSFaction : SSFile
     {
+        
+
         #region Properties of this kind f file
         public string DisplayName { get; private set; }
         public string LogoPath { get; private set; }
         public string ColorRGB { get; private set; }
+        public bool ConsiderateForEdit { get; set; } = true;
         #endregion
 
         #region constructor
@@ -50,6 +53,8 @@ namespace PortraitEditor.Model.SSFiles
             }
             
         }
+
+        
         #endregion
     }
 
@@ -97,6 +102,7 @@ namespace PortraitEditor.Model.SSFiles
         public bool IsIncomplete
         {
             get
+
             {
                 if (DisplayName == FileName)
                     return true;
