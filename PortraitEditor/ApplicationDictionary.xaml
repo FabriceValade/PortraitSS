@@ -55,6 +55,26 @@
         <Setter Property="Margin" Value="5,5,3,3"/>
     </Style>
 
+    <!--application wide styleing yes-->
+    <SolidColorBrush x:Key="TextBrush" Color="Azure" />
+    <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="ButtonSolid" Color="DarkCyan" />
+    <SolidColorBrush x:Key="ButtonPale" Color="DarkTurquoise" />
+    <SolidColorBrush x:Key="ContrastOnButton" Color="DarkSlateGray" />
+    
+    <!--style for all generic panel-->
+    <Style TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
+    </Style>
+    <Style TargetType="TreeView">
+        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
+    </Style>
+    <!--style for all generic text-->
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+    </Style>
+    
+    <!--style for all generic controls-->
     <Style x:Key="RadioButton" TargetType="RadioButton">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -69,13 +89,13 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Name="Text" Panel.ZIndex="2" FontFamily="Segoe Ui Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Foreground="Black" Text="{TemplateBinding Content}" FontSize="12" FontWeight="SemiBold" Margin="5,5,5,5" />
-                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Name="Text" Panel.ZIndex="2" FontFamily="Segoe Ui Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Foreground="{StaticResource TextBrush}" Text="{TemplateBinding Content}" FontSize="12" FontWeight="SemiBold" Margin="5,5,5,5" />
+                        <BulletDecorator Panel.ZIndex="1" Grid.Column="0" Grid.Row="0"  Background="{StaticResource ButtonSolid}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <BulletDecorator.Bullet>
                                 <Border x:Name="Border" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" >
                                     <Grid Margin="2,2,2,2" >
-                                        <Rectangle  Fill="Transparent" StrokeThickness="0" Stroke="Black" Stretch="UniformToFill" />
-                                        <Rectangle x:Name="CheckMark" Margin="1" Fill="DarkGray" HorizontalAlignment="Stretch"/>
+                                        <Rectangle  Fill="{StaticResource ButtonSolid}" StrokeThickness="0" Stroke="Black" Stretch="UniformToFill" />
+                                        <Rectangle x:Name="CheckMark" Margin="1" Fill="{StaticResource ButtonPale}" HorizontalAlignment="Stretch"/>
                                     </Grid>
                                 </Border>
                             </BulletDecorator.Bullet>
@@ -86,14 +106,14 @@
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Hidden"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="Text" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Text" Property="Foreground" Value="{StaticResource TextBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="LightGray" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" Property="Background" Value="White" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonSolid}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
                             <Setter TargetName="Border" Property="BorderThickness" Value="4" />
                         </Trigger>
@@ -103,6 +123,40 @@
         </Setter>
     </Style>
 
+    <Style TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
+    </Style>
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource ButtonSolid}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="grid">
+                        <Border x:Name="border" CornerRadius="5" BorderBrush="#707070" BorderThickness="0" Background="{StaticResource ButtonSolid}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      TextElement.FontWeight="DemiBold"
+                                      Margin="10,3,10,3">
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource ButtonPale}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#3C7FB1"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#2C628B"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!-- 
   This template applies the view to instanc eof the viewmodel
   -->

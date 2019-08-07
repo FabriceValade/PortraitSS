@@ -5,21 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PortraitEditor.View"
              mc:Ignorable="d"
-             Background="White">
+             Margin="3,3,3,3"
+             Focusable="False"
+             >
     <!--d:DesignHeight="300" d:DesignWidth="300"-->
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Path=Name}" Margin="10,3,10,3" Foreground="Black" FontSize="18" FontWeight="Bold" VerticalAlignment="Bottom"/>
-        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" CornerRadius="15" VerticalAlignment="Bottom">
-        <TextBlock Name="FactionCounter"  Text="{Binding Path=FactionCollection.Count}" Margin="3,3,3,3" FontSize="18" VerticalAlignment="Bottom" Focusable="False"/>
-        </Border>
-        <ContentControl Grid.Row="0" Grid.Column="2" Content="{Binding Path=Url}" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Bottom"></ContentControl>
-    </Grid>
+    <Border BorderThickness="2" BorderBrush="{StaticResource TextBrush}" CornerRadius="15" Background="{StaticResource ButtonSolid}">
+        <Grid Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Path=Name}" Margin="10,3,10,3" Foreground="{StaticResource TextBrush}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Border Grid.Column="1" BorderBrush="{StaticResource ButtonSolid}" BorderThickness="1" CornerRadius="15" Background="{StaticResource ContrastOnButton}"/>
+            <TextBlock Name="FactionCounter" Grid.Column="1" Text="{Binding Path=FactionCollection.Count}" Margin="3,3,3,3" FontSize="18" VerticalAlignment="Center" Focusable="False" Width="25" TextAlignment="Center" />
+            <ContentControl Grid.Row="0" Grid.Column="2" Content="{Binding Path=Url}" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Stretch"></ContentControl>
+        </Grid>
+    </Border>
 </UserControl>
