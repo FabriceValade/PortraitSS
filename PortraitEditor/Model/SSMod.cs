@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,23 +11,13 @@ namespace PortraitEditor.Model
     public class SSMod
     {
         #region Event
-        public event EventHandler<SSFile> FileAdded;
-        protected virtual void OnFileAdded(SSFile file)
-        {
-            FileAdded?.Invoke(this, file);
-        }
-
-        public event EventHandler<SSFile> FileRemoved;
-        protected virtual void OnFileRemoved(SSFile file)
-        {
-            FileRemoved?.Invoke(this, file);
-        }
         #endregion
 
-        public List<SSFile> FileList { get; private set; } = new List<SSFile>();
+        #region properties
+        SSFileLister<SSFile> _FileLister=new SSFileLister<SSFile>();
+        public ObservableCollection<SSFile> FileList { get => _FileLister.Files; }
         public URLRelative Url { get; private set; }
         public string Name { get; private set; }
-
         public bool ContainsFaction
         {
             get
@@ -51,6 +42,7 @@ namespace PortraitEditor.Model
                 return true;
             }
         }
+        #endregion
 
 
         public SSMod(URLRelative url, string name)
@@ -102,16 +94,6 @@ namespace PortraitEditor.Model
             return ExploreResult;
         }
         
-        public void AddFile(SSFile file)
-        {
-            FileList.Add(file);
-            OnFileAdded(file);
-        }
-        public void RemoveFile(SSFile file)
-        {
-            FileList.Remove(file);
-            OnFileRemoved(file);
-        }
         #endregion
 
     }

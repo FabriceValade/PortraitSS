@@ -123,19 +123,19 @@ namespace PortraitEditor.ViewModel
 
         public void ExploreFolder()
         {
-            FactionDirectory.Clear();
+            FactionDirectory.DeleteDirectory();
             ModCollection.Clear();
             ExploreCoreFolder();
             if (ModAction == SSModFolderActions.Use)
                 ExploreModFolder();
             if (RemoveIncompleteFactionAction)
             {
-                List<SSFactionGroup> Incomplete = (from grouped in FactionDirectory.Directory
+                List<SSFactionGroup> Incomplete = (from grouped in FactionDirectory.GroupDirectory
                                                    where grouped.IsIncomplete
                                                    select grouped).ToList();
                 foreach (SSFactionGroup factionGroup in Incomplete)
                 {
-                    FactionDirectory.RemoveGroup(factionGroup);
+                    factionGroup.DeleteGroup();
                 }
 
 

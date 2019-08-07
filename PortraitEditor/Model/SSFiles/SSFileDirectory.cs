@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.Model.SSFiles
 {
-    public class SSFileDirectory<G, F>  where G:SSFileGroup<F> where F:SSFile
+    //a directory of group of files.
+    public class SSFileDirectory<G, F> where G : SSFileGroup<F> where F : SSFile
     {
-        public List<G> Directory { get; private set; } = new List<G>();
+
+        SSFileLister<G> _GroupDirectory = new SSFileLister<G>();
+        public ObservableCollection<G> GroupDirectory { get => _GroupDirectory.Files; }
+
         public List<string> AvailableLinkingUrl = new List<string>();
 
         public void AddFile(F newFile)
@@ -17,7 +22,7 @@ namespace PortraitEditor.Model.SSFiles
             string newFileLink = newFile.Url.LinkingUrl;
             if (!AvailableLinkingUrl.Contains(newFileLink))
                 AvailableLinkingUrl.Add(newFileLink);
-            G Matching = (from fileGroup in Directory
+            G Matching = (from fileGroup in GroupDirectory
                     where fileGroup.FileName == newFile.FileName
                     select fileGroup).SingleOrDefault();
 
@@ -26,7 +31,7 @@ namespace PortraitEditor.Model.SSFiles
             else
             {
                 G newGroup = Activator.CreateInstance(typeof(G), new Object[] { newFile , AvailableLinkingUrl}) as G;
-                Directory.Add(newGroup);
+                GroupDirectory.Add(newGroup);
             }
             return;
         }
@@ -38,29 +43,10 @@ namespace PortraitEditor.Model.SSFiles
             }
         }
 
-        public void RemoveFile(F file)
-        {
-            G Matching = (from fileGroup in Directory
-                          where fileGroup.GroupFileList.Contains(file)
-                          select fileGroup).SingleOrDefault();
-            Matching.GroupFileList.Remove(file);
-            if (Matching.GroupFileList.Count() == 0)
-                Directory.Remove(Matching);
-            return;
-        }
-        public void RemoveGroup(G Group)
-        {
-            foreach (F file in Group.GroupFileList)
-            {
-                file.RemoveFromMod();
-            }
-            Group.GroupFileList.Clear();
-            Directory.Remove(Group);
 
-        }
-        public void Clear()
+        public void DeleteDirectory()
         {
-            Directory.Clear();
+            _GroupDirectory.Delete();
         }
     }
 }

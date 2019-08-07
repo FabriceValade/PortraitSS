@@ -8,12 +8,24 @@ namespace PortraitEditor.Model.SSFiles
 {
     public abstract class SSFileBase
     {
+        #region event
+        public event EventHandler RequestClose;
+
+        protected void OnRequestClose()
+        {
+            //OwningGroup = null;
+            this.RequestClose?.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
         public SSFileBase OwningGroup { get; set; }
 
         public SSFileBase()
         { 
 
         }
-        
+        public void Delete()
+        {
+            OnRequestClose();
+        }
     }
 }

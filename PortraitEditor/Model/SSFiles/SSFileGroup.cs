@@ -19,14 +19,15 @@ namespace PortraitEditor.Model.SSFiles
 
         #region properties
         public string FileName { get; set; }
-        public List<F> GroupFileList { get; set; } = new List<F>();
+        public SSFileLister<F> FileList { get; } = new SSFileLister<F>();
+        //public List<F> GroupFileList { get; set; } = new List<F>();
         public List<string> AvailableLink { get; set; }
         public SSFileGroup(F newFile, List<string> availableLink)
         {
             AvailableLink = availableLink;
             newFile.OwningGroup = this;
             this.FileName = newFile.FileName ?? throw new ArgumentNullException("The FileName cannot be null.");
-            GroupFileList.Add(newFile);
+            FileList.Files.Add(newFile);
         } 
         #endregion
 
@@ -37,7 +38,7 @@ namespace PortraitEditor.Model.SSFiles
             if (newFile.FileName != this.FileName)
                 throw (new InvalidOperationException("Cannot group file with differing filename"));
             newFile.OwningGroup = this;
-            GroupFileList.Add(newFile);
+            FileList.Files.Add(newFile);
             return;
         }
 
@@ -52,6 +53,11 @@ namespace PortraitEditor.Model.SSFiles
 
             }
             return result;
+        }
+        public void DeleteGroup()
+        {
+            this.FileList.Delete();
+            base.Delete();
         }
     }
 }

@@ -12,15 +12,7 @@ namespace PortraitEditor.Model.SSFiles
 {
     public class SSFile : SSFileBase
     {
-        #region event
-        public event EventHandler RequestClose;
-
-        void OnRequestClose()
-        {
-            base.OwningGroup = null;
-            this.RequestClose?.Invoke(this, EventArgs.Empty);
-        }
-        #endregion
+        
 
         #region Properties
         string _FileName;
@@ -57,13 +49,10 @@ namespace PortraitEditor.Model.SSFiles
         {
             if (ModSource != null)
             {
-                ModSource.RemoveFile(this);
+                ModSource.FileList.Remove(this);
             }
         }
-        public void Remove()
-        {
-            OnRequestClose();
-        }
+
         public void HandleDeserializationError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs errorArgs)
         {
             var currentError = errorArgs.ErrorContext.Error.Message;

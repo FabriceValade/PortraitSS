@@ -141,7 +141,7 @@ namespace PortraitEditor.Model.SSFiles
             SynchroniseParameter("LogoPath", "LogoRelativePath");
             if (LogoRelativePath != null)
             {
-                List<string> PossiblePath = CheckFileLinkingExist(base.GroupFileList.First().Url.CommonUrl, LogoRelativePath);
+                List<string> PossiblePath = CheckFileLinkingExist(base.FileList.Files.First().Url.CommonUrl, LogoRelativePath);
                 if (PossiblePath.Count() > 0)
                     LogoPath = PossiblePath.First();
             }
@@ -150,14 +150,14 @@ namespace PortraitEditor.Model.SSFiles
         }
         public void SynchroniseParameter(string factionParameterName, string thisParameterName)
         {
-            SSFaction CoreModFile = (from file in base.GroupFileList
+            SSFaction CoreModFile = (from file in base.FileList.Files
                                      where file.ModSource.Name == PortraitEditorConfiguration.CoreModName
                                      select file).SingleOrDefault();
             string CoreProperty=null;
             if (CoreModFile != null)
                 CoreProperty = CoreModFile.GetType().GetProperty(factionParameterName).GetValue(CoreModFile) as string;
 
-            List<SSFaction> ContributingModsFaction = (from file in base.GroupFileList
+            List<SSFaction> ContributingModsFaction = (from file in base.FileList.Files
                                                        where file.ModSource.Name != PortraitEditorConfiguration.CoreModName && file.GetType().GetProperty(factionParameterName).GetValue(file) != null
                                                        select file).ToList<SSFaction>();
             string ModProperty=null;

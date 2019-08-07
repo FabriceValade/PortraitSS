@@ -3,6 +3,7 @@ using PortraitEditor.Model.SSFiles;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,7 @@ namespace PortraitEditor.ViewModel
                                        where file is SSFaction
                                        select new SSFactionViewModel(file as SSFaction);
                     _FactionCollection = new ObservableCollection<SSFactionViewModel>(FactionQuery);
+                    Mod.FileList.CollectionChanged += OnFactionsChanged;
                 }
                 return _FactionCollection;
             }
@@ -69,33 +71,50 @@ namespace PortraitEditor.ViewModel
         public ModFactionViewModel(SSMod mod)
         {
             Mod = mod;
-            Mod.FileAdded += Mod_FileAdded;
-            Mod.FileRemoved += Mod_FileRemoved;
+            //Mod.FileAdded += Mod_FileAdded;
+            //Mod.FileRemoved += Mod_FileRemoved;
         }
 
-        private void Mod_FileRemoved(object sender, SSFile e)
-        {
-            if (e is SSFaction)
-            {
-                SSFactionViewModel toRemove = (from factionViewModel in FactionCollection
-                                               where factionViewModel.FactionModel == e
-                                               select factionViewModel).SingleOrDefault();
-                FactionCollection.Remove(toRemove);
-                NotifyPropertyChanged("FactionCollection");
-            }
-        }
+        //private void Mod_FileRemoved(object sender, SSFile e)
+        //{
+        //    if (e is SSFaction)
+        //    {
+        //        SSFactionViewModel toRemove = (from factionViewModel in FactionCollection
+        //                                       where factionViewModel.FactionModel == e
+        //                                       select factionViewModel).SingleOrDefault();
+        //        FactionCollection.Remove(toRemove);
+        //        NotifyPropertyChanged("FactionCollection");
+        //    }
+        //}
 
-        private void Mod_FileAdded(object sender, SSFile e)
-        {
-            if (e is SSFaction)
-            {
-                FactionCollection.Add(new SSFactionViewModel(e as SSFaction));
-                NotifyPropertyChanged("FactionCollection");
-            }
-        }
+        //private void Mod_FileAdded(object sender, SSFile e)
+        //{
+        //    if (e is SSFaction)
+        //    {
+        //        FactionCollection.Add(new SSFactionViewModel(e as SSFaction));
+        //        NotifyPropertyChanged("FactionCollection");
+        //    }
+        //}
         #endregion
 
         #region event handler
+        void OnFactionsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null && e.NewItems.Count != 0)
+                foreach (SSFaction file in e.NewItems)
+                {
+                    FactionCollection.Add(new SSFactionViewModel(file as SSFaction));
+                }
+
+            if (e.OldItems != null && e.OldItems.Count != 0)
+                foreach (SSFaction file in e.OldItems)
+                {
+                    SSFactionViewModel RemovedViewModel = (from viewModel in FactionCollection
+                                                           where viewModel.FactionModel == file
+                                                           select viewModel).SingleOrDefault();
+                    FactionCollection.Remove(RemovedViewModel);
+                }
+        }
         #endregion
 
         #region method

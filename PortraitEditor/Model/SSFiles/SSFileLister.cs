@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.Model.SSFiles
 {
-    public class SSFileLister<F> where F:SSFile
+    // make a list of ssfile that handle removing the file if it calls for its own removal
+    public class SSFileLister<F> where F:SSFileBase
     {
-
-        public ObservableCollection<F> _Files;
         public ObservableCollection<F> Files
         {
             get
@@ -24,7 +23,11 @@ namespace PortraitEditor.Model.SSFiles
                 return _Files;
             }
         }
+        public bool IsEmpty { get { if (Files.Count() > 0) return false; return true; } }
 
+
+        ObservableCollection<F> _Files;
+        
         void OnFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null && e.NewItems.Count != 0)
@@ -40,6 +43,14 @@ namespace PortraitEditor.Model.SSFiles
         {
             F file = sender as F;
             this.Files.Remove(file);
+        }
+
+        public void Delete()
+        {
+            while (Files.Count()>0)
+            {
+                Files.First().Delete();
+            }
         }
     }
 }
