@@ -34,10 +34,10 @@
             <!-- Place to read root folder -->
             
             <!-- Main grid -->
-        <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
+        
                 <!-- displaying found faction files -->
-            <ContentControl  Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
-        </Border>
+            <ContentControl  Grid.Row="0" Grid.Column="0" Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
+        
         <ListView Name="CFactionList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">

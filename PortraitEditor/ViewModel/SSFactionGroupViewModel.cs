@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.ViewModel
 {
-    public class SSFactionGroupViewModel
+    public class SSFactionGroupViewModel : ViewModelBase
     {
         public SSFactionGroup FactionGroupModel { get; }
         public SSFactionGroupViewModel(SSFactionGroup factionGroupModel)
         {
             FactionGroupModel = factionGroupModel;
+            FactionGroupModel.GroupChanged += FactionGroupModel_GroupChanged;
         }
 
+        
         #region Properties of the group
         string _DisplayName;
         public string DisplayName
@@ -28,6 +30,7 @@ namespace PortraitEditor.ViewModel
 
             }
         }
+
         string _LogoPath;
         public string LogoPath
         {
@@ -40,6 +43,7 @@ namespace PortraitEditor.ViewModel
 
             }
         }
+
         string _ColorRGB;
         public string ColorRGB
         {
@@ -54,6 +58,26 @@ namespace PortraitEditor.ViewModel
 
             }
         }
+
+       
+        public List<string> ContributingMods
+        {
+            get
+            {
+                List<string> result = (from faction in FactionGroupModel.FileList.Files
+                                       select faction.ModSource.Name).Distinct().ToList();
+                return result;
+            }
+        }
         #endregion
+
+        private void FactionGroupModel_GroupChanged(object sender, EventArgs e)
+        {
+            NotifyPropertyChanged("DisplayName");
+            NotifyPropertyChanged("LogoPath");
+            NotifyPropertyChanged("ColorRGB");
+            NotifyPropertyChanged("ContributingMods");
+        }
+
     }
 }

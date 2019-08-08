@@ -10,7 +10,6 @@
     <Grid Height="35" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="180"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="{Binding Path=ColorRGB}" BorderThickness="2" HorizontalAlignment="Left" Width="200">

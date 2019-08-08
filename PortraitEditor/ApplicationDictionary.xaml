@@ -78,6 +78,11 @@
         <Setter Property="BorderBrush" Value="{StaticResource ButtonSolid}"/>
         <Setter Property="Margin" Value="3,3,3,3"/>
     </Style>
+    <Style TargetType="ListView">
+        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
+        <Setter Property="IsSynchronizedWithCurrentItem" Value="true"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
     <!--style for all generic text-->
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
