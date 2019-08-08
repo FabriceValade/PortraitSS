@@ -54,7 +54,12 @@ namespace PortraitEditor.Model
             this.LinkingUrl = linkingUrl;
             this.RelativeUrl = relativeUrl;
         }
-
+        public URLRelative(URLRelative other)
+        {
+            this.CommonUrl = other.CommonUrl;
+            this.LinkingUrl = other.LinkingUrl;
+            this.RelativeUrl = other.RelativeUrl;
+        }
         #endregion
 
         #region method

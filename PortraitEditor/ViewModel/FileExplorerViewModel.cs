@@ -190,7 +190,7 @@ namespace PortraitEditor.ViewModel
             
             URLRelative CoreModUrl = new URLRelative()
             {
-                CommonUrl = StarsectorFolderUrl.DisplayUrl,
+                CommonUrl = StarsectorFolderUrl.CommonUrl,
                 LinkingUrl = "starsector-core"
             };
 
@@ -213,7 +213,7 @@ namespace PortraitEditor.ViewModel
             {
                 URLRelative ModUrl = new URLRelative()
                 {
-                    CommonUrl = StarsectorFolderUrl.DisplayUrl,
+                    CommonUrl = StarsectorFolderUrl.CommonUrl,
                     LinkingUrl = Path.Combine("mods", ModDirectory.Name)
                 };
 

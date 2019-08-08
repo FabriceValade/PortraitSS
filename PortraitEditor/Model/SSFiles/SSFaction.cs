@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using PortraitEditor.Model;
 
 namespace PortraitEditor.Model.SSFiles
 {
@@ -18,6 +19,7 @@ namespace PortraitEditor.Model.SSFiles
         public string LogoPath { get; private set; }
         public string ColorRGB { get; private set; }
         public bool UseForGroup { get; set; } = true;
+        public List<SSPortrait> Portraits { get; set; } = new List<SSPortrait>();
         #endregion
 
         #region constructor
@@ -51,7 +53,36 @@ namespace PortraitEditor.Model.SSFiles
                     ColorRGB = "#" + ColorArray[3] + ColorArray[0] + ColorArray[1] + ColorArray[2];
                 }
             }
-            
+
+            JToken portraitGendered;
+            if (JsonContent.TryGetValue("portraits", out portraitGendered))
+            {
+                if (portraitGendered.Type == JTokenType.Object)
+                {
+                    List<string> subproperty = new List<string> { Gender.MalePropertyName, Gender.FemalePropertyName };
+                    foreach (string sub in subproperty)
+                    {
+                        JToken portraitToken;
+                        if((portraitGendered as JObject).TryGetValue(sub,out portraitToken))
+                        {
+                            List<string> paths = portraitToken.Values<string>().ToList<string>();
+                            foreach (string path in paths)
+                            {
+                                URLRelative newPortraitUrl = new URLRelative(this.Url.CommonUrl,this.Url.LinkingUrl,path);
+                                Gender newGender=new Gender();
+                                if (sub == Gender.MalePropertyName)
+                                    newGender.Value = Gender.GenderValue.Male;
+                                else
+                                    newGender.Value = Gender.GenderValue.Female;
+
+                                Portraits.Add(new SSPortrait(newPortraitUrl,newGender,this.ModSource));
+                            }
+                        }
+                    }
+                }
+            }
+
+
         }
 
         
@@ -146,6 +177,7 @@ namespace PortraitEditor.Model.SSFiles
                     LogoPath = PossiblePath.First();
             }
             SynchroniseParameter("ColorRGB", "ColorRGB");
+            AgregateParameterArray("Portraits", "hello");
 
         }
         public void SynchroniseParameter(string factionParameterName, string thisParameterName)
@@ -187,6 +219,12 @@ namespace PortraitEditor.Model.SSFiles
                     return;
                 }
             }
+        }
+        public void AgregateParameterArray(string factionParameterName, string thisParameterName)
+        {
+            List<Object> AgregatedList = base.FileList.Files.SelectMany(x => x.GetType().GetProperty(factionParameterName).GetValue(x) as List<Object>).ToList();
+            List<Object> goalList
+            
         }
         #endregion
     }

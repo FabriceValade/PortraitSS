@@ -20,8 +20,10 @@ namespace PortraitEditor.Model.SSFiles
         #region properties
         public string FileName { get; set; }
         public SSFileLister<F> FileList { get; } = new SSFileLister<F>();
-        //public List<F> GroupFileList { get; set; } = new List<F>();
         public List<string> AvailableLink { get; set; }
+        #endregion
+
+        #region constructor
         public SSFileGroup(F newFile, List<string> availableLink)
         {
             AvailableLink = availableLink;
@@ -54,6 +56,7 @@ namespace PortraitEditor.Model.SSFiles
             }
             return result;
         }
+
         public void DeleteGroup()
         {
             this.FileList.Delete();

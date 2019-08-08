@@ -82,7 +82,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="JsonHandling\JsonExtension.cs" />
     <Compile Include="Model\Faction.cs" />
+    <Compile Include="Model\Gender.cs" />
     <Compile Include="Model\SSFiles\SSFaction.cs" />
     <Compile Include="Model\SSFiles\SSFile.cs" />
     <Compile Include="Model\SSFiles\SSFileBase.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Model\SSFiles\SSFileGroup.cs" />
     <Compile Include="Model\SSFiles\SSFileLister.cs" />
     <Compile Include="Model\SSMod.cs" />
+    <Compile Include="Model\SSPortrait.cs" />
     <Compile Include="PortraitEditorConfiguration.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SSFileSetupWindow.xaml.cs">
