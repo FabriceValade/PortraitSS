@@ -9,13 +9,14 @@
         Title="Window1" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="212"/>
+            <ColumnDefinition Width="auto" MinWidth="500"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
             <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
                 <StackPanel>
-                    <Border Width="200" Height="100" BorderThickness="0" BorderBrush="Black">
+                    <Border  Height="100" BorderThickness="0" BorderBrush="Black">
                         <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
                     </Border>
                     <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
@@ -35,13 +36,7 @@
                                 <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsUse}" Width="60">Use</RadioButton>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Margin="0" Orientation="Vertical">
-                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Incomplete file action</Label>
-                            <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding RemoveIncompleteFactionActionTrue}" Width="60">Ignore</RadioButton>
-                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding RemoveIncompleteFactionActionFalse}" Width="60">Use</RadioButton>
-                            </StackPanel>
-                        </StackPanel>
+                        
 
                     </StackPanel>
                 </StackPanel>
@@ -50,21 +45,39 @@
                 <Button Content="Close Window" Width="100" Margin="3,3,3,3" Command="{Binding CloseWindowCommand}"/>
             </Border>
         </StackPanel>
-        <Border  Grid.Column="1">
-            <!--<ContentControl  Content="{Binding Path=ModCollection[0]}"  HorizontalAlignment="Stretch"></ContentControl>-->
-        
 
-        <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Focusable="False" BorderThickness="0">
+        <StackPanel Grid.Column="1">
+            <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+                <ListView ItemsSource="{Binding Path=ModCollection}" Grid.IsSharedSizeScope="True" Margin="7,7,7,7">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <local:SSModView />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+            <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+                <StackPanel>
+                <Button Content="Explore faction" Width="100" Margin="3,3,3,3" Command="{Binding ExploreFactionFileCommand}"/>
+                    <StackPanel Margin="0" Orientation="Vertical">
+                        <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Incomplete file action</Label>
+                        <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding RemoveIncompleteFactionActionTrue}" Width="60">Ignore</RadioButton>
+                            <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding RemoveIncompleteFactionActionFalse}" Width="60">Use</RadioButton>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="2" >
+            <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModWithFactionCollection}" Focusable="False" BorderThickness="0" Grid.IsSharedSizeScope="true" Margin="7,7,7,7">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type vm:ModFactionViewModel}" ItemsSource="{Binding FactionCollection}">
-                        <local:ModView />
-                        <!--<StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Foreground="Black" />
-                        </StackPanel>-->
+                        <local:SSModViewDetailed /> 
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type vm:SSFactionViewModel}">
                         <local:SSFactionView />
-                        <!--<TextBlock Text="{Binding DisplayName}" FontSize="12" VerticalAlignment="Center" Margin="10,0,10,0"/>-->
                     </DataTemplate>
                 </TreeView.Resources>
             </TreeView>

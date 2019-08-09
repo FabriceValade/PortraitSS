@@ -227,7 +227,7 @@
         <vw:EditableURLView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:ModFactionViewModel}">
-        <vw:ModView />
+        <vw:SSModViewDetailed />
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:SSFactionGroupViewModel}">
         <vw:SSFactionGroupView/>

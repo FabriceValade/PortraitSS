@@ -222,8 +222,8 @@ namespace PortraitEditor.Model.SSFiles
         }
         public void AgregateParameterArray(string factionParameterName, string thisParameterName)
         {
-            List<Object> AgregatedList = base.FileList.Files.SelectMany(x => x.GetType().GetProperty(factionParameterName).GetValue(x) as List<Object>).ToList();
-            List<Object> goalList
+            var AgregatedList = base.FileList.Files.SelectMany(x => x.GetType().GetProperty(factionParameterName).GetValue(x) as List<Object>);
+            //List<Object> goalList
             
         }
         #endregion

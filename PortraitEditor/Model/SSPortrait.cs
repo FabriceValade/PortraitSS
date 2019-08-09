@@ -17,13 +17,21 @@ namespace PortraitEditor.Model
         public SSMod SourceMod { get; set; }
         public Gender ImageGender { get; set; }
         public URLRelative Url { get; set; }
+        public bool ImageFound
+        {
+            get
+            {
+                FileInfo fileInfo = new FileInfo(Url.FullUrl);
+                if (!fileInfo.Exists)
+                    return false;
+                return true;
+            }
+        }
 
         //constructors
         public SSPortrait(URLRelative url)
         {
-            FileInfo fileInfo = new FileInfo(url.FullUrl);
-            if (!fileInfo.Exists)
-                throw new ArgumentException("Path lead to no portrait");
+            
             Url = url;
         }
         public SSPortrait(URLRelative url, Gender gender, SSMod sourcemod)

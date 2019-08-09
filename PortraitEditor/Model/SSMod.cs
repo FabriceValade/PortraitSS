@@ -52,7 +52,7 @@ namespace PortraitEditor.Model
         }
 
         #region method
-        public List<SSFaction> ExploreFactionFile()
+        public void ExploreFactionFile(SSFileDirectory<SSFactionGroup,SSFaction> directory)
         {
             string FactionDirPath = Path.Combine("data", "world");
             FactionDirPath = Path.Combine(FactionDirPath, "factions");
@@ -65,20 +65,22 @@ namespace PortraitEditor.Model
 
             DirectoryInfo FactionDirectory = new DirectoryInfo(FactionDirUrl.FullUrl);
             if (!FactionDirectory.Exists)
-                return null;
+                return;
 
             IEnumerable<FileInfo> FileInfoList = FactionDirectory.EnumerateFiles();
             var Potential = from file in FileInfoList
                             where file.Extension == ".faction"
                             select file;
-            foreach (SSFile file in FileList)
+        
+            List<SSFile> tempList = new List<SSFile>(FileList);
+            foreach (SSFile file in tempList)
             {
                 if (file is SSFaction)
                 {
-                    FileList.Remove(file);
+                    file.Delete();
                 }
             }
-            List<SSFaction> ExploreResult= new List<SSFaction>();
+            //List<SSFaction> ExploreResult= new List<SSFaction>();
             foreach (FileInfo file in Potential)
             {
                 URLRelative FactionFileUrl = new URLRelative()
@@ -88,12 +90,19 @@ namespace PortraitEditor.Model
                     RelativeUrl = Path.Combine(FactionDirPath, file.Name)
                 };
                 SSFaction NewFaction = new SSFaction(FactionFileUrl, this);
-                ExploreResult.Add(NewFaction);
+                directory.AddFile(NewFaction);
                 FileList.Add(NewFaction);
             }
-            return ExploreResult;
+            return;
         }
         
+        public void RemoveFactionFile()
+        {
+            while (FileList.Count >0)
+            {
+                FileList[0].Delete();
+            }
+        }
         #endregion
 
     }

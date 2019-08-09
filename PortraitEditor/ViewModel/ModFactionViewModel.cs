@@ -14,20 +14,7 @@ namespace PortraitEditor.ViewModel
 {
     public class ModFactionViewModel : ViewModelBase
     {
-        #region Command properties
-        RelayCommand<object> _ExploreFolderCommand;
-        public ICommand CheckFactionCommand
-        {
-            get
-            {
-                if (_ExploreFolderCommand == null)
-                {
-                    _ExploreFolderCommand = new RelayCommand<object>(param => this.CheckAllFaction());
-                }
-                return _ExploreFolderCommand;
-            }
-        }
-        #endregion
+
         #region Field
         public SSMod Mod;
         
@@ -90,7 +77,18 @@ namespace PortraitEditor.ViewModel
                 {
                     FactionViewModel.UseForGroup = value;
                 }
-            } } 
+            } }
+
+        bool _AllowExplore = true;
+        public bool AllowExplore
+        {
+            get => _AllowExplore;
+            set
+            {
+                _AllowExplore = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         #region Constructor
@@ -121,11 +119,7 @@ namespace PortraitEditor.ViewModel
         }
         #endregion
 
-        #region method
-        public void CheckAllFaction()
-        {
 
-        }
-        #endregion
+
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PortraitEditor.View
 {
     /// <summary>
-    /// Interaction logic for ModView.xaml
+    /// Interaction logic for SSModView.xaml
     /// </summary>
-    public partial class ModView : UserControl
+    public partial class SSModView : UserControl
     {
-        public ModView()
+        public SSModView()
         {
             InitializeComponent();
         }

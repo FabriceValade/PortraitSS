@@ -43,6 +43,18 @@ namespace PortraitEditor.ViewModel
                 return _CloseWindowCommand;
             }
         }
+        RelayCommand<object> _ExploreFactionFileCommand;
+        public ICommand ExploreFactionFileCommand
+        {
+            get
+            {
+                if (_ExploreFactionFileCommand == null)
+                {
+                    _ExploreFactionFileCommand = new RelayCommand<object>(param => this.ExploreFactionFile());
+                }
+                return _ExploreFactionFileCommand;
+            }
+        }
         #endregion
 
         #region Mod radiobutton properties
@@ -111,6 +123,7 @@ namespace PortraitEditor.ViewModel
 
         public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
 
+        public ObservableCollection<ModFactionViewModel> ModWithFactionCollection { get; } = new ObservableCollection<ModFactionViewModel>();
         public SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; } = new SSFileDirectory<SSFactionGroup, SSFaction>();
 
 
@@ -142,23 +155,13 @@ namespace PortraitEditor.ViewModel
 
         public void ExploreFolder()
         {
+            ModWithFactionCollection.Clear();
             FactionDirectory.DeleteDirectory();
             ModCollection.Clear();
             ExploreCoreFolder();
             if (ModAction == SSModFolderActions.Use)
                 ExploreModFolder();
-            if (RemoveIncompleteFactionAction)
-            {
-                List<SSFactionGroup> Incomplete = (from grouped in FactionDirectory.GroupDirectory
-                                                   where grouped.IsIncomplete
-                                                   select grouped).ToList();
-                foreach (SSFactionGroup factionGroup in Incomplete)
-                {
-                    factionGroup.DeleteGroup();
-                }
-
-
-            }
+            
             return;
         }
 
@@ -196,7 +199,7 @@ namespace PortraitEditor.ViewModel
 
             SSMod CoreMod = new SSMod(CoreModUrl, PortraitEditorConfiguration.CoreModName);
 
-            FactionDirectory.AddRange(CoreMod.ExploreFactionFile());
+            //FactionDirectory.AddRange(CoreMod.ExploreFactionFile());
             ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
             ModCollection.Add(CoreModViewModel);
             return;
@@ -220,7 +223,7 @@ namespace PortraitEditor.ViewModel
                 SSMod mod = new SSMod(ModUrl, ModDirectory.Name);
                 if (mod.ContainsFaction)
                 {
-                    FactionDirectory.AddRange(mod.ExploreFactionFile());
+                    //FactionDirectory.AddRange(mod.ExploreFactionFile());
                     ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
                     ModCollection.Add(ModFolder);
 
@@ -229,7 +232,38 @@ namespace PortraitEditor.ViewModel
 
         }
 
+        public void ExploreFactionFile()
+        {
+            //var Mods = from modViewModel in ModCollection
+            //           select modViewModel.Mod;
+            ModWithFactionCollection.Clear();
+            foreach (ModFactionViewModel modVM in ModCollection)
+            {
+                if (modVM.Mod.ContainsFaction && modVM.AllowExplore)
+                {
+                    modVM.Mod.ExploreFactionFile(FactionDirectory);
+                    ModWithFactionCollection.Add(modVM);
+                }
+            }
 
+            if (RemoveIncompleteFactionAction)
+            {
+                List<SSFactionGroup> Incomplete = (from grouped in FactionDirectory.GroupDirectory
+                                                   where grouped.IsIncomplete
+                                                   select grouped).ToList();
+                foreach (SSFactionGroup factionGroup in Incomplete)
+                {
+                    factionGroup.DeleteGroup();
+                }
+
+
+            }
+        }
+        #endregion
+
+        #region helper class
         #endregion
     }
+
+    
 }

@@ -107,8 +107,11 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />
-    <Compile Include="View\ModView.xaml.cs">
-      <DependentUpon>ModView.xaml</DependentUpon>
+    <Compile Include="View\SSModView.xaml.cs">
+      <DependentUpon>SSModView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SSModViewDetailed.xaml.cs">
+      <DependentUpon>SSModViewDetailed.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SSFactionDirectoryView.xaml.cs">
       <DependentUpon>SSFactionDirectoryView.xaml</DependentUpon>
@@ -156,7 +159,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ModView.xaml">
+    <Page Include="View\SSModView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSModViewDetailed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
