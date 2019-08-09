@@ -15,7 +15,7 @@ namespace PortraitEditor.Model.SSFiles
         SSFileLister<G> _GroupDirectory = new SSFileLister<G>();
         public ObservableCollection<G> GroupDirectory { get => _GroupDirectory.Files; }
 
-        public List<string> AvailableLinkingUrl = new List<string>();
+        public List<string> AvailableLinkingUrl { get; set; } = new List<string>();
 
         public void AddFile(F newFile)
         {

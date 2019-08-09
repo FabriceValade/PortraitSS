@@ -199,7 +199,6 @@ namespace PortraitEditor.ViewModel
 
             SSMod CoreMod = new SSMod(CoreModUrl, PortraitEditorConfiguration.CoreModName);
 
-            //FactionDirectory.AddRange(CoreMod.ExploreFactionFile());
             ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
             ModCollection.Add(CoreModViewModel);
             return;
@@ -223,7 +222,6 @@ namespace PortraitEditor.ViewModel
                 SSMod mod = new SSMod(ModUrl, ModDirectory.Name);
                 if (mod.ContainsFaction)
                 {
-                    //FactionDirectory.AddRange(mod.ExploreFactionFile());
                     ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
                     ModCollection.Add(ModFolder);
 
@@ -234,9 +232,12 @@ namespace PortraitEditor.ViewModel
 
         public void ExploreFactionFile()
         {
-            //var Mods = from modViewModel in ModCollection
-            //           select modViewModel.Mod;
+            FactionDirectory.DeleteDirectory();
             ModWithFactionCollection.Clear();
+            List<String> AvailableLinking = (from modVM in ModCollection
+                                             where modVM.Mod.ContainsFaction && modVM.AllowExplore
+                                             select modVM.Mod.Url.LinkingUrl).ToList();
+            FactionDirectory.AvailableLinkingUrl = AvailableLinking;
             foreach (ModFactionViewModel modVM in ModCollection)
             {
                 if (modVM.Mod.ContainsFaction && modVM.AllowExplore)

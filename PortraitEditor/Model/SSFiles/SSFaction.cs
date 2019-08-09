@@ -142,6 +142,8 @@ namespace PortraitEditor.Model.SSFiles
         }
 
         public string LogoRelativePath { get; set; }
+
+        public List<SSPortrait> Portraits { get; set; } = new List<SSPortrait>();
         #endregion
 
         #region Constructors
@@ -177,7 +179,7 @@ namespace PortraitEditor.Model.SSFiles
                     LogoPath = PossiblePath.First();
             }
             SynchroniseParameter("ColorRGB", "ColorRGB");
-            AgregateParameterArray("Portraits", "hello");
+            AgregateParameterArray<SSPortrait>("Portraits", "Portraits");
 
         }
         public void SynchroniseParameter(string factionParameterName, string thisParameterName)
@@ -220,11 +222,16 @@ namespace PortraitEditor.Model.SSFiles
                 }
             }
         }
-        public void AgregateParameterArray(string factionParameterName, string thisParameterName)
+        public void AgregateParameterArray<T>(string factionParameterName, string thisParameterName)
         {
-            var AgregatedList = base.FileList.Files.SelectMany(x => x.GetType().GetProperty(factionParameterName).GetValue(x) as List<Object>);
-            //List<Object> goalList
-            
+            List<T> AgregatedList = (List<T>)base.FileList.Files.SelectMany(x => x.GetType().GetProperty(factionParameterName).GetValue(x) as List<T>).ToList() ;
+            List<T> goalList = (List<T>)this.GetType().GetProperty(thisParameterName).GetValue(this)  ;
+            goalList.Clear();
+            foreach (T obj in AgregatedList)
+            {
+                goalList.Add(obj);
+            }
+
         }
         #endregion
     }
