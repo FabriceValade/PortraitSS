@@ -54,6 +54,7 @@ namespace PortraitEditor
         public EditableURLViewModel EditURLViewModel { get; set; }
         public FactionDirectoryViewModel DirectoryViewModel { get; set; }
 
+        public AllPortraitsViewModel test { get; set; }
         public MainWindow()
         {
 
@@ -68,7 +69,7 @@ namespace PortraitEditor
             FEVM.ShowDialog();
             DirectoryViewModel = new FactionDirectoryViewModel(FEVM.FactionDirectory);
             uRLViewModel.Replace(FEVM.StarsectorFolderUrl);
-            AllPortraitsViewModel test = new AllPortraitsViewModel(FEVM.FactionDirectory);
+            test = new AllPortraitsViewModel(FEVM.FactionDirectory);
 
             InitializeComponent();
             //PortraitsIntereaction.Visibility = Visibility.Hidden;
@@ -128,7 +129,7 @@ namespace PortraitEditor
 
 
 
-            AllPortraitList.Items.MoveCurrentToFirst();
+            //AllPortraitList.Items.MoveCurrentToFirst();
 
             PortraitsIntereaction.Visibility = Visibility.Visible;
             FactionIntereaction.Visibility = Visibility.Visible;
@@ -149,12 +150,12 @@ namespace PortraitEditor
         //}
         private void AddGenericPortrait_Click(object sender, RoutedEventArgs e)
         {
-            Button sent = sender as Button;
-            FactionFile ReceivingFaction = (FactionFile) CFactionList.Items.CurrentItem;
-            Portrait Referencing = (Portrait)AllPortraitList.Items.CurrentItem;
-            Portrait Transfering = new Portrait(Referencing,(String)sent.Tag);
-            ReceivingFaction.AddPortrait(Transfering);
-            PortraitList.Items.MoveCurrentToFirst();
+            //Button sent = sender as Button;
+            //FactionFile ReceivingFaction = (FactionFile) CFactionList.Items.CurrentItem;
+            //Portrait Referencing = (Portrait)AllPortraitList.Items.CurrentItem;
+            //Portrait Transfering = new Portrait(Referencing,(String)sent.Tag);
+            //ReceivingFaction.AddPortrait(Transfering);
+            //PortraitList.Items.MoveCurrentToFirst();
             return;
 
         }

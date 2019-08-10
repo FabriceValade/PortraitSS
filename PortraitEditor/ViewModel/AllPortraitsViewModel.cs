@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.ViewModel
 {
-    class AllPortraitsViewModel : ViewModelBase
+    public class AllPortraitsViewModel : ViewModelBase
     {
 
         public AllPortraitsViewModel(SSFileDirectory<SSFactionGroup, SSFaction> factionDirectory)
@@ -19,12 +19,27 @@ namespace PortraitEditor.ViewModel
 
         SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; set; }
 
-        ObservableCollection<SSPortrait> AllPortraits
+        ObservableCollection<SSPortrait> _AllPortraits= new ObservableCollection<SSPortrait>();
+        public ObservableCollection<SSPortrait> AllPortraits
         {
             get
             {
-                var a = FactionDirectory.GroupDirectory.SelectMany(x => x.Portraits).Distinct(new PortraitNoGenderEqualityComparer()).ToList();
-                return new ObservableCollection<SSPortrait>(a);
+                ObservableCollection<SSPortrait> a = new ObservableCollection<SSPortrait>(FactionDirectory.GroupDirectory.SelectMany(x => x.Portraits).Distinct(new PortraitNoGenderEqualityComparer()).ToList());
+                if (_AllPortraits.Count() > 0)
+                {
+                    _AllPortraits.Clear();
+                    foreach (SSPortrait port in a)
+                    {
+                        _AllPortraits.Add(port);
+                    }
+                }else
+                {
+                    foreach (SSPortrait port in a)
+                    {
+                        _AllPortraits.Add(port);
+                    }
+                }
+                return _AllPortraits;
             }
         }
     }

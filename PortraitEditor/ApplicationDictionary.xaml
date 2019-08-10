@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:PortraitEditor"
                     xmlns:vw="clr-namespace:PortraitEditor.View"
                     xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
+                    xmlns:m="clr-namespace:PortraitEditor.Model"
                     >
     <!--<local:MultiValueConverter x:Key="MultiValueConverter" />-->
     <DataTemplate x:Key="FactionFileImageTemplate">
@@ -60,7 +61,7 @@
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="Black" />
     <SolidColorBrush x:Key="BadBackgroundBrush" Color="DarkRed" />
     <SolidColorBrush x:Key="GoodBackgroundBrush" Color="DarkGreen" />
-    <SolidColorBrush x:Key="ButtonSolid" Color="#80008B8B" />
+    <SolidColorBrush x:Key="ButtonSolid" Color="DarkCyan" />
     <SolidColorBrush x:Key="ButtonPale" Color="DarkTurquoise" />
     <SolidColorBrush x:Key="ContrastOnButton" Color="DarkSlateGray" />
     
@@ -234,5 +235,13 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:FactionDirectoryViewModel}">
         <vw:SSFactionDirectoryView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AllPortraitsViewModel}">
+        <vw:SSPortraitCollectionView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type m:SSPortrait}">
+        <vw:SSPortraitView/>
     </DataTemplate>
 </ResourceDictionary>

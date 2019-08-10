@@ -108,6 +108,9 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />
+    <Compile Include="View\SSPortraitCollectionView.xaml.cs">
+      <DependentUpon>SSPortraitCollectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SSModView.xaml.cs">
       <DependentUpon>SSModView.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,9 @@
     </Compile>
     <Compile Include="View\SSFactionView.xaml.cs">
       <DependentUpon>SSFactionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SSPortraitView.xaml.cs">
+      <DependentUpon>SSPortraitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\URLView.xaml.cs">
       <DependentUpon>URLView.xaml</DependentUpon>
@@ -160,6 +166,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SSPortraitCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SSModView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SSFactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSPortraitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

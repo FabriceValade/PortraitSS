@@ -106,9 +106,10 @@
                     </Grid>
                 </DockPanel>
         <!-- displaying Allportraits  -->
-        <ListView Name="AllPortraitList" Grid.Column="2" Grid.Row="0" ItemsSource="{Binding Path=AllPortraits}"  Style="{StaticResource PortraitListviewStyle}"  >
+        <!--<ListView Name="AllPortraitList" Grid.Column="2" Grid.Row="0" ItemsSource="{Binding Path=AllPortraits}"  Style="{StaticResource PortraitListviewStyle}"  >
 
-        </ListView>
+        </ListView>-->
+        <ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=test}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
         <DockPanel  Grid.Row="1" Grid.Column="2" Name="AllPortraitStat">
             <DockPanel.DataContext>
                 <Binding Path="AllPortraits" />

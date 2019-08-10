@@ -47,6 +47,7 @@ namespace PortraitEditor.Model
         public SSPortrait(SSPortrait other)
         {
             this.SourceMod = other.SourceMod;
+            this.UsingMod = other.UsingMod;
             this.Url= other.Url;
         }
         
