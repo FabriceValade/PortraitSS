@@ -237,12 +237,15 @@ namespace PortraitEditor.ViewModel
             List<String> AvailableLinking = (from modVM in ModCollection
                                              where modVM.Mod.ContainsFaction && modVM.AllowExplore
                                              select modVM.Mod.Url.LinkingUrl).ToList();
+            List<SSMod> AvailableMods = (from modVM in ModCollection
+                                             where modVM.Mod.ContainsFaction && modVM.AllowExplore
+                                             select modVM.Mod).ToList();
             FactionDirectory.AvailableLinkingUrl = AvailableLinking;
             foreach (ModFactionViewModel modVM in ModCollection)
             {
                 if (modVM.Mod.ContainsFaction && modVM.AllowExplore)
                 {
-                    modVM.Mod.ExploreFactionFile(FactionDirectory);
+                    modVM.Mod.ExploreFactionFile(FactionDirectory, AvailableMods);
                     ModWithFactionCollection.Add(modVM);
                 }
             }

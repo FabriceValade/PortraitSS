@@ -42,6 +42,7 @@ namespace PortraitEditor.Model
                 return true;
             }
         }
+
         #endregion
 
 
@@ -52,7 +53,7 @@ namespace PortraitEditor.Model
         }
 
         #region method
-        public void ExploreFactionFile(SSFileDirectory<SSFactionGroup,SSFaction> directory)
+        public void ExploreFactionFile(SSFileDirectory<SSFactionGroup,SSFaction> directory, List<SSMod> AvailableMods)
         {
             string FactionDirPath = Path.Combine("data", "world");
             FactionDirPath = Path.Combine(FactionDirPath, "factions");
@@ -89,7 +90,7 @@ namespace PortraitEditor.Model
                     LinkingUrl = Url.LinkingUrl,
                     RelativeUrl = Path.Combine(FactionDirPath, file.Name)
                 };
-                SSFaction NewFaction = new SSFaction(FactionFileUrl, this);
+                SSFaction NewFaction = new SSFaction(FactionFileUrl, this, AvailableMods);
                 directory.AddFile(NewFaction);
                 FileList.Add(NewFaction);
             }

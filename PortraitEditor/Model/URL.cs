@@ -78,8 +78,19 @@ namespace PortraitEditor.Model
         #endregion
 
         #region static method
+        public static List<string> CheckFileLinkingExist(string commonUrl,List<string> availableLink, string relativeUrl)
+        {
+            List<string> result = new List<string>();
+            foreach (string link in availableLink)
+            {
+                FileInfo possibleFile = new FileInfo(Path.Combine(commonUrl, link, relativeUrl));
+                if (possibleFile.Exists)
+                    result.Add(link);
 
-        
+            }
+            return result;
+        }
+
         #endregion
     }
 }

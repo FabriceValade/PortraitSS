@@ -44,18 +44,7 @@ namespace PortraitEditor.Model.SSFiles
             return;
         }
 
-        protected List<string> CheckFileLinkingExist(string commonUrl, string relativeUrl)
-        {
-            List<string> result = new List<string>();
-            foreach (string link in AvailableLink)
-            {
-                FileInfo possibleFile = new FileInfo(Path.Combine(commonUrl, link, relativeUrl));
-                if (possibleFile.Exists)
-                    result.Add(possibleFile.FullName);
-
-            }
-            return result;
-        }
+        
 
         public void DeleteGroup()
         {

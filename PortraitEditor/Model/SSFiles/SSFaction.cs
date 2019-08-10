@@ -23,14 +23,15 @@ namespace PortraitEditor.Model.SSFiles
         #endregion
 
         #region constructor
-        public SSFaction( URLRelative url, SSMod modsource) : base( url, modsource)
+        public SSFaction( URLRelative url, SSMod modsource, List<SSMod> availableMods) : base( url, modsource)
+
         {
-            this.ParseJson();
+            this.ParseJson(availableMods);
         }
         #endregion
 
         #region Helper method
-        public void ParseJson()
+        public void ParseJson(List<SSMod> availableMods)
         {
             if (JsonContent == null)
                 return;
@@ -40,7 +41,12 @@ namespace PortraitEditor.Model.SSFiles
 
             JToken LogoToken;
             if (JsonContent.TryGetValue("logo", out LogoToken))
-                LogoPath = LogoToken.Value<string>();
+            {
+                string path = LogoToken.Value<string>();
+                SSMod LogoSourceMod = CheckModSourceOfPath(path, availableMods);
+                LogoPath = Path.Combine(LogoSourceMod.Url.CommonUrl, LogoSourceMod.Url.LinkingUrl, path);
+            }
+                
 
             JToken ColorToken;
             if (JsonContent.TryGetValue("color", out ColorToken))
@@ -85,7 +91,21 @@ namespace PortraitEditor.Model.SSFiles
 
         }
 
-        
+        public SSMod CheckModSourceOfPath(string relativePath, List<SSMod> availableMods)
+        {
+            List<string> availableLink=(from mod in availableMods
+                                       select mod.Url.LinkingUrl).ToList();
+            List<string> PossibleLink = URLRelative.CheckFileLinkingExist(this.Url.CommonUrl, availableLink, relativePath);
+            string matchingSourceLink = (from link in PossibleLink
+                                         where link == base.ModSource.Url.LinkingUrl
+                                         select link).SingleOrDefault();
+            if (matchingSourceLink != null)
+                return base.ModSource;
+            SSMod PossibleMod = (from mod in availableMods
+                                 where mod.Url.LinkingUrl == PossibleLink[0]
+                                 select mod).FirstOrDefault();
+            return PossibleMod;
+        }
         #endregion
     }
 
@@ -171,13 +191,7 @@ namespace PortraitEditor.Model.SSFiles
             //               where file.DisplayName!=null
             //               select file.DisplayName).Distinct().SingleOrDefault();
             SynchroniseParameter("DisplayName", "DisplayName");
-            SynchroniseParameter("LogoPath", "LogoRelativePath");
-            if (LogoRelativePath != null)
-            {
-                List<string> PossiblePath = CheckFileLinkingExist(base.FileList.Files.First().Url.CommonUrl, LogoRelativePath);
-                if (PossiblePath.Count() > 0)
-                    LogoPath = PossiblePath.First();
-            }
+            SynchroniseParameter("LogoPath", "LogoPath");
             SynchroniseParameter("ColorRGB", "ColorRGB");
             AgregateParameterArray<SSPortrait>("Portraits", "Portraits");
 
