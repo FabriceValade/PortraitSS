@@ -22,7 +22,7 @@
             <TextBlock Text="{Binding Path=Name}" Margin="10,3,10,3" Foreground="{StaticResource TextBrush}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
             <Border Grid.Column="1" BorderBrush="{StaticResource ButtonSolid}" BorderThickness="1" CornerRadius="15" Background="{StaticResource ContrastOnButton}"/>
             <TextBlock Name="FactionCounter" Grid.Column="1" Text="{Binding Path=FactionCollection.Count}" Margin="3,3,3,3" FontSize="18" VerticalAlignment="Center" Focusable="False" Width="25" TextAlignment="Center" />
-            <CheckBox Grid.Column="2"  Content="Use mod for edit" Style="{StaticResource ToggleButtonBadGood}" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="20,5,20,5" IsChecked="{Binding Path=UseForGroup}"/>
+            <CheckBox Grid.Column="2"  Content="Toggle all files edit" Style="{StaticResource ToggleButtonBadGood}" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="20,5,20,5" IsChecked="{Binding Path=UseForGroup}"/>
             </Grid>
     </Border>
 </UserControl>

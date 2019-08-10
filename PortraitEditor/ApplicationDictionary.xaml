@@ -60,7 +60,7 @@
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="Black" />
     <SolidColorBrush x:Key="BadBackgroundBrush" Color="DarkRed" />
     <SolidColorBrush x:Key="GoodBackgroundBrush" Color="DarkGreen" />
-    <SolidColorBrush x:Key="ButtonSolid" Color="DarkCyan" />
+    <SolidColorBrush x:Key="ButtonSolid" Color="#80008B8B" />
     <SolidColorBrush x:Key="ButtonPale" Color="DarkTurquoise" />
     <SolidColorBrush x:Key="ContrastOnButton" Color="DarkSlateGray" />
     

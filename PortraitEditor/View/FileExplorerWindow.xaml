@@ -30,7 +30,7 @@
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Margin="0" Orientation="Vertical">
-                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mod file action</Label>
+                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mods action</Label>
                             <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
                                 <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsIgnore}" Width="60">Ignore</RadioButton>
                                 <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsUse}" Width="60">Use</RadioButton>
