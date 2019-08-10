@@ -99,6 +99,7 @@
       <DependentUpon>SSFileSetupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SSFileUrl.cs" />
+    <Compile Include="ViewModel\AllPortraitsViewModel.cs" />
     <Compile Include="ViewModel\FactionDirectoryViewModel.cs" />
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
     <Compile Include="ViewModel\SSFactionGroupViewModel.cs" />

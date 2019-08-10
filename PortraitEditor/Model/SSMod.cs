@@ -104,6 +104,11 @@ namespace PortraitEditor.Model
                 FileList[0].Delete();
             }
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
         #endregion
 
     }

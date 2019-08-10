@@ -15,6 +15,8 @@ namespace PortraitEditor.Model
         
 
         public SSMod SourceMod { get; set; }
+
+        public SSMod UsingMod { get; set; }
         public Gender ImageGender { get; set; }
         public URLRelative Url { get; set; }
         public bool ImageFound
@@ -34,11 +36,12 @@ namespace PortraitEditor.Model
             
             Url = url;
         }
-        public SSPortrait(URLRelative url, Gender gender, SSMod sourcemod)
+        public SSPortrait(URLRelative url, Gender gender, SSMod sourcemod, SSMod usingmod)
             : this(url)
         {
             SourceMod = sourcemod;
             ImageGender = new Gender(gender);
+            UsingMod = usingmod;
         }
 
         public SSPortrait(SSPortrait other)
@@ -80,6 +83,21 @@ namespace PortraitEditor.Model
 
             JObject Result = new JObject(new JProperty(PropertyName, Url.RelativeUrl));
             return Result;
+        }
+    }
+
+    class PortraitNoGenderEqualityComparer : IEqualityComparer<SSPortrait>
+    {
+        public bool Equals(SSPortrait other1, SSPortrait other2)
+        {
+            if (other1 == null || other2 == null) return false;
+            return (other1.Url.FullUrl == other2.Url.FullUrl);
+        }
+
+        public int GetHashCode(SSPortrait other)
+        {
+            int hashProductUrl = other.Url == null ? 0 : other.Url.FullUrl.GetHashCode();
+            return hashProductUrl.GetHashCode();
         }
     }
 }

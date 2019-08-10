@@ -74,14 +74,15 @@ namespace PortraitEditor.Model.SSFiles
                             List<string> paths = portraitToken.Values<string>().ToList<string>();
                             foreach (string path in paths)
                             {
-                                URLRelative newPortraitUrl = new URLRelative(this.Url.CommonUrl,this.Url.LinkingUrl,path);
+                                SSMod PortraitSourceMod = CheckModSourceOfPath(path, availableMods);
+                                URLRelative newPortraitUrl = new URLRelative(PortraitSourceMod.Url.CommonUrl, PortraitSourceMod.Url.LinkingUrl, path);
                                 Gender newGender=new Gender();
                                 if (sub == Gender.MalePropertyName)
                                     newGender.Value = Gender.GenderValue.Male;
                                 else
                                     newGender.Value = Gender.GenderValue.Female;
 
-                                Portraits.Add(new SSPortrait(newPortraitUrl,newGender,this.ModSource));
+                                Portraits.Add(new SSPortrait(newPortraitUrl,newGender,PortraitSourceMod,this.ModSource));
                             }
                         }
                     }

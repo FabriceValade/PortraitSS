@@ -68,6 +68,8 @@ namespace PortraitEditor
             FEVM.ShowDialog();
             DirectoryViewModel = new FactionDirectoryViewModel(FEVM.FactionDirectory);
             uRLViewModel.Replace(FEVM.StarsectorFolderUrl);
+            AllPortraitsViewModel test = new AllPortraitsViewModel(FEVM.FactionDirectory);
+
             InitializeComponent();
             //PortraitsIntereaction.Visibility = Visibility.Hidden;
             //FactionIntereaction.Visibility = Visibility.Hidden;
