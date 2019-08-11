@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace PortraitEditor.ViewModel
 {
@@ -19,28 +20,36 @@ namespace PortraitEditor.ViewModel
 
         SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; set; }
 
-        ObservableCollection<SSPortrait> _AllPortraits= new ObservableCollection<SSPortrait>();
-        public ObservableCollection<SSPortrait> AllPortraits
+        ObservableCollection<SSPortrait> _Portraits;
+        public ObservableCollection<SSPortrait> Portraits
         {
             get
             {
-                ObservableCollection<SSPortrait> a = new ObservableCollection<SSPortrait>(FactionDirectory.GroupDirectory.SelectMany(x => x.Portraits).Distinct(new PortraitNoGenderEqualityComparer()).ToList());
-                if (_AllPortraits.Count() > 0)
+                if (_Portraits == null)
                 {
-                    _AllPortraits.Clear();
-                    foreach (SSPortrait port in a)
-                    {
-                        _AllPortraits.Add(port);
-                    }
-                }else
-                {
-                    foreach (SSPortrait port in a)
-                    {
-                        _AllPortraits.Add(port);
-                    }
+                    _Portraits = new ObservableCollection<SSPortrait>(FactionDirectory.GroupDirectory.SelectMany(x => x.Portraits).Distinct(new PortraitNoGenderEqualityComparer()).ToList());
+
                 }
-                return _AllPortraits;
+                
+                return _Portraits;
             }
         }
+
+        CollectionView _PortraitsView;
+        public CollectionView PortraitsView
+        {
+            get
+            {
+                if (_PortraitsView == null)
+                {
+                    _PortraitsView = (CollectionView)CollectionViewSource.GetDefaultView(Portraits);
+                    PropertyGroupDescription groupDescription = new PropertyGroupDescription("SourceMod", new PortraitModToGroupConverter());
+                    _PortraitsView.GroupDescriptions.Add(groupDescription);
+                }
+                return _PortraitsView;
+            }
+        }
+
+
     }
 }

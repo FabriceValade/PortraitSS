@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="JsonHandling\JsonExtension.cs" />
     <Compile Include="Model\Faction.cs" />
     <Compile Include="Model\Gender.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="Model\SSFiles\SSFileGroup.cs" />
     <Compile Include="Model\SSFiles\SSFileLister.cs" />
     <Compile Include="Model\SSMod.cs" />
+    <Compile Include="ViewModel\PortraitExplorerViewModel.cs" />
+    <Compile Include="ViewModel\SSParameterArrayChangesViewModel.cs" />
     <Compile Include="Model\SSPortrait.cs" />
     <Compile Include="PortraitEditorConfiguration.cs" />
     <Compile Include="RelayCommand.cs" />
@@ -108,6 +111,9 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />
+    <Compile Include="View\PortraitExplorerWindow.xaml.cs">
+      <DependentUpon>PortraitExplorerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SSPortraitCollectionView.xaml.cs">
       <DependentUpon>SSPortraitCollectionView.xaml</DependentUpon>
     </Compile>
@@ -163,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SSFileSetupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PortraitExplorerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

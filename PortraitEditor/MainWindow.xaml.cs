@@ -215,39 +215,7 @@ namespace PortraitEditor
  
 
     
-    public static class CollectionExtensions
-    {
-        public static bool Contains<TSource>(this IEnumerable<TSource> collection, TSource itemTofind, Func<TSource, TSource, bool> equalizer)
-        {
-            foreach (var item in collection)
-            {
-                if (equalizer(item, itemTofind))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
-        public static List<int> FindAll<TSource>(this IEnumerable<TSource> collection, TSource itemTofind, Func<TSource, TSource, bool> equalizer)
-        {
-            List<int> Position = new List<int>();
-            int PosCounter = 0;
-            foreach (var item in collection)
-            {
-                if (equalizer(item, itemTofind))
-                {
-                    Position.Add(PosCounter);
-                }
-                PosCounter++;
-            }
-            return Position;
-        }
-
-        
-
-     
-    }
 
 
 

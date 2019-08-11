@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitEditor"
         mc:Ignorable="d"
+        xmlns:vw="clr-namespace:PortraitEditor.View"
+        xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
         Title="MainWindow" Height="650" Width="925">
 
     <Window.Resources>
@@ -68,7 +70,15 @@
             <TextBlock Text="{Binding Path=CoreFaction/Url.RelativeUrl}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
         </Grid>
         <!-- displaying portraits in faction info -->
-        <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Source={ StaticResource X}}"  Style="{StaticResource PortraitListviewStyle}" ItemContainerStyle="{StaticResource PortraitListItemStyle}">
+        <ContentControl  Grid.Row="0" Grid.Column="1" Content="{Binding Path=DirectoryViewModel.FactionGroupList/}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <vw:SSPortraitCollectionView DataContext="{TemplateBinding Content}"/>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
+
+        <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Source={ StaticResource X}}"  Style="{StaticResource PortraitListviewStyle}" ItemContainerStyle="{StaticResource PortraitListItemStyle}" Visibility="Hidden">
             <ListView.GroupStyle>
                 <GroupStyle HeaderTemplate="{StaticResource PortraitGroupTemplate}" />
             </ListView.GroupStyle>

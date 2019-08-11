@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using Newtonsoft.Json.Linq;
 using PortraitEditor.JsonHandling;
 
@@ -12,7 +13,7 @@ namespace PortraitEditor.Model
 {
     public class SSPortrait : IEquatable<SSPortrait>, IJsonConvertable
     {
-        
+
 
         public SSMod SourceMod { get; set; }
 
@@ -33,7 +34,7 @@ namespace PortraitEditor.Model
         //constructors
         public SSPortrait(URLRelative url)
         {
-            
+
             Url = url;
         }
         public SSPortrait(URLRelative url, Gender gender, SSMod sourcemod, SSMod usingmod)
@@ -48,9 +49,9 @@ namespace PortraitEditor.Model
         {
             this.SourceMod = other.SourceMod;
             this.UsingMod = other.UsingMod;
-            this.Url= other.Url;
+            this.Url = other.Url;
         }
-        
+
 
 
         //methods
@@ -99,6 +100,20 @@ namespace PortraitEditor.Model
         {
             int hashProductUrl = other.Url == null ? 0 : other.Url.FullUrl.GetHashCode();
             return hashProductUrl.GetHashCode();
+        }
+    }
+
+    class PortraitModToGroupConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (!(value is SSMod))
+                return null;
+            return (value as SSMod).Name;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return new SSMod(new URLRelative(), "NotMod");
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
 using PortraitEditor.Model;
+using PortraitEditor.Extensions;
 
 namespace PortraitEditor
 {
@@ -151,7 +152,7 @@ namespace PortraitEditor
 
             foreach (Portrait p in Portraits)
             {
-                List<int> PosOriginal = OriginalPortraits.FindAll(p, Portrait.EqualsWithGender);
+                List<int> PosOriginal = OriginalPortraits.FindAll(p);
                 int PosFound = -1;
                 for (int i = 0; i < PosOriginal.Count && PosFound == -1; i++)
                 {

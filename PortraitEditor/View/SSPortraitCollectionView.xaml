@@ -12,7 +12,7 @@
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
-            <ListView Name="AllPortraitList" ItemsSource="{Binding Path=AllPortraits}"   Margin="7,7,7,7" Background="Transparent" SelectedIndex="0">
+            <ListView Name="AllPortraitList" ItemsSource="{Binding Path=PortraitsView}"   Margin="7,7,7,7" Background="Transparent" SelectedIndex="2" BorderThickness="0">
                 <ListView.Style>
                     <Style  TargetType="ListView">
                         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -36,8 +36,19 @@
                         
                     </Style>
                 </ListView.Style>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
             </ListView>
         </Border>
-        <ContentControl  Grid.Row="1" Grid.Column="0" Content="{Binding Path=AllPortraits/}"  HorizontalAlignment="Stretch" Background="Transparent" />
+        <Border Style="{StaticResource ElementBorder}" Grid.Row="1" Grid.Column="0" >
+            <ContentControl  Grid.Row="1" Grid.Column="0" Content="{Binding Path=Portraits/}"  HorizontalAlignment="Stretch" Background="Transparent" />
+        </Border>
     </Grid>
 </UserControl>

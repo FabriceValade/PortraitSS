@@ -1,9 +1,12 @@
-﻿using PortraitEditor.Model.SSFiles;
+﻿using PortraitEditor.Model;
+using PortraitEditor.Model.SSFiles;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace PortraitEditor.ViewModel
 {
@@ -59,7 +62,34 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-       
+        SSParameterArrayChangesViewModel<SSPortrait> _PortraitsViewModel;
+        public ObservableCollection<SSPortrait> Portraits
+        {
+            get
+            {
+                if (_PortraitsViewModel != null)
+                    return _PortraitsViewModel.ResultingList;
+
+                _PortraitsViewModel = new SSParameterArrayChangesViewModel<SSPortrait>(new ObservableCollection<SSPortrait>(FactionGroupModel.Portraits));
+                return _PortraitsViewModel.ResultingList;
+
+            }
+        }
+
+        CollectionView _PortraitsView;
+        public CollectionView PortraitsView
+        {
+            get
+            {
+                if (_PortraitsView == null)
+                {
+                    _PortraitsView = (CollectionView)CollectionViewSource.GetDefaultView(Portraits);
+                    PropertyGroupDescription groupDescription = new PropertyGroupDescription("UsingMod", new PortraitModToGroupConverter());
+                    _PortraitsView.GroupDescriptions.Add(groupDescription);
+                }
+                return _PortraitsView;
+            }
+        }
         public List<string> ContributingMods
         {
             get
