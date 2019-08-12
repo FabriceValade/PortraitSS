@@ -20,7 +20,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-        <Image Grid.Column="3" Grid.RowSpan="4" Source="{Binding Url.FullUrl}" Height="145" Width="145" HorizontalAlignment="Stretch"/>
+            <Image Grid.Column="3" Grid.RowSpan="4" Source="{Binding Url.FullUrl}" Height="145" Width="145" HorizontalAlignment="Stretch"/>
             <TextBlock Text="File Name:" Margin="5,3,5,3"/>
             <TextBlock Text="{Binding Path=Url.RelativeUrl}" Grid.Column="1" HorizontalAlignment="Right" Margin="5,3,5,3" />
             <TextBlock Text="Mod Source:" Grid.Row="1" Margin="5,3,5,3"/>

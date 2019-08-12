@@ -9,195 +9,31 @@
         xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
         Title="MainWindow" Height="650" Width="925">
 
-    <Window.Resources>
-        <CollectionViewSource x:Key="X" Source="{Binding Path=CoreFaction/Portraits}"  >
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="ImageGender"/>
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
-    </Window.Resources>
-
-
-
-
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="150"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-    
-        
-            <!-- Place to read root folder -->
-            
-            <!-- Main grid -->
-        
-                <!-- displaying found faction files -->
-            <ContentControl  Grid.Row="0" Grid.Column="0" Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
-        
-        <ListView Name="CFactionList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding CoreFaction}" IsSynchronizedWithCurrentItem="True">
-            <ListView.Resources>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Background" Value="{Binding ColorRGB}" />
-                </Style>
-            </ListView.Resources>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Logo" CellTemplate="{StaticResource FactionFileImageTemplate}" />
-                    <GridViewColumn Header="File ID"  DisplayMemberBinding="{Binding Url.FileName}"/>
-                    <GridViewColumn Header="Faction name"  DisplayMemberBinding="{Binding DisplayName}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <!-- displaying faction file info -->
-        <Grid Grid.Column="0" Grid.Row="1" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Faction Name: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-            <TextBlock Text="{Binding Path=CoreFaction/DisplayName}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-            <TextBlock Text="Source file url:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-            <TextBlock Text="{Binding Path=CoreFaction/Url.RelativeUrl}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Style="{StaticResource TextElement}" HorizontalAlignment="Stretch"/>
-        </Grid>
-        <!-- displaying portraits in faction info -->
-        <ContentControl  Grid.Row="0" Grid.Column="1" Content="{Binding Path=DirectoryViewModel.FactionGroupList/}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
-            <ContentControl.Template>
-                <ControlTemplate TargetType="ContentControl">
-                    <vw:SSPortraitCollectionView DataContext="{TemplateBinding Content}"/>
-                </ControlTemplate>
-            </ContentControl.Template>
-        </ContentControl>
-
-        <ListView Name="PortraitList" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Source={ StaticResource X}}"  Style="{StaticResource PortraitListviewStyle}" ItemContainerStyle="{StaticResource PortraitListItemStyle}" Visibility="Hidden">
-            <ListView.GroupStyle>
-                <GroupStyle HeaderTemplate="{StaticResource PortraitGroupTemplate}" />
-            </ListView.GroupStyle>
-        </ListView>
-             
-                <!-- displaying selected portrait info -->
-            
-            <DockPanel  Grid.Row="1" Grid.Column="1" Name="MPortraitStat">
-                    <DockPanel.DataContext>
-                <Binding Source="{ StaticResource X}" />
-                    </DockPanel.DataContext>
-                    <Image DockPanel.Dock="Right"  Source="{Binding ImageUrl.FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
-                    <Grid DockPanel.Dock="Left" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Faction portrait"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource TextElement}" FontSize="14"/>
-                        <TextBlock Text="Name: "   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding ImageUrl.FileName}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="Gender: "   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding ImageGender}"   Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        
-                        <TextBlock Text="Source file url:"   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding ImageUrl}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="Is core?: "   Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                        <TextBlock Text="{Binding IsCore}"   Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                    </Grid>
-                </DockPanel>
-        <!-- displaying Allportraits  -->
-        <!--<ListView Name="AllPortraitList" Grid.Column="2" Grid.Row="0" ItemsSource="{Binding Path=AllPortraits}"  Style="{StaticResource PortraitListviewStyle}"  >
-
-        </ListView>-->
-        <ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=test}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
-        <DockPanel  Grid.Row="1" Grid.Column="2" Name="AllPortraitStat">
-            <DockPanel.DataContext>
-                <Binding Path="AllPortraits" />
-            </DockPanel.DataContext>
-            <Image DockPanel.Dock="Right"  Source="{Binding ImageUrl.FullUrl}" Height="145" Width="145" HorizontalAlignment="Right"/>
-            <Grid DockPanel.Dock="Left" >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource ElementBorder}" Grid.Column="1" Grid.Row="1" Grid.IsSharedSizeScope="True">
+            <Grid Margin="7,7,7,7">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto" SharedSizeGroup="ButtonHeight"/>
+                    <RowDefinition Height="auto" SharedSizeGroup="ButtonHeight"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="General portrait"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource TextElement}" FontSize="14"/>
-                <TextBlock Text="Name: "   Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="{Binding ImageUrl.FileName}"   Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-
-                <TextBlock Text="Source file url:"   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="{Binding ImageUrl}"   Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="Is relative?: "   Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
-                <TextBlock Text="{Binding ImageUrl.IsRelative}"   Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextElement}"/>
+                <Button Grid.Row="0" Margin="0,0,0,3" Command="{Binding Path=ExploreFileCommand}">Explore Factions</Button>
+                <Button Grid.Row="1" Margin="0,3,0,0" Command="{Binding Path=ExplorePortraitCommand}">Explore Portraits</Button>
             </Grid>
-        </DockPanel>
-        <!-- interaction Allportraits  -->
-        <Grid Name="AllPortraitsIntereaction" Grid.Row="2" Grid.Column="2" Visibility="Visible" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-            <Button Click="AddGenericPortrait_Click" Grid.Row="0" Grid.Column="0" Tag="Male"> Add Male </Button>
-            <Button Click="AddGenericPortrait_Click" Grid.Row="0" Grid.Column="1" Tag="Female"> Add Female</Button>
-            <Button Click="BtnAddPortraitSource_Click" Grid.Row="0" Grid.Column="2" >Add Portrait</Button>
-        </Grid>
-        <!-- interaction faction portraits  -->
-        <Grid Name="PortraitsIntereaction" Grid.Row="2" Grid.Column="1" Visibility="Visible" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-            <Button Click="RemoveFactionPortrait_Click" Grid.Row="0" Grid.Column="0" Tag="Male">Remove</Button>
-            <Button Click="ChangeGenderFactionPortrait_Click" Grid.Row="0" Grid.Column="1" Tag="Male">Change Gender</Button>
-        </Grid>
-        <Grid Name="FactionIntereaction" Grid.Row="2" Grid.Column="0" Visibility="visible" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-            <Button Click="DisplayAppend_Click" Grid.Row="0" Grid.Column="0" >Show Appended </Button>
-            <Button Click="ModHierarchy_Click" Grid.Row="0" Grid.Column="1" >Create/find Hierarchy</Button>
-            <Button Click="AppendFile_Click" Grid.Row="0" Grid.Column="2" >Create append file</Button>
-            <ContentControl Grid.Row="1" Content="{Binding Path=uRLViewModel}" HorizontalAlignment="Stretch"></ContentControl>
-            <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding Path=EditURLViewModel}" Width="75" HorizontalAlignment="Center"></ContentControl>
-        </Grid>
+        </Border>
     </Grid>
-
-
 
 
 

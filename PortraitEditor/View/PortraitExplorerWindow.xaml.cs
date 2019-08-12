@@ -1,4 +1,5 @@
 ﻿using PortraitEditor.ViewModel;
+using PortraitEditor.ViewModel.SubWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace PortraitEditor.View
     /// </summary>
     public partial class PortraitExplorerWindow : Window
     {
-        public PortraitExplorerWindow()
-        {
-            DataContext = new PortraitExplorerViewModel();
-            InitializeComponent();
-        }
+        //public PortraitExplorerWindow()
+        //{
+        //    DataContext = new SSPortraitExplorerViewModel();
+        //    InitializeComponent();
+        //}
         public PortraitExplorerWindow(object dataContext)
         {
             DataContext = dataContext;

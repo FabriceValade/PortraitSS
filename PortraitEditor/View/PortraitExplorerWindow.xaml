@@ -4,9 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitEditor.View"
+        xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
         mc:Ignorable="d"
         Title="PortraitExplorerWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Grid.IsSharedSizeScope="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ContentControl  Grid.Row="0" Grid.Column="0" Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
+        <ContentControl  Grid.Row="0" Grid.Column="1" Content="{Binding Path=DirectoryViewModel.FactionGroupList/}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <local:SSPortraitCollectionView DataContext="{TemplateBinding Content}"/>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
+        <ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GeneralPortraitsViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
     </Grid>
 </Window>

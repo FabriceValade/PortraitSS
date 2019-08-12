@@ -1,25 +1,27 @@
-﻿using PortraitEditor.View;
+﻿using PortraitEditor.Model.SSFiles;
+using PortraitEditor.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PortraitEditor.ViewModel
+namespace PortraitEditor.ViewModel.SubWindows
 {
-    class PortraitExplorerViewModel
+    public class SSPortraitExplorerViewModel
     {
         PortraitExplorerWindow View;
 
-        public PortraitExplorerViewModel() { }
+        public SSPortraitExplorerViewModel(SSFileDirectory<SSFactionGroup, SSFaction> factionDirectory)
+        {
+            DirectoryViewModel = new FactionDirectoryViewModel(factionDirectory);
+            GeneralPortraitsViewModel = new AllPortraitsViewModel(factionDirectory);
+        }
 
         #region Properties
         public FactionDirectoryViewModel DirectoryViewModel { get; set; }
 
-        public AllPortraitsViewModel test
-        {
-            get; set;
-        }
+        public AllPortraitsViewModel GeneralPortraitsViewModel { get; set; }
         #endregion
 
         #region method

@@ -16,6 +16,17 @@ namespace PortraitEditor.ViewModel
         public AllPortraitsViewModel(SSFileDirectory<SSFactionGroup, SSFaction> factionDirectory)
         {
             FactionDirectory = factionDirectory;
+            FactionDirectory.DirectoryChanged += FactionDirectory_DirectoryChanged;
+        }
+
+        private void FactionDirectory_DirectoryChanged(object sender, EventArgs e)
+        {
+            Portraits.Clear();
+            ObservableCollection<SSPortrait> temp= new ObservableCollection<SSPortrait>(FactionDirectory.GroupDirectory.SelectMany(x => x.Portraits).Distinct(new PortraitNoGenderEqualityComparer()).ToList());
+            foreach (SSPortrait portrait in temp)
+            {
+                Portraits.Add(portrait);
+            }
         }
 
         SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; set; }

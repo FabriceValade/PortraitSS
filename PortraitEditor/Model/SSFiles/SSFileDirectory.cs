@@ -11,12 +11,17 @@ namespace PortraitEditor.Model.SSFiles
     //a directory of group of files.
     public class SSFileDirectory<G, F> where G : SSFileGroup<F> where F : SSFile
     {
-
+        public event EventHandler DirectoryChanged;
+        protected virtual void OnDirectoryChanged()
+        {
+            DirectoryChanged?.Invoke(this, null);
+        }
         SSFileLister<G> _GroupDirectory = new SSFileLister<G>();
         public ObservableCollection<G> GroupDirectory { get => _GroupDirectory.Files; }
 
         public List<string> AvailableLinkingUrl { get; set; } = new List<string>();
 
+        #region method
         public void AddFile(F newFile)
         {
             string newFileLink = newFile.Url.LinkingUrl;
@@ -33,6 +38,7 @@ namespace PortraitEditor.Model.SSFiles
                 G newGroup = Activator.CreateInstance(typeof(G), new Object[] { newFile , AvailableLinkingUrl}) as G;
                 GroupDirectory.Add(newGroup);
             }
+            OnDirectoryChanged();
             return;
         }
         public void AddRange(List<F> FileList)
@@ -42,11 +48,11 @@ namespace PortraitEditor.Model.SSFiles
                 this.AddFile(newFile);
             }
         }
-
-
         public void DeleteDirectory()
         {
             _GroupDirectory.Delete();
+            OnDirectoryChanged();
         }
+        #endregion
     }
 }

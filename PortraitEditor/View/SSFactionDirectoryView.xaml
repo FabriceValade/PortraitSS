@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="auto" SharedSizeGroup="BottomPanel"/>
         </Grid.RowDefinitions>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
             <ListView x:Name="FactionGroupListView" ItemsSource="{Binding FactionGroupList}"  Margin="7,7,7,7" >

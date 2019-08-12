@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace PortraitEditor.ViewModel
+namespace PortraitEditor.ViewModel.SubWindows
 {
-    public class FileExplorerViewModel : ViewModelBase
+    public class SSFileExplorerViewModel : ViewModelBase
     {
         #region Field
         FileExplorerWindow WindowView;
@@ -130,11 +130,11 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region Constructors
-        public FileExplorerViewModel()
+        public SSFileExplorerViewModel()
         {
-            URLViewModel ModUrl = new URLViewModel() { CommonUrl="show"};
-            ModUrl.DisplayName = null;
-            ModUrl.LinkingUrl = "starsector-core";
+            //URLViewModel ModUrl = new URLViewModel() { CommonUrl="show"};
+            //ModUrl.DisplayName = null;
+            //ModUrl.LinkingUrl = "starsector-core";
 
             //ModCollection.Add(new ModViewModel() { Name = "Hello",Url= ModUrl });
         }

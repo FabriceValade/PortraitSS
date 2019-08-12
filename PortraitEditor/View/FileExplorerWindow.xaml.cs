@@ -1,4 +1,5 @@
 ﻿using PortraitEditor.ViewModel;
+using PortraitEditor.ViewModel.SubWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,10 @@ namespace PortraitEditor.View
     {
         public FileExplorerWindow()
         {
-            DataContext = new FileExplorerViewModel();
+            DataContext = new SSFileExplorerViewModel();
             InitializeComponent();
         }
-        public FileExplorerWindow(FileExplorerViewModel fileExplorer)
+        public FileExplorerWindow(SSFileExplorerViewModel fileExplorer)
         {
             DataContext = fileExplorer;
             InitializeComponent();
