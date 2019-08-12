@@ -12,7 +12,7 @@
             <RowDefinition Height="auto" SharedSizeGroup="BottomPanel"/>
         </Grid.RowDefinitions>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
-            <ListView x:Name="FactionGroupListView" ItemsSource="{Binding FactionGroupList}"  Margin="7,7,7,7" >
+            <ListView x:Name="FactionGroupListView" ItemsSource="{Binding FactionGroupView}"  Margin="7,7,7,7" SelectedIndex="0">
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
                     </Style>

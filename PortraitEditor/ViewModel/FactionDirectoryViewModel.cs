@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace PortraitEditor.ViewModel 
 {
@@ -26,6 +27,28 @@ namespace PortraitEditor.ViewModel
                     FactionDirectory.GroupDirectory.CollectionChanged += OnFactionsGroupChanged;
                 }
                 return _FactionGroupList;
+            }
+        }
+
+        CollectionView _FactionGroupView;
+        public CollectionView FactionGroupView
+        {
+            get
+            {
+                if (_FactionGroupView == null)
+                {
+                    _FactionGroupView = (CollectionView)CollectionViewSource.GetDefaultView(FactionGroupList);
+
+                }
+                return _FactionGroupView;;
+            }
+        }
+
+        public SSFactionGroupViewModel SelectedItem
+        {
+            get
+            {
+                return FactionGroupView.CurrentItem as SSFactionGroupViewModel;
             }
         }
 

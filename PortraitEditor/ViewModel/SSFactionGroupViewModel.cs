@@ -6,7 +6,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PortraitEditor.ViewModel
 {
@@ -101,13 +103,49 @@ namespace PortraitEditor.ViewModel
         }
         #endregion
 
+        #region properties for the view
+        public string Button1Text { get; } = "Remove";
+        public Visibility Button1Visibility { get; } = Visibility.Visible;
+        ICommand _Button1Command;
+        public ICommand Button1Command
+        {
+            get
+            {
+                if (_Button1Command == null)
+                {
+                    _Button1Command = new RelayCommand<object>(param => this.RemoveSelectedPortrait(param));
+                }
+                return _Button1Command;
+            }
+        }
+
+        public string Button2Text { get; set; }
+        public Visibility Button2Visibility { get; set; } = Visibility.Collapsed;
+        ICommand _Button2Command;
+        public ICommand Button2Command
+        {
+            get => _Button2Command;
+            set => _Button2Command = value;
+        }
+
+        #endregion
         private void FactionGroupModel_GroupChanged(object sender, EventArgs e)
         {
             NotifyPropertyChanged("DisplayName");
             NotifyPropertyChanged("LogoPath");
             NotifyPropertyChanged("ColorRGB");
             NotifyPropertyChanged("ContributingMods");
+            NotifyPropertyChanged("PortraitsView");
+            NotifyPropertyChanged("Portraits");
         }
-
+        private void RemoveSelectedPortrait(object obj)
+        {
+            SSPortrait portrait = obj as SSPortrait;
+            _PortraitsViewModel.Remove(portrait);
+        }
+        public void AddPortrait(object obj)
+        {
+            _PortraitsViewModel.Add(obj as SSPortrait);
+        }
     }
 }

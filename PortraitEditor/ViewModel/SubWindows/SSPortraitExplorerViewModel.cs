@@ -1,10 +1,12 @@
-﻿using PortraitEditor.Model.SSFiles;
+﻿using PortraitEditor.Model;
+using PortraitEditor.Model.SSFiles;
 using PortraitEditor.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PortraitEditor.ViewModel.SubWindows
 {
@@ -16,6 +18,12 @@ namespace PortraitEditor.ViewModel.SubWindows
         {
             DirectoryViewModel = new FactionDirectoryViewModel(factionDirectory);
             GeneralPortraitsViewModel = new AllPortraitsViewModel(factionDirectory);
+            GeneralPortraitsViewModel.Button1Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Male));
+            GeneralPortraitsViewModel.Button1Text = "Add Male";
+            GeneralPortraitsViewModel.Button1Visibility = Visibility.Visible;
+            GeneralPortraitsViewModel.Button2Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Female));
+            GeneralPortraitsViewModel.Button2Text = "Add Female";
+            GeneralPortraitsViewModel.Button2Visibility = Visibility.Visible;
         }
 
         #region Properties
@@ -37,5 +45,11 @@ namespace PortraitEditor.ViewModel.SubWindows
             View.Close();
         } 
         #endregion
+        public void AddPortraitFromGeneral(Object obj, Gender.GenderValue NewGender)
+        {
+            SSPortrait portrait = new SSPortrait(obj as SSPortrait);
+            portrait.ImageGender = new Gender() { Value = NewGender };
+            DirectoryViewModel.SelectedItem.AddPortrait(portrait);
+        }
     }
 }

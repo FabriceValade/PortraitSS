@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using Newtonsoft.Json.Linq;
 using PortraitEditor.JsonHandling;
@@ -19,6 +20,8 @@ namespace PortraitEditor.Model
 
         public SSMod UsingMod { get; set; }
         public Gender ImageGender { get; set; }
+        public string GenderString { get => ImageGender.ToString(); }
+        public Visibility GenderVisibility = Visibility.Collapsed;
         public URLRelative Url { get; set; }
         public bool ImageFound
         {

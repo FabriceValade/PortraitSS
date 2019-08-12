@@ -65,6 +65,11 @@ namespace PortraitEditor.ViewModel
                 RemovedList.Add(obj);
                 ResultingList.Remove(obj);
             }
+            else if (AddedList.Contains(obj))
+            {
+                AddedList.Remove(obj);
+                ResultingList.Remove(obj);
+            }
         }
         public void Add(T obj)
         {
