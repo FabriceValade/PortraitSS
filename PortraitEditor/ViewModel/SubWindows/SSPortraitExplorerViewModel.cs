@@ -49,10 +49,13 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
         public void AddPortraitFromGeneral(Object obj, Gender.GenderValue NewGender)
         {
+            if (obj == null)
+                return;
             SSPortrait portrait = new SSPortrait(obj as SSPortrait);
             portrait.ImageGender = new Gender() { Value = NewGender };
             portrait.UsingMod = L_PeSSMod;
-            DirectoryViewModel.SelectedItem.AddPortrait(portrait);
+            if (DirectoryViewModel.SelectedItem!=null)
+                DirectoryViewModel.SelectedItem.AddPortrait(portrait);
         }
 
         

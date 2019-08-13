@@ -161,6 +161,8 @@ namespace PortraitEditor.ViewModel
         }
         private void RemoveSelectedPortrait(object obj)
         {
+            if (obj == null)
+                return;
             SSPortrait portrait = obj as SSPortrait;
             _PortraitsViewModel.Remove(portrait);
         }

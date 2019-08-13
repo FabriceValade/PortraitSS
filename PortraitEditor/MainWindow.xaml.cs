@@ -24,6 +24,7 @@ using PortraitEditor.ViewModel;
 using PortraitEditor.View;
 using PortraitEditor.JsonHandling;
 using PortraitEditor.ViewModel.SubWindows;
+using PortraitEditor.Model;
 
 namespace PortraitEditor
 {
@@ -37,6 +38,7 @@ namespace PortraitEditor
 
         public SSFileExplorerViewModel FileExplorer { get; set; } = new SSFileExplorerViewModel();
         public SSPortraitExplorerViewModel PortraitExplorer { get; set; }
+        public SSMod L_PessMod { get; set; }
 
         ICommand _ExploreFileCommand;
         public ICommand ExploreFileCommand
@@ -69,6 +71,8 @@ namespace PortraitEditor
             //FileExplorer.ShowDialog();
             //PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory,FileExplorer.LPeSSMod);
             //PortraitExplorer.ShowDialog();
+            L_PessMod = FileExplorer.LPeSSMod;
+            PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
             DataContext = this;
             InitializeComponent();
         }
@@ -86,10 +90,10 @@ namespace PortraitEditor
         }
         private void ExplorePortraits()
         {
-            if (FileExplorer.LPeSSMod == null)
-                return;
-            if (PortraitExplorer==null)
-                PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
+            //if (FileExplorer.LPeSSMod == null)
+                //return;
+            //if (PortraitExplorer==null)
+               // PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
             //PortraitExplorer.L_PeSSMod = FileExplorer.LPeSSMod;
             this.Hide();
             PortraitExplorer.ShowDialog();

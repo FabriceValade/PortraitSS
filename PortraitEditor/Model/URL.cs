@@ -31,6 +31,20 @@ namespace PortraitEditor.Model
                 return result;
             }
         }
+        public string ShortUrl
+        {
+            get
+            {
+                if (this.RelativeUrl != null)
+                    return this.RelativeUrl;
+                if (this.LinkingUrl != null)
+                    return this.LinkingUrl;
+                if (this.CommonUrl != null)
+                    return this.CommonUrl;
+                               
+                return null;
+            }
+        }
         public bool IsComplete
         {
             get

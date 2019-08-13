@@ -16,12 +16,14 @@ namespace PortraitEditor.Model
         #region properties
         SSFileLister<SSFile> _FileLister=new SSFileLister<SSFile>();
         public ObservableCollection<SSFile> FileList { get => _FileLister.Files; }
-        public URLRelative Url { get; private set; }
-        public string Name { get; private set; }
+        public URLRelative Url { get; set; }
+        public string Name { get; set; }
         public bool ContainsFaction
         {
             get
             {
+                if (Url == null)
+                    return false;
                 string FactionDirPath = Path.Combine("data", "world");
                 FactionDirPath = Path.Combine(FactionDirPath, "factions");
                 URLRelative FactionDirUrl = new URLRelative()
@@ -45,7 +47,8 @@ namespace PortraitEditor.Model
 
         #endregion
 
-
+        public SSMod()
+        { }
         public SSMod(URLRelative url, string name)
         {
             Url = url ?? throw new ArgumentNullException("The Mod url cannot be null.");
@@ -55,6 +58,8 @@ namespace PortraitEditor.Model
         #region method
         public void ExploreFactionFile(SSFileDirectory<SSFactionGroup,SSFaction> directory, List<SSMod> AvailableMods)
         {
+            if (Url == null || Name == null)
+                throw new InvalidOperationException();
             string FactionDirPath = Path.Combine("data", "world");
             FactionDirPath = Path.Combine(FactionDirPath, "factions");
             URLRelative FactionDirUrl = new URLRelative()
