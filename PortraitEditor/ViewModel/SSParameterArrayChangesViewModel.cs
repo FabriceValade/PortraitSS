@@ -14,7 +14,8 @@ namespace PortraitEditor.ViewModel
         ObservableCollection<T> RemovedList = new ObservableCollection<T>();
         ObservableCollection<T> AddedList = new ObservableCollection<T>();
         public ObservableCollection<T> ResultingList { get; } = new ObservableCollection<T>();
-       
+
+        IEqualityComparer<T> EqualityComparer;
         public SSParameterArrayChangesViewModel(ObservableCollection<T> listToEdit)
         {
             ChangedList = listToEdit;
@@ -22,7 +23,11 @@ namespace PortraitEditor.ViewModel
             CalculateResultingList();
             ChangedList.CollectionChanged += ChangedList_CollectionChanged;
         }
-
+        public SSParameterArrayChangesViewModel(ObservableCollection<T> listToEdit, IEqualityComparer<T> equalityComparer)
+            : this(listToEdit)
+        {
+            EqualityComparer = equalityComparer;
+        }
         private void ChangedList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null && e.NewItems.Count != 0)
@@ -60,23 +65,72 @@ namespace PortraitEditor.ViewModel
 
         public void Remove(T obj)
         {
-            if (ChangedList.Contains(obj))
+            T OldChangedObj;
+            T OldAddedObj;
+            if (EqualityComparer != null)
             {
-                RemovedList.Add(obj);
-                ResultingList.Remove(obj);
+                OldChangedObj = (from changed in ChangedList
+                                 where EqualityComparer.Equals(changed, obj)
+                                 select changed).FirstOrDefault();
+                OldAddedObj = (from added in AddedList
+                                 where EqualityComparer.Equals(added, obj)
+                                 select added).FirstOrDefault();
             }
-            else if (AddedList.Contains(obj))
+            else
             {
-                AddedList.Remove(obj);
-                ResultingList.Remove(obj);
+                OldChangedObj = (from changed in ChangedList
+                                 where changed.Equals(obj)
+                                 select changed).FirstOrDefault();
+                OldAddedObj = (from added in AddedList
+                               where added.Equals(obj)
+                               select added).FirstOrDefault();
+            }
+            
+            if (OldAddedObj!=null)
+            {
+                AddedList.Remove(OldAddedObj);
+                ResultingList.Remove(OldAddedObj);
+                
+            }
+            else if (OldChangedObj!=null)
+            {
+                RemovedList.Add(OldChangedObj);
+                ResultingList.Remove(OldChangedObj);
             }
         }
         public void Add(T obj)
         {
-            AddedList.Add(obj);
-            ResultingList.Add(obj);
+            T OldRemovedObj;
+            if (EqualityComparer != null)
+            {
+                OldRemovedObj = (from removed in RemovedList
+                                 where EqualityComparer.Equals(removed, obj)
+                                 select removed).FirstOrDefault();
+            }
+            else
+            {
+                OldRemovedObj = (from removed in RemovedList
+                                 where removed.Equals(obj)
+                                 select removed).FirstOrDefault();
+            }
+            if (OldRemovedObj!=null)
+            {
+                RemovedList.Remove(OldRemovedObj);
+                ResultingList.Add(OldRemovedObj);
+            }
+            else
+            {
+                AddedList.Add(obj);
+                ResultingList.Add(obj);
+            }
         }
 
+        public void ResetChange()
+        {
+            RemovedList.Clear();
+            AddedList.Clear();
+            CalculateResultingList();
+        }
         void CalculateResultingList()
         {
             ResultingList.Clear();

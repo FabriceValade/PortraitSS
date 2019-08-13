@@ -67,7 +67,7 @@ namespace PortraitEditor
         public MainWindow()
         {
             //FileExplorer.ShowDialog();
-            PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory);
+            PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory,FileExplorer.LPeSSMod);
             //PortraitExplorer.ShowDialog();
             DataContext = this;
             InitializeComponent();
@@ -76,27 +76,7 @@ namespace PortraitEditor
         
 
  
-        private void AddGenericPortrait_Click(object sender, RoutedEventArgs e)
-        {
-            //Button sent = sender as Button;
-            //FactionFile ReceivingFaction = (FactionFile) CFactionList.Items.CurrentItem;
-            //Portrait Referencing = (Portrait)AllPortraitList.Items.CurrentItem;
-            //Portrait Transfering = new Portrait(Referencing,(String)sent.Tag);
-            //ReceivingFaction.AddPortrait(Transfering);
-            //PortraitList.Items.MoveCurrentToFirst();
-            return;
-
-        }
-        private void RemoveFactionPortrait_Click(object sender, RoutedEventArgs e)
-        {
-            //Button sent = sender as Button;
-            //FactionFile RemovingFaction = (FactionFile)CFactionList.Items.CurrentItem;
-            //int SelectedPos = (int)PortraitList.Items.CurrentPosition;
-            //if (SelectedPos < RemovingFaction.Portraits.Count && SelectedPos != -1)
-            //    RemovingFaction.RemovePortrait(SelectedPos);
-            //return;
-
-        }
+       
         private void ExploreFiles()
         {
             this.Hide();
@@ -106,6 +86,9 @@ namespace PortraitEditor
         }
         private void ExplorePortraits()
         {
+            if (FileExplorer.LPeSSMod == null)
+                return;
+            PortraitExplorer.L_PeSSMod = FileExplorer.LPeSSMod;
             this.Hide();
             PortraitExplorer.ShowDialog();
             this.Show();

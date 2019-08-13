@@ -105,6 +105,20 @@ namespace PortraitEditor.Model
             return hashProductUrl.GetHashCode();
         }
     }
+    class PortraitGenderEqualityComparer : IEqualityComparer<SSPortrait>
+    {
+        public bool Equals(SSPortrait other1, SSPortrait other2)
+        {
+            if (other1 == null || other2 == null) return false;
+            return (other1.Url.FullUrl == other2.Url.FullUrl && other1.ImageGender.Value == other2.ImageGender.Value);
+        }
+
+        public int GetHashCode(SSPortrait other)
+        {
+            int hashProductUrl = other.Url == null ? 0 : other.Url.FullUrl.GetHashCode();
+            return hashProductUrl.GetHashCode();
+        }
+    }
 
     class PortraitModToGroupConverter : IValueConverter
     {

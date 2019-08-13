@@ -72,7 +72,7 @@ namespace PortraitEditor.ViewModel
                 if (_PortraitsViewModel != null)
                     return _PortraitsViewModel.ResultingList;
 
-                _PortraitsViewModel = new SSParameterArrayChangesViewModel<SSPortrait>(new ObservableCollection<SSPortrait>(FactionGroupModel.Portraits));
+                _PortraitsViewModel = new SSParameterArrayChangesViewModel<SSPortrait>(new ObservableCollection<SSPortrait>(FactionGroupModel.Portraits), new PortraitGenderEqualityComparer());
                 return _PortraitsViewModel.ResultingList;
 
             }
@@ -119,12 +119,19 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        public string Button2Text { get; set; }
-        public Visibility Button2Visibility { get; set; } = Visibility.Collapsed;
+        public string Button2Text { get; set; } = "Reset";
+        public Visibility Button2Visibility { get; set; } = Visibility.Visible;
         ICommand _Button2Command;
         public ICommand Button2Command
         {
-            get => _Button2Command;
+            get
+            {
+                if (_Button2Command == null)
+                {
+                    _Button2Command = new RelayCommand<object>(param => this.ResetPortraits());
+                }
+                return _Button2Command;
+            }
             set => _Button2Command = value;
         }
 
@@ -146,6 +153,10 @@ namespace PortraitEditor.ViewModel
         public void AddPortrait(object obj)
         {
             _PortraitsViewModel.Add(obj as SSPortrait);
+        }
+        public void ResetPortraits()
+        {
+            _PortraitsViewModel.ResetChange();
         }
     }
 }
