@@ -4,6 +4,7 @@ using PortraitEditor.Model.SSFiles;
 using PortraitEditor.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using System.Windows;
 
 namespace PortraitEditor.ViewModel.SubWindows
 {
-    public class SSPortraitExplorerViewModel
+    public class SSPortraitExplorerViewModel : ViewModelBase
     {
         PortraitExplorerWindow View;
         public SSMod L_PeSSMod;
@@ -26,12 +27,16 @@ namespace PortraitEditor.ViewModel.SubWindows
             GeneralPortraitsViewModel.Button2Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Female));
             GeneralPortraitsViewModel.Button2Text = "Add Female";
             GeneralPortraitsViewModel.Button2Visibility = Visibility.Visible;
+            PortraitEdit = DirectoryViewModel.PortraitEdit;
         }
+
 
         #region Properties
         public FactionDirectoryViewModel DirectoryViewModel { get; set; }
 
         public AllPortraitsViewModel GeneralPortraitsViewModel { get; set; }
+
+        public ObservableCollection<SSParameterArrayChangesViewModel<SSPortrait>> PortraitEdit {get;}
         #endregion
 
         #region method

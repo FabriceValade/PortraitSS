@@ -64,16 +64,26 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        SSParameterArrayChangesViewModel<SSPortrait> _PortraitsViewModel;
+        SSParameterArrayChangesViewModel<SSPortrait> _PortraitsParameterArrayChange;
+        public SSParameterArrayChangesViewModel<SSPortrait> PortraitsParameterArrayChange
+        {
+            get
+            {
+                if (_PortraitsParameterArrayChange == null)
+                    _PortraitsParameterArrayChange = new SSParameterArrayChangesViewModel<SSPortrait>(new ObservableCollection<SSPortrait>(FactionGroupModel.Portraits), new PortraitGenderEqualityComparer());
+
+                return _PortraitsParameterArrayChange;
+            }
+        }
         public ObservableCollection<SSPortrait> Portraits
         {
             get
             {
-                if (_PortraitsViewModel != null)
-                    return _PortraitsViewModel.ResultingList;
+                //if (_PortraitsParameterArrayChange != null)
+                    return PortraitsParameterArrayChange.ResultingList;
 
-                _PortraitsViewModel = new SSParameterArrayChangesViewModel<SSPortrait>(new ObservableCollection<SSPortrait>(FactionGroupModel.Portraits), new PortraitGenderEqualityComparer());
-                return _PortraitsViewModel.ResultingList;
+                //_PortraitsParameterArrayChange = new SSParameterArrayChangesViewModel<SSPortrait>(new ObservableCollection<SSPortrait>(FactionGroupModel.Portraits), new PortraitGenderEqualityComparer());
+               // return _PortraitsParameterArrayChange.ResultingList;
 
             }
         }
@@ -158,21 +168,22 @@ namespace PortraitEditor.ViewModel
             NotifyPropertyChanged("ContributingMods");
             NotifyPropertyChanged("PortraitsView");
             NotifyPropertyChanged("Portraits");
+            NotifyPropertyChanged("PortraitsParameterArrayChange");
         }
         private void RemoveSelectedPortrait(object obj)
         {
             if (obj == null)
                 return;
             SSPortrait portrait = obj as SSPortrait;
-            _PortraitsViewModel.Remove(portrait);
+            PortraitsParameterArrayChange.Remove(portrait);
         }
         public void AddPortrait(object obj)
         {
-            _PortraitsViewModel.Add(obj as SSPortrait);
+            PortraitsParameterArrayChange.Add(obj as SSPortrait);
         }
         public void ResetPortraits()
         {
-            _PortraitsViewModel.ResetChange();
+            PortraitsParameterArrayChange.ResetChange();
         }
     }
 }

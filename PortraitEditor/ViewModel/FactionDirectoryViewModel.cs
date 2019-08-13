@@ -1,4 +1,5 @@
-﻿using PortraitEditor.Model.SSFiles;
+﻿using PortraitEditor.Model;
+using PortraitEditor.Model.SSFiles;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +30,28 @@ namespace PortraitEditor.ViewModel
                 return _FactionGroupList;
             }
         }
+
+        ObservableCollection<SSParameterArrayChangesViewModel<SSPortrait>> _PortraitEdit;
+        public ObservableCollection<SSParameterArrayChangesViewModel<SSPortrait>> PortraitEdit
+        {
+            get
+            {
+                if (_PortraitEdit == null)
+                {
+                    _PortraitEdit = new ObservableCollection<SSParameterArrayChangesViewModel<SSPortrait>>((from factionViewModel in FactionGroupList
+                                                                                                            select factionViewModel.PortraitsParameterArrayChange));
+                    FactionGroupList.CollectionChanged += FactionGroupList_CollectionChanged;
+                }
+                return _PortraitEdit;
+            }
+            set
+            {
+                _PortraitEdit = value;
+                NotifyPropertyChanged("PortraitEdit");
+            }
+        }
+
+        
 
         CollectionView _FactionGroupView;
         public CollectionView FactionGroupView
@@ -73,6 +96,24 @@ namespace PortraitEditor.ViewModel
                                                                 where viewModel.FactionGroupModel == file
                                                                 select viewModel).SingleOrDefault();
                     FactionGroupList.Remove(RemovedViewModel);
+                }
+        }
+
+        private void FactionGroupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null && e.NewItems.Count != 0)
+                foreach (SSFactionGroupViewModel file in e.NewItems)
+                {
+                    PortraitEdit.Add((file as SSFactionGroupViewModel).PortraitsParameterArrayChange);
+                }
+
+            if (e.OldItems != null && e.OldItems.Count != 0)
+                foreach (SSFactionGroupViewModel file in e.OldItems)
+                {
+                    SSParameterArrayChangesViewModel<SSPortrait> RemovedViewModel = (from viewModel in PortraitEdit
+                                                                         where viewModel == file.PortraitsParameterArrayChange
+                                                                         select viewModel).SingleOrDefault();
+                    PortraitEdit.Remove(RemovedViewModel);
                 }
         }
         #endregion
