@@ -1,4 +1,5 @@
-﻿using PortraitEditor.Model;
+﻿using Ookii.Dialogs.Wpf;
+using PortraitEditor.Model;
 using PortraitEditor.Model.SSFiles;
 using System;
 using System.Collections.Generic;
@@ -15,21 +16,24 @@ namespace PortraitEditor.ViewModel
     public class AllPortraitsViewModel : ViewModelBase
     {
 
-        public AllPortraitsViewModel(SSFileDirectory<SSFactionGroup, SSFaction> factionDirectory)
+        public AllPortraitsViewModel(SSFileDirectory<SSFactionGroup, SSFaction> factionDirectory, SSMod localMod)
         {
             FactionDirectory = factionDirectory;
             FactionDirectory.DirectoryChanged += FactionDirectory_DirectoryChanged;
+            LocalMod = localMod;
         }
 
+        #region EventHandler
         private void FactionDirectory_DirectoryChanged(object sender, EventArgs e)
         {
             Portraits.Clear();
-            ObservableCollection<SSPortrait> temp= new ObservableCollection<SSPortrait>(FactionDirectory.GroupDirectory.SelectMany(x => x.Portraits).Distinct(new PortraitNoGenderEqualityComparer()).ToList());
+            ObservableCollection<SSPortrait> temp = new ObservableCollection<SSPortrait>(FactionDirectory.GroupDirectory.SelectMany(x => x.Portraits).Distinct(new PortraitNoGenderEqualityComparer()).ToList());
             foreach (SSPortrait portrait in temp)
             {
                 Portraits.Add(portrait);
             }
-        }
+        } 
+        #endregion
 
         SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; set; }
 
@@ -48,6 +52,10 @@ namespace PortraitEditor.ViewModel
             }
         }
 
+        SSMod LocalMod;
+
+
+        #region properties for the view
         CollectionView _PortraitsView;
         public CollectionView PortraitsView
         {
@@ -62,16 +70,17 @@ namespace PortraitEditor.ViewModel
                 return _PortraitsView;
             }
         }
-
-        #region properties for the view
+        #region Button1
         public string Button1Text { get; set; }
         public Visibility Button1Visibility { get; set; } = Visibility.Collapsed;
         ICommand _Button1Command;
         public ICommand Button1Command
         {
             get => _Button1Command;
-            set => _Button1Command=value;
+            set => _Button1Command = value;
         }
+        #endregion
+        #region Button2
         public string Button2Text { get; set; }
         public Visibility Button2Visibility { get; set; } = Visibility.Collapsed;
         ICommand _Button2Command;
@@ -80,7 +89,44 @@ namespace PortraitEditor.ViewModel
             get => _Button2Command;
             set => _Button2Command = value;
         }
-
         #endregion
+        #region Button3
+        public string Button3Text { get; set; } = "Add from file";
+        public Visibility Button3Visibility { get; set; } = Visibility.Visible;
+        ICommand _Button3Command;
+        public ICommand Button3Command
+        {
+            get
+            {
+                if (_Button3Command == null)
+                {
+                    _Button3Command = new RelayCommand<object>(param => this.AddPortraitFromLocal());
+                }
+                return _Button3Command;
+            }
+            set => _Button3Command = value;
+        }
+        #endregion
+        #endregion
+
+        public void AddPortraitFromLocal()
+        {
+            VistaOpenFileDialog FileOpen = new VistaOpenFileDialog();
+            FileOpen.Multiselect = false;
+            
+            URLRelative newUrl;
+            if (FileOpen.ShowDialog() == true)
+            {
+                newUrl = new URLRelative()
+                {
+                    LinkingUrl = null,
+                    RelativeUrl = FileOpen.FileName,
+                    CommonUrl = null
+                };
+                SSPortrait newPortrait = new SSPortrait(newUrl, new Gender(), LocalMod, null);
+                Portraits.Add(newPortrait);
+            }
+            return;
+        }
     }
 }

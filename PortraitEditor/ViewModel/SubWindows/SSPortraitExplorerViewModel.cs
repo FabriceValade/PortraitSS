@@ -1,4 +1,5 @@
-﻿using PortraitEditor.Model;
+﻿using Ookii.Dialogs.Wpf;
+using PortraitEditor.Model;
 using PortraitEditor.Model.SSFiles;
 using PortraitEditor.View;
 using System;
@@ -16,9 +17,9 @@ namespace PortraitEditor.ViewModel.SubWindows
         public SSMod L_PeSSMod;
         public SSPortraitExplorerViewModel(SSFileDirectory<SSFactionGroup, SSFaction> factionDirectory, SSMod l_PessMod)
         {
-            L_PeSSMod = l_PessMod;
+            L_PeSSMod = l_PessMod ?? throw new ArgumentNullException("Local mod cannot be null");
             DirectoryViewModel = new FactionDirectoryViewModel(factionDirectory);
-            GeneralPortraitsViewModel = new AllPortraitsViewModel(factionDirectory);
+            GeneralPortraitsViewModel = new AllPortraitsViewModel(factionDirectory, L_PeSSMod);
             GeneralPortraitsViewModel.Button1Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Male));
             GeneralPortraitsViewModel.Button1Text = "Add Male";
             GeneralPortraitsViewModel.Button1Visibility = Visibility.Visible;
@@ -53,5 +54,7 @@ namespace PortraitEditor.ViewModel.SubWindows
             portrait.UsingMod = L_PeSSMod;
             DirectoryViewModel.SelectedItem.AddPortrait(portrait);
         }
+
+        
     }
 }

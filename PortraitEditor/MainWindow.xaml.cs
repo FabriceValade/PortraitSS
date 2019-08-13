@@ -67,7 +67,7 @@ namespace PortraitEditor
         public MainWindow()
         {
             //FileExplorer.ShowDialog();
-            PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory,FileExplorer.LPeSSMod);
+            //PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory,FileExplorer.LPeSSMod);
             //PortraitExplorer.ShowDialog();
             DataContext = this;
             InitializeComponent();
@@ -88,7 +88,9 @@ namespace PortraitEditor
         {
             if (FileExplorer.LPeSSMod == null)
                 return;
-            PortraitExplorer.L_PeSSMod = FileExplorer.LPeSSMod;
+            if (PortraitExplorer==null)
+                PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
+            //PortraitExplorer.L_PeSSMod = FileExplorer.LPeSSMod;
             this.Hide();
             PortraitExplorer.ShowDialog();
             this.Show();

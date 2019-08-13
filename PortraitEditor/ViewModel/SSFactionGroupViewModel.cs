@@ -104,6 +104,7 @@ namespace PortraitEditor.ViewModel
         #endregion
 
         #region properties for the view
+        #region Button1
         public string Button1Text { get; } = "Remove";
         public Visibility Button1Visibility { get; } = Visibility.Visible;
         ICommand _Button1Command;
@@ -118,7 +119,9 @@ namespace PortraitEditor.ViewModel
                 return _Button1Command;
             }
         }
+        #endregion
 
+        #region Button2
         public string Button2Text { get; set; } = "Reset";
         public Visibility Button2Visibility { get; set; } = Visibility.Visible;
         ICommand _Button2Command;
@@ -134,7 +137,18 @@ namespace PortraitEditor.ViewModel
             }
             set => _Button2Command = value;
         }
+        #endregion
 
+        #region Button3
+        public string Button3Text { get; set; }
+        public Visibility Button3Visibility { get; set; } = Visibility.Collapsed;
+        ICommand _Button3Command;
+        public ICommand Button3Command
+        {
+            get => _Button3Command;
+            set => _Button3Command = value;
+        } 
+        #endregion
         #endregion
         private void FactionGroupModel_GroupChanged(object sender, EventArgs e)
         {

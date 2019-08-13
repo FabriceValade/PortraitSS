@@ -55,8 +55,9 @@
                 </Grid.RowDefinitions>
                 <ContentControl  Grid.Row="0" Grid.RowSpan="2" Content="{Binding Path=Portraits/}"  HorizontalAlignment="Stretch" Background="Transparent" />
                 <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="7,7,7,7" Orientation="Horizontal">
-                    <Button Width="150" Content="{Binding Path=Button1Text}" Visibility="{Binding Path=Button1Visibility}" CommandParameter="{Binding Path=Portraits/}" Command="{Binding Path=Button1Command}" Margin="0,0,2,0"/>
-                    <Button Width="150" Content="{Binding Path=Button2Text}" Visibility="{Binding Path=Button2Visibility}" CommandParameter="{Binding Path=Portraits/}" Command="{Binding Path=Button2Command}"  Margin="2,0,2,0"/>
+                    <Button Width="120" Content="{Binding Path=Button1Text}" Visibility="{Binding Path=Button1Visibility}" CommandParameter="{Binding Path=Portraits/}" Command="{Binding Path=Button1Command}" Margin="0,0,2,0"/>
+                    <Button Width="120" Content="{Binding Path=Button2Text}" Visibility="{Binding Path=Button2Visibility}" CommandParameter="{Binding Path=Portraits/}" Command="{Binding Path=Button2Command}"  Margin="2,0,2,0"/>
+                    <Button Width="120" Content="{Binding Path=Button3Text}" Visibility="{Binding Path=Button3Visibility}" CommandParameter="{Binding Path=Portraits/}" Command="{Binding Path=Button3Command}"  Margin="2,0,2,0"/>
                 </StackPanel>
             </Grid>
         </Border>
