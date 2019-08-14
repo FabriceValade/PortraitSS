@@ -93,6 +93,7 @@
     <Compile Include="Model\SSFiles\SSFileGroup.cs" />
     <Compile Include="Model\SSFiles\SSFileLister.cs" />
     <Compile Include="Model\SSMod.cs" />
+    <Compile Include="ViewModel\SubWindows\SSFileWritterViewModel.cs" />
     <Compile Include="ViewModel\SubWindows\SSPortraitExplorerViewModel.cs" />
     <Compile Include="ViewModel\SSParameterArrayChangesViewModel.cs" />
     <Compile Include="Model\SSPortrait.cs" />
@@ -107,6 +108,9 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\URLViewModel.cs" />
     <Compile Include="Model\URL.cs" />
+    <Compile Include="View\FileWriterWindow.xaml.cs">
+      <DependentUpon>FileWriterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PortraitExplorerWindow.xaml.cs">
       <DependentUpon>PortraitExplorerWindow.xaml</DependentUpon>
     </Compile>
@@ -156,6 +160,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\FileWriterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PortraitExplorerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

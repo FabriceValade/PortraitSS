@@ -97,6 +97,7 @@ namespace PortraitEditor.ViewModel
                                                                 select viewModel).SingleOrDefault();
                     FactionGroupList.Remove(RemovedViewModel);
                 }
+            
         }
 
         private void FactionGroupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

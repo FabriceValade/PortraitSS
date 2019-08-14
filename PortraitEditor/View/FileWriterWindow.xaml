@@ -1,0 +1,51 @@
+﻿<Window x:Class="PortraitEditor.View.FileWriterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PortraitEditor.View"
+        mc:Ignorable="d"
+        Title="FileWriterWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
+            <ListView  ItemsSource="{Binding ModifiedFactionList}"  Margin="7,7,7,7" SelectedIndex="0">
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                    </Style>
+                </ListView.Resources>
+
+            </ListView>
+        </Border>
+        <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="1">
+            <ListView ItemsSource="{Binding Path=ModifiedFactionList/PortraitsParameterArrayChange.AddedList}"   Margin="7,7,7,7" Background="Transparent" SelectedIndex="0" BorderThickness="0">
+                <ListView.Style>
+                    <Style  TargetType="ListView">
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                        <Setter Property="ItemTemplate" >
+                            <Setter.Value>
+                                <DataTemplate >
+                                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
+                                        <Image Source="{Binding Url.FullUrl}" Height="60"/>
+                                    </StackPanel>
+                                </DataTemplate >
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
+
+                    </Style>
+                </ListView.Style>
+            </ListView>
+        </Border>
+    </Grid>
+</Window>

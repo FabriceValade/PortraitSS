@@ -38,6 +38,8 @@ namespace PortraitEditor
 
         public SSFileExplorerViewModel FileExplorer { get; set; } = new SSFileExplorerViewModel();
         public SSPortraitExplorerViewModel PortraitExplorer { get; set; }
+
+        public SSFileWritterViewModel FileWriter { get; set; }
         public SSMod L_PessMod { get; set; }
 
         ICommand _ExploreFileCommand;
@@ -52,6 +54,7 @@ namespace PortraitEditor
                 return _ExploreFileCommand;
             }
         }
+
         ICommand _ExplorePortraitCommand;
         public ICommand ExplorePortraitCommand
         {
@@ -64,7 +67,20 @@ namespace PortraitEditor
                 return _ExplorePortraitCommand;
             }
         }
+        ICommand _WriteFileCommand;
+        public ICommand WriteFileCommand
+        {
+            get
+            {
+                if (_WriteFileCommand == null)
+                {
+                    _WriteFileCommand = new RelayCommand<object>(param => this.WriteFiles());
+                }
+                return _WriteFileCommand;
+            }
+        }
 
+        
 
         public MainWindow()
         {
@@ -73,6 +89,7 @@ namespace PortraitEditor
             //PortraitExplorer.ShowDialog();
             L_PessMod = FileExplorer.LPeSSMod;
             PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
+            FileWriter = new SSFileWritterViewModel(FileExplorer.LPeSSMod, PortraitExplorer.DirectoryViewModel.FactionGroupList);
             DataContext = this;
             InitializeComponent();
         }
@@ -90,17 +107,17 @@ namespace PortraitEditor
         }
         private void ExplorePortraits()
         {
-            //if (FileExplorer.LPeSSMod == null)
-                //return;
-            //if (PortraitExplorer==null)
-               // PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
-            //PortraitExplorer.L_PeSSMod = FileExplorer.LPeSSMod;
             this.Hide();
             PortraitExplorer.ShowDialog();
             this.Show();
             return;
         }
-
+        private void WriteFiles()
+        {
+            this.Hide();
+            FileWriter.ShowDialog();
+            this.Show();
+        }
 
 
     }

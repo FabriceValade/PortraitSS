@@ -10,12 +10,21 @@ namespace PortraitEditor.ViewModel
 {
     public class SSParameterArrayChangesViewModel<T> : ViewModelBase where T : IEquatable<T>
     {
-        ObservableCollection<T> ChangedList;
-        ObservableCollection<T> RemovedList = new ObservableCollection<T>();
-        ObservableCollection<T> AddedList = new ObservableCollection<T>();
-        public ObservableCollection<T> ResultingList { get; } = new ObservableCollection<T>();
-
         IEqualityComparer<T> EqualityComparer;
+        ObservableCollection<T> ChangedList;
+        public ObservableCollection<T> RemovedList { get; } = new ObservableCollection<T>();
+        public ObservableCollection<T> AddedList { get; } = new ObservableCollection<T>();
+        public ObservableCollection<T> ResultingList { get; } = new ObservableCollection<T>();
+        public bool IsChanged
+        {
+            get
+            {
+                if (RemovedList.Count > 0 || AddedList.Count > 0)
+                    return true;
+                return false;
+            }
+        }
+        
         public SSParameterArrayChangesViewModel(ObservableCollection<T> listToEdit)
         {
             ChangedList = listToEdit;
