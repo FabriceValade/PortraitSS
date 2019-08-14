@@ -20,14 +20,15 @@ namespace PortraitEditor.ViewModel.SubWindows
         {
             get
             {
-                if (_ModifiedFactionList != null)
-                    return _ModifiedFactionList;
                 _ModifiedFactionList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
                                                                                          where faction.PortraitsParameterArrayChange.IsChanged
                                                                                          select faction);
                 return _ModifiedFactionList;
             }
         }
+
+
+
         FileWriterWindow WindowView;
 
       
@@ -40,9 +41,6 @@ namespace PortraitEditor.ViewModel.SubWindows
 
         public void ShowDialog()
         {
-            _ModifiedFactionList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
-                                                                                     where faction.PortraitsParameterArrayChange.IsChanged
-                                                                                     select faction);
             NotifyPropertyChanged("ModifiedFactionList");
             WindowView = new FileWriterWindow(this);
             WindowView.ShowDialog();
