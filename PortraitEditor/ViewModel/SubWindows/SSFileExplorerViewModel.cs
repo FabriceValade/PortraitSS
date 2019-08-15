@@ -74,7 +74,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         public bool ModFolderRadioAsIgnore
         {
             get => ModAction.Equals(SSModFolderActions.Ignore);
-            set => ModAction = SSModFolderActions.Ignore; 
+            set => ModAction = SSModFolderActions.Ignore;
         }
         public bool ModFolderRadioAsUse
         {
@@ -126,7 +126,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         public ObservableCollection<ModFactionViewModel> ModWithFactionCollection { get; } = new ObservableCollection<ModFactionViewModel>();
         public SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; } = new SSFileDirectory<SSFactionGroup, SSFaction>();
 
-        SSMod _LPeSSMod = new SSMod();
+        SSMod _LPeSSMod = new SSMod() { Name = "LPeSS" };
         public SSMod LPeSSMod { get => _LPeSSMod; private set { _LPeSSMod = value; NotifyPropertyChanged(); } }
         #endregion
 
@@ -202,7 +202,7 @@ namespace PortraitEditor.ViewModel.SubWindows
 
             ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
             ModCollection.Add(CoreModViewModel);
-            UpdateLocalMod(new URLRelative(StarsectorFolderUrl.CommonUrl, Path.Combine("mods", "LPeSS"), null), "L_PeSS");
+            UpdateLocalMod(new URLRelative(StarsectorFolderUrl.CommonUrl, Path.Combine("mods", "LPeSS"), null), "LPeSS");
             return;
         }
 
@@ -227,6 +227,10 @@ namespace PortraitEditor.ViewModel.SubWindows
                     ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
                     ModCollection.Add(ModFolder);
 
+                }
+                if (mod.Name==LPeSSMod.Name)
+                {
+                    LPeSSMod = mod;
                 }
             }
             

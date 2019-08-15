@@ -108,6 +108,7 @@ namespace PortraitEditor
         private void ExplorePortraits()
         {
             this.Hide();
+            PortraitExplorer.L_PeSSMod = FileExplorer.LPeSSMod;
             PortraitExplorer.ShowDialog();
             this.Show();
             return;
@@ -115,6 +116,7 @@ namespace PortraitEditor
         private void WriteFiles()
         {
             this.Hide();
+            FileWriter.L_PeSSMod = FileExplorer.LPeSSMod;
             FileWriter.ShowDialog();
             this.Show();
         }
