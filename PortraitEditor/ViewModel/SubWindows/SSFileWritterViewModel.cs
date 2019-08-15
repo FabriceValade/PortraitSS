@@ -33,6 +33,14 @@ namespace PortraitEditor.ViewModel.SubWindows
         FileWriterWindow WindowView;
         ObservableCollection<SSFactionGroupViewModel> _ModifiedFactionList;
         string FactionFolderPath;
+        string PortraitGraphPath;
+        JObject ModInfo = new JObject(
+                            new JProperty("id", "l_pess"),
+                            new JProperty("name","Lethargie portrait editor for Starsector"),
+                            new JProperty("author","Lethargie"),
+                            new JProperty("version", "v1.0"),
+                            new JProperty("description","Add some portraits"),
+                            new JProperty("gameVersion", "0.9.1a"));
         #endregion
 
 
@@ -91,8 +99,19 @@ namespace PortraitEditor.ViewModel.SubWindows
                 LPeSSFactionDirectory.Delete(true);
             LPeSSFactionDirectory.Create();
             FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
+            PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
             DirectoryInfo FactionFolderInfo = new DirectoryInfo(FactionFolderPath);
             FactionFolderInfo.Create();
+            FactionFolderInfo = new DirectoryInfo(PortraitGraphPath);
+            FactionFolderInfo.Create();
+            using (StreamWriter file = File.CreateText(Path.Combine(L_PeSSMod.Url.FullUrl, "mod_info.json")))
+            {
+                using (JsonTextWriter writer = new JsonTextWriter(file))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    ModInfo.WriteTo(writer);
+                }
+            }
         }
         public void WriteAppend()
         {

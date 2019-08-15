@@ -86,7 +86,10 @@ namespace PortraitEditor.Model
             if (PropertyName == null)
                 PropertyName = Gender.MalePropertyName;
 
-            JObject Result = new JObject(new JProperty(PropertyName, Url.RelativeUrl));
+            JObject Result = new JObject(
+                                   new JProperty("portraits",
+                                        new JObject(
+                                                new JProperty(PropertyName,new JArray( Url.RelativeUrl)))));
             return Result;
         }
     }
