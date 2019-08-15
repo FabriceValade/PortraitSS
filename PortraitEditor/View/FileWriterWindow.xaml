@@ -4,48 +4,54 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitEditor.View"
+        xmlns:vmw="clr-namespace:PortraitEditor.ViewModel.SubWindows"
         mc:Ignorable="d"
         Title="FileWriterWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <vmw:CollectionToVisibilityConverter x:Key="CollectionVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
-            <ListView  ItemsSource="{Binding ModifiedFactionList}"  Margin="7,7,7,7" SelectedIndex="0">
-                <ListView.Resources>
-                    <Style TargetType="ListViewItem">
-                    </Style>
-                </ListView.Resources>
-
-            </ListView>
-        </Border>
+        <StackPanel>
+            <Border Style="{StaticResource ElementBorder}" >
+                <ListView  ItemsSource="{Binding ModifiedFactionList}"  Margin="7,7,7,7" SelectedIndex="0" IsSynchronizedWithCurrentItem="True">
+                </ListView>
+            </Border>
+            <Border Style="{StaticResource ElementBorder}" >
+                <StackPanel Orientation="Horizontal" Margin="7,7,7,7">
+                    <Button Content="Create Append files" Command="{Binding Path=AppendFilesCommand}"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="1">
-            <ListView ItemsSource="{Binding Path=ModifiedFactionList/PortraitsParameterArrayChange.AddedList}"   Margin="7,7,7,7" Background="Transparent" SelectedIndex="0" BorderThickness="0">
-                <ListView.Style>
-                    <Style  TargetType="ListView">
-                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-                        <Setter Property="ItemTemplate" >
-                            <Setter.Value>
-                                <DataTemplate >
-                                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
-                                        <Image Source="{Binding Url.FullUrl}" Height="60"/>
-                                    </StackPanel>
-                                </DataTemplate >
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="ItemsPanel">
-                            <Setter.Value>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
-
-                    </Style>
-                </ListView.Style>
-            </ListView>
+            <StackPanel Orientation="Vertical" Margin="7,7,7,7" >
+                <Border BorderThickness="0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Added Images"/>
+                        <ListView ItemsSource="{Binding Path=ModifiedFactionList/AddedPortraits}"  
+                                  Background="Transparent" 
+                                  SelectedIndex="0" 
+                                  BorderThickness="0"
+                                  Style = "{StaticResource ImageListView}" >
+                        </ListView>
+                    </StackPanel>
+                </Border>
+                <Border BorderThickness="0" Visibility="{Binding Path=ModifiedFactionList/PortraitsParameterArrayChange.RemovedList,  Converter={StaticResource CollectionVisibilityConverter}}" >
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Removed Images"/>
+                        <ListView ItemsSource="{Binding Path=ModifiedFactionList/PortraitsParameterArrayChange.RemovedList}"   
+                                  Background="Transparent" 
+                                  SelectedIndex="0" 
+                                  BorderThickness="0"
+                                  Style = "{StaticResource ImageListView}" >
+                        </ListView>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
         </Border>
     </Grid>
 </Window>

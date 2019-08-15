@@ -75,6 +75,20 @@ namespace PortraitEditor.ViewModel
                 return _PortraitsParameterArrayChange;
             }
         }
+        public ObservableCollection<SSPortrait> AddedPortraits
+        {
+            get
+            {
+                return PortraitsParameterArrayChange.AddedList;
+            }
+        }
+        public ObservableCollection<SSPortrait> RemovedPortraits
+        {
+            get
+            {
+                return PortraitsParameterArrayChange.RemovedList;
+            }
+        }
         public ObservableCollection<SSPortrait> Portraits
         {
             get

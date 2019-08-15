@@ -84,7 +84,7 @@
         <Setter Property="IsSynchronizedWithCurrentItem" Value="true"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
-    <Style  x:Key="ElementBorder" TargetType="ListView">
+    <Style  x:Key="ImageListView" TargetType="ListView">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemTemplate" >
             <Setter.Value>
@@ -103,7 +103,6 @@
             </Setter.Value>
         </Setter>
         <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
-
     </Style>
     <!--style for all generic text-->
     <Style TargetType="TextBlock">
