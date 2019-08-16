@@ -259,7 +259,7 @@ namespace PortraitEditor.Model.SSFiles
             List<T> DisapearedObjs = (from obj in goalList
                                      where AgregatedList.Contains(obj) != true
                                      select obj).ToList();
-            foreach (T obj in DisapearedObjs)
+            foreach (T obj in DisapearedObjs.ToList())
             {
                 goalList.Remove(obj);
             }
