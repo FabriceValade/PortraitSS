@@ -84,14 +84,12 @@
         <Setter Property="IsSynchronizedWithCurrentItem" Value="true"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
-    <Style  x:Key="ImageListView" TargetType="ListView">
+    <Style  x:Key="PortraitListView" TargetType="ListView">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemTemplate" >
             <Setter.Value>
                 <DataTemplate >
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
-                        <Image Source="{Binding Url.FullUrl}" Height="60"/>
-                    </StackPanel>
+                    <vw:SSPortraitSmallView DataContext="{TemplateBinding Content}"/>
                 </DataTemplate >
             </Setter.Value>
         </Setter>

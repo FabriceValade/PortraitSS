@@ -82,6 +82,29 @@ namespace PortraitEditor.ViewModel.SubWindows
             set => ModAction = SSModFolderActions.Use;
         }
 
+        SSModFolderActions _ExploreOldLPeSSFiles = (SSModFolderActions)Properties.Settings.Default.LPessFoldAction;
+        public SSModFolderActions ExploreOldLPeSSFiles
+        {
+            get => _ExploreOldLPeSSFiles;
+            set
+            {
+                _ExploreOldLPeSSFiles = value;
+                NotifyPropertyChanged("ExploreOldLPeSSFilesAsIgnore");
+                NotifyPropertyChanged("ExploreOldLPeSSFilesAsUse");
+            }
+
+        }
+        public bool ExploreOldLPeSSFilesAsIgnore
+        {
+            get => ExploreOldLPeSSFiles == SSModFolderActions.Ignore;
+            set => ExploreOldLPeSSFiles = SSModFolderActions.Ignore;
+        }
+        public bool ExploreOldLPeSSFilesAsUse
+        {
+            get => ExploreOldLPeSSFiles == SSModFolderActions.Use;
+            set => ExploreOldLPeSSFiles = SSModFolderActions.Use;
+        }
+
         bool _RemoveIncompleteFactionAction = true;
         public bool RemoveIncompleteFactionAction
         {
@@ -168,10 +191,26 @@ namespace PortraitEditor.ViewModel.SubWindows
                 return;
             }
             Properties.Settings.Default.ModFoldAction = (int)ModAction;
+            Properties.Settings.Default.LPessFoldAction = (int)ExploreOldLPeSSFiles;
             Properties.Settings.Default.Save();
+            
             ModWithFactionCollection.Clear();
             FactionDirectory.DeleteDirectory();
             ModCollection.Clear();
+            LPeSSMod.Url = new URLRelative()
+            {
+                CommonUrl = StarsectorFolderUrl.CommonUrl,
+                LinkingUrl = Path.Combine("mods", LPeSSMod.Name)
+            };
+            if (ExploreOldLPeSSFiles == SSModFolderActions.Use)
+            {
+                if (LPeSSMod.ContainsFaction)
+                {
+                    ModFactionViewModel ModFolder = new ModFactionViewModel(LPeSSMod);
+                    ModCollection.Add(ModFolder);
+                }
+            }
+
             ExploreCoreFolder();
             if (ModAction == SSModFolderActions.Use)
                 ExploreModFolder();
@@ -235,15 +274,18 @@ namespace PortraitEditor.ViewModel.SubWindows
                 };
 
                 SSMod mod = new SSMod(ModUrl, ModDirectory.Name);
-                if (mod.ContainsFaction)
+                if (mod.Name == LPeSSMod.Name)
                 {
-                    ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
-                    ModCollection.Add(ModFolder);
-
+                    //LPeSSMod = mod;
                 }
-                if (mod.Name==LPeSSMod.Name)
+                else
                 {
-                    LPeSSMod = mod;
+                    if (mod.ContainsFaction)
+                    {
+                        ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
+                        ModCollection.Add(ModFolder);
+
+                    }
                 }
             }
             

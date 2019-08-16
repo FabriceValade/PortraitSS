@@ -36,7 +36,7 @@
                                   Background="Transparent" 
                                   SelectedIndex="0" 
                                   BorderThickness="0"
-                                  Style = "{StaticResource ImageListView}" >
+                                  Style = "{StaticResource PortraitListView}" >
                         </ListView>
                     </StackPanel>
                 </Border>
@@ -47,7 +47,7 @@
                                   Background="Transparent" 
                                   SelectedIndex="0" 
                                   BorderThickness="0"
-                                  Style = "{StaticResource ImageListView}" >
+                                  Style = "{StaticResource PortraitListView}" >
                         </ListView>
                     </StackPanel>
                 </Border>

@@ -23,14 +23,7 @@
                     </Border>
                     <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
                     <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
-                        <StackPanel Margin="0" Orientation="Vertical" Visibility="Collapsed">
-                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">PeSS Previous files action</Label>
-                            <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <RadioButton Style="{StaticResource ToggleButton}">Clear</RadioButton>
-                                <RadioButton Style="{StaticResource ToggleButton}">Ignore</RadioButton>
-                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="True">Use</RadioButton>
-                            </StackPanel>
-                        </StackPanel>
+                        
                         <StackPanel Margin="0" Orientation="Vertical">
                             <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mods action</Label>
                             <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -38,9 +31,15 @@
                                 <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsUse}" Width="60">Use</RadioButton>
                             </StackPanel>
                         </StackPanel>
-                        
+                            <StackPanel Margin="0" Orientation="Vertical" Visibility="Visible">
+                                <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">LPeSS Previous ModFiles</Label>
+                                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ExploreOldLPeSSFilesAsIgnore}" Width="60">Ignore</RadioButton>
+                                    <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ExploreOldLPeSSFilesAsUse}"  Width="60">Use</RadioButton>
+                                </StackPanel>
+                            </StackPanel>
 
-                    </StackPanel>
+                        </StackPanel>
                 </StackPanel>
             </Border>
             <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">

@@ -12,29 +12,8 @@
             <RowDefinition Height="auto" SharedSizeGroup="BottomPanel"/>
         </Grid.RowDefinitions>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
-            <ListView Name="AllPortraitList" ItemsSource="{Binding Path=PortraitsView}"   Margin="7,7,7,7" Background="Transparent" SelectedIndex="0" BorderThickness="0">
-                <ListView.Style>
-                    <Style  TargetType="ListView">
-                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-                        <Setter Property="ItemTemplate" >
-                            <Setter.Value>
-                                <DataTemplate >
-                                    <local:SSPortraitSmallView DataContext="{TemplateBinding Content}"/>
-                                </DataTemplate >
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="ItemsPanel">
-                            <Setter.Value>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        
-                        <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
-                        
-                    </Style>
-                </ListView.Style>
+            <ListView Name="AllPortraitList" ItemsSource="{Binding Path=PortraitsView}"   Margin="7,7,7,7" Background="Transparent" SelectedIndex="0" BorderThickness="0" Style ="{StaticResource PortraitListView}">
+                
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
