@@ -59,7 +59,7 @@ namespace PortraitEditor.ViewModel.SubWindows
 
         #region Mod radiobutton properties
         public enum SSModFolderActions { Ignore, Use }
-        SSModFolderActions _ModAction = SSModFolderActions.Use;
+        SSModFolderActions _ModAction = (SSModFolderActions)Properties.Settings.Default.ModFoldAction;
         public SSModFolderActions ModAction
         {
             get => _ModAction;
@@ -163,6 +163,12 @@ namespace PortraitEditor.ViewModel.SubWindows
                 Properties.Settings.Default.StarsectorUrl = StarsectorFolderUrl.CommonUrl;
                 Properties.Settings.Default.Save();
             }
+            else
+            {
+                return;
+            }
+            Properties.Settings.Default.ModFoldAction = (int)ModAction;
+            Properties.Settings.Default.Save();
             ModWithFactionCollection.Clear();
             FactionDirectory.DeleteDirectory();
             ModCollection.Clear();

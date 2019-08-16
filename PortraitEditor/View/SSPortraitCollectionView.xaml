@@ -19,21 +19,8 @@
                         <Setter Property="ItemTemplate" >
                             <Setter.Value>
                                 <DataTemplate >
-                                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="70" Height="70">
-                                        <Image Source="{Binding Url.FullUrl}" Height="60"/>
-                                    </StackPanel>
+                                    <local:SSPortraitSmallView DataContext="{TemplateBinding Content}"/>
                                 </DataTemplate >
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="ItemContainerStyle">
-                            <Setter.Value>
-                                <Style TargetType="ListViewItem">
-                                <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Url.IsComplete, Mode=OneWay}" Value="false">
-                                            <Setter Property="Background"  Value="#55ff0000" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
                             </Setter.Value>
                         </Setter>
                         <Setter Property="ItemsPanel">
