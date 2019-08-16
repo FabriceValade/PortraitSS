@@ -132,6 +132,9 @@
     <Compile Include="View\SSFactionView.xaml.cs">
       <DependentUpon>SSFactionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SSPortraitSmallView.xaml.cs">
+      <DependentUpon>SSPortraitSmallView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SSPortraitView.xaml.cs">
       <DependentUpon>SSPortraitView.xaml</DependentUpon>
     </Compile>
@@ -192,6 +195,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SSPortraitSmallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SSPortraitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -233,7 +240,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>

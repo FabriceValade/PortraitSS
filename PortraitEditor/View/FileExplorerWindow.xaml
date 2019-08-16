@@ -6,12 +6,14 @@
         xmlns:local="clr-namespace:PortraitEditor.View"
         xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        Title="Window1" WindowStyle="ToolWindow" ResizeMode="CanResize"  WindowState="Normal">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
     <Grid>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="212"/>
             <ColumnDefinition Width="auto" MinWidth="500"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto" MinWidth="500"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
             <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
@@ -82,5 +84,7 @@
                 </TreeView.Resources>
             </TreeView>
         </Border>
+            
     </Grid>
+    </ScrollViewer>
 </Window>

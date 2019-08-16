@@ -91,7 +91,10 @@ namespace PortraitEditor.ViewModel
                 SSFaction b = (from file in vm.FactionGroupModel.FileList.Files
                         where file.ModSource.Name == themod.Name
                         select file).SingleOrDefault();
-
+                foreach (SSPortrait port in b.Portraits)
+                {
+                    vm.AddPortrait(port);
+                }
                 b.Delete();
             }
         }

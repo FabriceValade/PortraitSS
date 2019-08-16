@@ -116,6 +116,8 @@ namespace PortraitEditor.ViewModel.SubWindows
                 {
                     _StarsectorFolderUrl = new EditableURLViewModel("Starsector folder", "Select path");
                     _StarsectorFolderUrl.ValidityChecker = CheckSSFolderValidity;
+                    if (Properties.Settings.Default.StarsectorUrl != "")
+                        _StarsectorFolderUrl.CommonUrl = Properties.Settings.Default.StarsectorUrl;
                 }
                 return _StarsectorFolderUrl;
             }
@@ -156,6 +158,11 @@ namespace PortraitEditor.ViewModel.SubWindows
 
         public void ExploreFolder()
         {
+            if (StarsectorFolderUrl.UrlState==URLstate.Acceptable)
+            {
+                Properties.Settings.Default.StarsectorUrl = StarsectorFolderUrl.CommonUrl;
+                Properties.Settings.Default.Save();
+            }
             ModWithFactionCollection.Clear();
             FactionDirectory.DeleteDirectory();
             ModCollection.Clear();

@@ -261,7 +261,7 @@
         <vw:SSPortraitCollectionView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type m:SSPortrait}">
+    <!--<DataTemplate DataType="{x:Type m:SSPortrait}">
         <vw:SSPortraitView/>
-    </DataTemplate>
+    </DataTemplate>-->
 </ResourceDictionary>

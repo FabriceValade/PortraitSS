@@ -120,8 +120,8 @@ namespace PortraitEditor.ViewModel
                 newUrl = new URLRelative()
                 {
                     LinkingUrl = null,
-                    RelativeUrl = FileOpen.FileName,
-                    CommonUrl = null
+                    RelativeUrl = null,
+                    CommonUrl = FileOpen.FileName
                 };
                 SSPortrait newPortrait = new SSPortrait(newUrl, new Gender(), LocalMod, null);
                 Portraits.Add(newPortrait);
