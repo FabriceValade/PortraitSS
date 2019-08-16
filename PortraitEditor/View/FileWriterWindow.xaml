@@ -24,6 +24,8 @@
             <Border Style="{StaticResource ElementBorder}" >
                 <StackPanel Orientation="Horizontal" Margin="7,7,7,7">
                     <Button Content="Create Append files" Command="{Binding Path=AppendFilesCommand}"/>
+                    <Button Content="Add external images to mod" Command="{Binding Path=CopyImagesToModCommand}"/>
+                    
                 </StackPanel>
             </Border>
         </StackPanel>

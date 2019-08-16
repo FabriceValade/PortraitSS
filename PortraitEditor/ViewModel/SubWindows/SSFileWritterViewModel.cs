@@ -25,7 +25,8 @@ namespace PortraitEditor.ViewModel.SubWindows
         {
             L_PeSSMod = l_PeSSMod;
             FactionGroupList = factionGroupList;
-        } 
+
+        }
         #endregion
 
 
@@ -36,10 +37,10 @@ namespace PortraitEditor.ViewModel.SubWindows
         string PortraitGraphPath;
         JObject ModInfo = new JObject(
                             new JProperty("id", "l_pess"),
-                            new JProperty("name","Lethargie portrait editor for Starsector"),
-                            new JProperty("author","Lethargie"),
+                            new JProperty("name", "Lethargie portrait editor for Starsector"),
+                            new JProperty("author", "Lethargie"),
                             new JProperty("version", "v1.0"),
-                            new JProperty("description","Add some portraits"),
+                            new JProperty("description", "Add some portraits"),
                             new JProperty("gameVersion", "0.9.1a"));
         #endregion
 
@@ -72,6 +73,10 @@ namespace PortraitEditor.ViewModel.SubWindows
             {
                 ModifiedFactionList.Add(vm);
             }
+            if (L_PeSSMod.Url.CommonUrl == null)
+                throw new DirectoryNotFoundException();
+            FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
+            PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
             WindowView = new FileWriterWindow(this);
             WindowView.ShowDialog();
             return;
@@ -91,19 +96,38 @@ namespace PortraitEditor.ViewModel.SubWindows
                 return _AppendFilesCommand;
             }
         }
+        RelayCommand<object> _CopyImagesToModCommand;
+        public ICommand CopyImagesToModCommand
+        {
+            get
+            {
+                if (_CopyImagesToModCommand == null)
+                {
+                    _CopyImagesToModCommand = new RelayCommand<object>(param => this.CopyImagesToMod());
+                }
+                return _CopyImagesToModCommand;
+            }
+        }
         #endregion
         public void ClearModFolder()
         {
             DirectoryInfo LPeSSFactionDirectory = new DirectoryInfo(L_PeSSMod.Url.FullUrl);
-            if (LPeSSFactionDirectory.Exists)
-                LPeSSFactionDirectory.Delete(true);
-            LPeSSFactionDirectory.Create();
-            FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
-            PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
+            if (!LPeSSFactionDirectory.Exists)
+                LPeSSFactionDirectory.Create();
             DirectoryInfo FactionFolderInfo = new DirectoryInfo(FactionFolderPath);
-            FactionFolderInfo.Create();
+            if (!FactionFolderInfo.Exists)
+                FactionFolderInfo.Create();
+            else
+            {
+                List<FileInfo> ExistingFiles = FactionFolderInfo.EnumerateFiles().ToList();
+                for (int i = ExistingFiles.Count() - 1; i > 0; i++)
+                {
+                    ExistingFiles[i].Delete();
+                }
+            }
             FactionFolderInfo = new DirectoryInfo(PortraitGraphPath);
-            FactionFolderInfo.Create();
+            if (!FactionFolderInfo.Exists)
+                FactionFolderInfo.Create();
             using (StreamWriter file = File.CreateText(Path.Combine(L_PeSSMod.Url.FullUrl, "mod_info.json")))
             {
                 using (JsonTextWriter writer = new JsonTextWriter(file))
@@ -118,7 +142,10 @@ namespace PortraitEditor.ViewModel.SubWindows
             ClearModFolder();
             foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
             {
-                JObject AppendPortrait = vm.AddedPortraits.FlattenToJson();
+                var PossiblePortrait = from portrait in vm.AddedPortraits
+                                       where portrait.Url.IsComplete
+                                       select portrait;
+                JObject AppendPortrait = PossiblePortrait.FlattenToJson();
                 using (StreamWriter file = File.CreateText(Path.Combine(FactionFolderPath, vm.FactionGroupModel.FileName)))
                 {
                     using (JsonTextWriter writer = new JsonTextWriter(file))
@@ -129,7 +156,36 @@ namespace PortraitEditor.ViewModel.SubWindows
                 }
             }
         }
+        public void CopyImagesToMod()
+        {
+            DirectoryInfo FactionFolderInfo = new DirectoryInfo(PortraitGraphPath);
+            if (!FactionFolderInfo.Exists)
+                FactionFolderInfo.Create();
+            foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
+            {
+                var PossiblePortrait = from portrait in vm.AddedPortraits
+                                       where !portrait.Url.IsComplete
+                                       select portrait;
+                foreach (SSPortrait portrait in PossiblePortrait)
+                {
 
+                    FileInfo newfile = new FileInfo(portrait.Url.FullUrl);
+                    string newRelativePath = Path.Combine(new string[4] { "graphics", "LPESS", "portraits", newfile.Name });
+                    URLRelative newUrl = new URLRelative()
+                    {
+                        CommonUrl = L_PeSSMod.Url.CommonUrl,
+                        LinkingUrl = L_PeSSMod.Url.LinkingUrl,
+                        RelativeUrl = newRelativePath
+                    };
+                    FileInfo checkFile = new FileInfo(newUrl.FullUrl);
+                    if (checkFile.Exists)
+                        checkFile.Delete();
+                    newfile.CopyTo(newUrl.FullUrl);
+                    portrait.Url = newUrl;
+                }
+
+            }
+        }
     }
     public class CollectionToVisibilityConverter : IValueConverter
     {
@@ -147,3 +203,4 @@ namespace PortraitEditor.ViewModel.SubWindows
         }
     }
 }
+

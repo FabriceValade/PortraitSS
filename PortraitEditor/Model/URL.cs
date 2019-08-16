@@ -1,19 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PortraitEditor.Model
 {
-    public class URLRelative
+    public class URLRelative : INotifyPropertyChanged
     {
         #region Properties
-        public string CommonUrl { get; set; } = null;
-        public string LinkingUrl { get; set; } = null;
-        public string RelativeUrl { get; set; } = null;
-
+        string _CommonUrl = null;
+        public string CommonUrl { get { return _CommonUrl; } set { _CommonUrl = value; NotifyPropertyChanged(); NotifyUrlChanged(); } }
+        string _LinkingUrl = null;
+        public string LinkingUrl { get { return _LinkingUrl; } set { _LinkingUrl = value; NotifyPropertyChanged(); NotifyUrlChanged(); } }
+        string _RelativeUrl = null;
+        public string RelativeUrl { get { return _RelativeUrl; } set { _RelativeUrl = value; NotifyPropertyChanged(); NotifyUrlChanged(); } }
+        public void NotifyUrlChanged()
+        {
+            NotifyPropertyChanged("FullUrl");
+            NotifyPropertyChanged("ShortUrl");
+            NotifyPropertyChanged("IsComplete");
+        }
         #endregion //Properties
 
         #region read  only property
@@ -105,6 +115,21 @@ namespace PortraitEditor.Model
             return result;
         }
 
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
         #endregion
     }
 }

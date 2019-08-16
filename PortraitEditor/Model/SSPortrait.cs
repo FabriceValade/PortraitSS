@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -12,7 +14,7 @@ using PortraitEditor.JsonHandling;
 
 namespace PortraitEditor.Model
 {
-    public class SSPortrait : IEquatable<SSPortrait>, IJsonConvertable
+    public class SSPortrait : IEquatable<SSPortrait>, IJsonConvertable, INotifyPropertyChanged
     {
 
 
@@ -92,6 +94,20 @@ namespace PortraitEditor.Model
                                                 new JProperty(PropertyName,new JArray( Url.RelativeUrl)))));
             return Result;
         }
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
+        #endregion
     }
 
     class PortraitNoGenderEqualityComparer : IEqualityComparer<SSPortrait>
