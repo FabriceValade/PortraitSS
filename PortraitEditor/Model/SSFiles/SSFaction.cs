@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using PortraitEditor.Model;
+using System.Collections.ObjectModel;
 
 namespace PortraitEditor.Model.SSFiles
 {
@@ -164,11 +165,17 @@ namespace PortraitEditor.Model.SSFiles
 
         public string LogoRelativePath { get; set; }
 
-        public List<SSPortrait> Portraits { get; set; } = new List<SSPortrait>();
+        public ObservableCollection<SSPortrait> Portraits { get; set; } = new ObservableCollection<SSPortrait>();
         #endregion
 
         #region Constructors
         public SSFactionGroup(SSFaction newFile, List<string> availableLink) : base(newFile, availableLink)
+        {
+            FileList.Files.CollectionChanged += Files_CollectionChanged;
+            SynchroniseGroup();
+        }
+
+        private void Files_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             SynchroniseGroup();
         }
@@ -240,13 +247,22 @@ namespace PortraitEditor.Model.SSFiles
         public void AgregateParameterArray<T>(string factionParameterName, string thisParameterName)
         {
             List<T> AgregatedList = (List<T>)base.FileList.Files.SelectMany(x => x.GetType().GetProperty(factionParameterName).GetValue(x) as List<T>).ToList() ;
-            List<T> goalList = (List<T>)this.GetType().GetProperty(thisParameterName).GetValue(this)  ;
-            goalList.Clear();
-            foreach (T obj in AgregatedList)
+            ObservableCollection<T> goalList = (ObservableCollection<T>)this.GetType().GetProperty(thisParameterName).GetValue(this)  ;
+            IEnumerable<T> NewObjs = from obj in AgregatedList
+                         where goalList.Contains(obj) != true
+                         select obj;
+            //goalList.Clear();
+            foreach (T obj in NewObjs)
             {
                 goalList.Add(obj);
             }
-
+            List<T> DisapearedObjs = (from obj in goalList
+                                     where AgregatedList.Contains(obj) != true
+                                     select obj).ToList();
+            foreach (T obj in DisapearedObjs)
+            {
+                goalList.Remove(obj);
+            }
         }
         #endregion
     }

@@ -70,7 +70,7 @@ namespace PortraitEditor.ViewModel
             get
             {
                 if (_PortraitsParameterArrayChange == null)
-                    _PortraitsParameterArrayChange = new SSParameterArrayChangesViewModel<SSPortrait>(new ObservableCollection<SSPortrait>(FactionGroupModel.Portraits), new PortraitGenderEqualityComparer());
+                    _PortraitsParameterArrayChange = new SSParameterArrayChangesViewModel<SSPortrait>(FactionGroupModel.Portraits, new PortraitGenderEqualityComparer());
 
                 return _PortraitsParameterArrayChange;
             }

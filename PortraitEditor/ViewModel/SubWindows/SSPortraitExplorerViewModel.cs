@@ -42,6 +42,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         #region method
         public void ShowDialog()
         {
+            DirectoryViewModel.PurgeMod(L_PeSSMod);
             View = new PortraitExplorerWindow(this);
             View.ShowDialog();
             return;

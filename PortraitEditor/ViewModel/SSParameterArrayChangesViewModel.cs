@@ -70,6 +70,14 @@ namespace PortraitEditor.ViewModel
                         ResultingList.Remove(FoundObj);
                     }
                 }
+            if (e.Action==System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+            {
+               
+                ResultingList.Clear();
+                RemovedList.Clear();
+                foreach (T obj in AddedList)
+                    ResultingList.Add(obj);
+            }
         }
 
         public void Remove(T obj)

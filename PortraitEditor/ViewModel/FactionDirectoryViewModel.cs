@@ -25,7 +25,7 @@ namespace PortraitEditor.ViewModel
                     var FactionQuery = from factionGroup in FactionDirectory.GroupDirectory
                                        select new SSFactionGroupViewModel(factionGroup);
                     _FactionGroupList = new ObservableCollection<SSFactionGroupViewModel>(FactionQuery);
-                    FactionDirectory.GroupDirectory.CollectionChanged += OnFactionsGroupChanged;
+                    FactionDirectory.GroupDirectory.CollectionChanged += OnFactionsModelGroupChanged;
                 }
                 return _FactionGroupList;
             }
@@ -61,7 +61,7 @@ namespace PortraitEditor.ViewModel
                 if (_FactionGroupView == null)
                 {
                     _FactionGroupView = (CollectionView)CollectionViewSource.GetDefaultView(FactionGroupList);
-
+                    
                 }
                 return _FactionGroupView;;
             }
@@ -80,8 +80,23 @@ namespace PortraitEditor.ViewModel
             FactionDirectory = factionDirectory;
         }
 
+
+        public void PurgeMod(SSMod themod)
+        {
+            var a = from groupVM in FactionGroupList
+                    where groupVM.ContributingMods.Contains(themod.Name)
+                    select groupVM;
+            foreach (SSFactionGroupViewModel vm in a)
+            {
+                SSFaction b = (from file in vm.FactionGroupModel.FileList.Files
+                        where file.ModSource.Name == themod.Name
+                        select file).SingleOrDefault();
+
+                b.Delete();
+            }
+        }
         #region event handler
-        void OnFactionsGroupChanged(object sender, NotifyCollectionChangedEventArgs e)
+        void OnFactionsModelGroupChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null && e.NewItems.Count != 0)
                 foreach (SSFactionGroup file in e.NewItems)
