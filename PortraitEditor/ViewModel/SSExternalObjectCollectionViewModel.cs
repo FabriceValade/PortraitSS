@@ -1,4 +1,5 @@
-﻿using PortraitEditor.Model.SSParameters.Interfaces;
+﻿using PortraitEditor.Model.SSParameters;
+using PortraitEditor.Model.SSParameters.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,13 +12,29 @@ using System.Windows.Input;
 
 namespace PortraitEditor.ViewModel
 {
-    public class SSExternalObjectCollectionViewModel<T> where T:ISSExternal
+    public class SSExternalObjectCollectionViewModel<T> : ViewModelBase where T:ISSExternal
     {
+        public SSExternalObjectCollectionViewModel()
+        { }
         public SSExternalObjectCollectionViewModel(ObservableCollection<T> collectionToHold)
         {
             HeldCollection = collectionToHold;
         }
-        public ObservableCollection<T> HeldCollection { get; }
+        ObservableCollection<T> _HeldCollection = new ObservableCollection<T>();
+        public ObservableCollection<T> HeldCollection
+        {
+            get
+            {
+                return _HeldCollection;
+            }
+            set
+            {
+                _HeldCollection = value;
+                _HeldView = (CollectionView)CollectionViewSource.GetDefaultView(_HeldCollection);
+                _HeldView.GroupDescriptions.Add(GroupDescription);
+                NotifyPropertyChanged("HeldView");
+            }
+        }
 
         #region properties for the view
         CollectionView _HeldView;
@@ -67,6 +84,10 @@ namespace PortraitEditor.ViewModel
         }
         #endregion
         #endregion
+
+    }
+    public class SSExternalPortraitCollectionViewModel :SSExternalObjectCollectionViewModel<SSPortrait>
+    {
 
     }
 }

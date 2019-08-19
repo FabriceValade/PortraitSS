@@ -16,7 +16,7 @@ namespace PortraitEditor.ViewModel.SubWindows
     public class SSPortraitExplorerViewModel : ViewModelBase
     {
         PortraitExplorerWindow View;
-        SSFactionDirectory FactionDirectory;
+        public SSFactionDirectory FactionDirectory { get; set; }
         public SSMod LocalMod;
         public SSPortraitExplorerViewModel(SSFactionDirectory factionDirectory, SSMod LocalMod)
         {
@@ -42,7 +42,8 @@ namespace PortraitEditor.ViewModel.SubWindows
             {
                 if (_GlobalPortraitViewModel != null)
                     return _GlobalPortraitViewModel;
-                _GlobalPortraitViewModel = new SSExternalObjectCollectionViewModel<SSPortrait>(FactionDirectory.GlobalAvailablePortrait);
+                _GlobalPortraitViewModel = new SSExternalObjectCollectionViewModel<SSPortrait>();
+                _GlobalPortraitViewModel.HeldCollection = FactionDirectory.GlobalAvailablePortrait;
                 return _GlobalPortraitViewModel;
             }
         }

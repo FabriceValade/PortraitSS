@@ -25,12 +25,13 @@
                 </ControlTemplate>
             </ContentControl.Template>
         </ContentControl>
-        <ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
+        <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="2" HeldCollection="{Binding Path=FactionDirectory.GlobalAvailablePortrait}"></local:SSPortraitCollectionView>
+        <!--<ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
                     <local:SSPortraitCollectionView DataContext="{TemplateBinding Content}"/>
                 </ControlTemplate>
             </ContentControl.Template>
-        </ContentControl>
+        </ContentControl>-->
     </Grid>
 </Window>

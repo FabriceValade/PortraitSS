@@ -1,5 +1,9 @@
-﻿using System;
+﻿using PortraitEditor.Model.SSParameters;
+using PortraitEditor.Model.SSParameters.Interfaces;
+using PortraitEditor.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,5 +28,27 @@ namespace PortraitEditor.View
         {
             InitializeComponent();
         }
+
+        public static readonly DependencyProperty HeldCollectionProperty = DependencyProperty.Register(
+        "HeldCollection", typeof(ObservableCollection<SSPortrait>), typeof(SSPortraitCollectionView),
+        new PropertyMetadata(new ObservableCollection<SSPortrait>(), OnProjectChanged));
+
+        public ObservableCollection<SSPortrait> HeldCollection
+        {
+            get { return (ObservableCollection<SSPortrait>)GetValue(HeldCollectionProperty); }
+            set { SetValue(HeldCollectionProperty, value); }
+        }
+
+        private static void OnProjectChanged(DependencyObject obj,
+            DependencyPropertyChangedEventArgs args)
+        {
+            ((SSPortraitCollectionView)obj).Model.HeldCollection = (ObservableCollection<SSPortrait>)args.NewValue;
+        }
+
+        public SSExternalPortraitCollectionViewModel Model
+        {
+            get { return (SSExternalPortraitCollectionViewModel)Resources["PortraitCollectionVM"]; }
+        }
+
     }
 }
