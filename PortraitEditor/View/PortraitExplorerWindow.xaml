@@ -25,6 +25,12 @@
                 </ControlTemplate>
             </ContentControl.Template>
         </ContentControl>
-        <ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GeneralPortraitsViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
+        <ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <local:SSPortraitCollectionView DataContext="{TemplateBinding Content}"/>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
     </Grid>
 </Window>

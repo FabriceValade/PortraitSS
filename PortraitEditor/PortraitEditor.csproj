@@ -95,7 +95,9 @@
     <Compile Include="Model\SSFiles\SSFileGroup.cs" />
     <Compile Include="Model\SSFiles\SSFileLister.cs" />
     <Compile Include="Model\SSMod.cs" />
+    <Compile Include="Model\SSParameters\Interfaces\ISSExternal.cs" />
     <Compile Include="Model\SSParameters\SSParameterArrayChanges.cs" />
+    <Compile Include="ViewModel\SSExternalObjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\SubWindows\SSFileWritterViewModel.cs" />
     <Compile Include="ViewModel\SubWindows\SSPortraitExplorerViewModel.cs" />
     <Compile Include="ViewModel\SSParameterArrayChangesViewModel.cs" />

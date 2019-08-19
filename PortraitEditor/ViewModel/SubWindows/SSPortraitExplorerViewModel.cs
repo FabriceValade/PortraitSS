@@ -16,55 +16,68 @@ namespace PortraitEditor.ViewModel.SubWindows
     public class SSPortraitExplorerViewModel : ViewModelBase
     {
         PortraitExplorerWindow View;
-        public SSMod L_PeSSMod;
-        public SSPortraitExplorerViewModel(SSFileDirectory<SSFactionGroup, SSFaction> factionDirectory, SSMod l_PessMod)
+        SSFactionDirectory FactionDirectory;
+        public SSMod LocalMod;
+        public SSPortraitExplorerViewModel(SSFactionDirectory factionDirectory, SSMod LocalMod)
         {
-            L_PeSSMod = l_PessMod ?? throw new ArgumentNullException("Local mod cannot be null");
-            DirectoryViewModel = new FactionDirectoryViewModel(factionDirectory);
-            GeneralPortraitsViewModel = new AllPortraitsViewModel(factionDirectory, L_PeSSMod);
-            GeneralPortraitsViewModel.Button1Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Male));
-            GeneralPortraitsViewModel.Button1Text = "Add Male";
-            GeneralPortraitsViewModel.Button1Visibility = Visibility.Visible;
-            GeneralPortraitsViewModel.Button2Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Female));
-            GeneralPortraitsViewModel.Button2Text = "Add Female";
-            GeneralPortraitsViewModel.Button2Visibility = Visibility.Visible;
-            PortraitEdit = DirectoryViewModel.PortraitEdit;
+            LocalMod = LocalMod ?? throw new ArgumentNullException("Local mod cannot be null");
+            FactionDirectory = factionDirectory;
+            //DirectoryViewModel = new FactionDirectoryViewModel(factionDirectory);
+            //GeneralPortraitsViewModel = new AllPortraitsViewModel(factionDirectory, LocalMod);
+            //GeneralPortraitsViewModel.Button1Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Male));
+            //GeneralPortraitsViewModel.Button1Text = "Add Male";
+            //GeneralPortraitsViewModel.Button1Visibility = Visibility.Visible;
+            //GeneralPortraitsViewModel.Button2Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Female));
+            //GeneralPortraitsViewModel.Button2Text = "Add Female";
+            //GeneralPortraitsViewModel.Button2Visibility = Visibility.Visible;
+            //PortraitEdit = DirectoryViewModel.PortraitEdit;
         }
 
 
         #region Properties
-        public FactionDirectoryViewModel DirectoryViewModel { get; set; }
+        SSExternalObjectCollectionViewModel<SSPortrait> _GlobalPortraitViewModel;
+        public SSExternalObjectCollectionViewModel<SSPortrait> GlobalPortraitViewModel
+        {
+            get
+            {
+                if (_GlobalPortraitViewModel != null)
+                    return _GlobalPortraitViewModel;
+                _GlobalPortraitViewModel = new SSExternalObjectCollectionViewModel<SSPortrait>(FactionDirectory.GlobalAvailablePortrait);
+                return _GlobalPortraitViewModel;
+            }
+        }
+        //public FactionDirectoryViewModel DirectoryViewModel { get; set; }
 
-        public AllPortraitsViewModel GeneralPortraitsViewModel { get; set; }
+        //public AllPortraitsViewModel GeneralPortraitsViewModel { get; set; }
 
-        public ObservableCollection<SSParameterArrayChangesViewModel<SSPortrait>> PortraitEdit {get;}
+        //public ObservableCollection<SSParameterArrayChangesViewModel<SSPortrait>> PortraitEdit {get;}
         #endregion
 
-        #region method
+        //#region method
         public void ShowDialog()
         {
-            DirectoryViewModel.PurgeMod(L_PeSSMod);
+            //DirectoryViewModel.PurgeMod(LocalMod);
             View = new PortraitExplorerWindow(this);
             View.ShowDialog();
             return;
         }
 
-        public void CloseWindow()
-        {
-            View.Close();
-        } 
-        #endregion
-        public void AddPortraitFromGeneral(Object obj, Gender.GenderValue NewGender)
-        {
-            if (obj == null)
-                return;
-            SSPortrait portrait = new SSPortrait(obj as SSPortrait);
-            portrait.ImageGender = new Gender() { Value = NewGender };
-            portrait.UsingMod = L_PeSSMod;
-            if (DirectoryViewModel.SelectedItem!=null)
-                DirectoryViewModel.SelectedItem.AddPortrait(portrait);
-        }
+        //    public void CloseWindow()
+        //    {
+        //        View.Close();
+        //    } 
+        //    #endregion
+        //    public void AddPortraitFromGeneral(Object obj, Gender.GenderValue NewGender)
+        //    {
+        //        if (obj == null)
+        //            return;
+        //        SSPortrait portrait = new SSPortrait(obj as SSPortrait);
+        //        portrait.ImageGender = new Gender() { Value = NewGender };
+        //        portrait.UsingMod = LocalMod;
+        //        if (DirectoryViewModel.SelectedItem!=null)
+        //            DirectoryViewModel.SelectedItem.AddPortrait(portrait);
+        //    }
 
-        
+
     }
 }

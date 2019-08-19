@@ -11,10 +11,11 @@ using System.Windows;
 using System.Windows.Data;
 using Newtonsoft.Json.Linq;
 using PortraitEditor.JsonHandling;
+using PortraitEditor.Model.SSParameters.Interfaces;
 
 namespace PortraitEditor.Model.SSParameters
 {
-    public class SSPortrait : IEquatable<SSPortrait>, IJsonConvertable, INotifyPropertyChanged
+    public class SSPortrait : IEquatable<SSPortrait>, IJsonConvertable, INotifyPropertyChanged, ISSExternal
     {
 
 
@@ -24,6 +25,7 @@ namespace PortraitEditor.Model.SSParameters
         public Gender ImageGender { get; set; }
         public string GenderString { get => ImageGender.ToString(); }
         public URLRelative Url { get; set; }
+        public string FullUrl { get => Url.FullUrl; }
         public bool ImageFound
         {
             get

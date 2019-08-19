@@ -89,7 +89,7 @@ namespace PortraitEditor
             //PortraitExplorer.ShowDialog();
             L_PessMod = FileExplorer.LPeSSMod;
             PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
-            FileWriter = new SSFileWritterViewModel(FileExplorer.LPeSSMod, PortraitExplorer.DirectoryViewModel.FactionGroupList);
+            //FileWriter = new SSFileWritterViewModel(FileExplorer.LPeSSMod, PortraitExplorer.DirectoryViewModel.FactionGroupList);
             DataContext = this;
             InitializeComponent();
         }
@@ -108,7 +108,7 @@ namespace PortraitEditor
         private void ExplorePortraits()
         {
             this.Hide();
-            PortraitExplorer.L_PeSSMod = FileExplorer.LPeSSMod;
+            PortraitExplorer.LocalMod = FileExplorer.LPeSSMod;
             PortraitExplorer.ShowDialog();
             this.Show();
             return;
