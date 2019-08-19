@@ -1,5 +1,6 @@
 ﻿using PortraitEditor.Model;
 using PortraitEditor.Model.SSFiles;
+using PortraitEditor.Model.SSParameters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -88,7 +89,7 @@ namespace PortraitEditor.ViewModel
                     select groupVM;
             foreach (SSFactionGroupViewModel vm in a)
             {
-                SSFaction b = (from file in vm.FactionGroupModel.FileList.Files
+                SSFaction b = (from file in vm.FactionGroupModel.FileList
                         where file.ModSource.Name == themod.Name
                         select file).SingleOrDefault();
                 foreach (SSPortrait port in b.Portraits)

@@ -12,7 +12,7 @@ using System.Windows.Data;
 using Newtonsoft.Json.Linq;
 using PortraitEditor.JsonHandling;
 
-namespace PortraitEditor.Model
+namespace PortraitEditor.Model.SSParameters
 {
     public class SSPortrait : IEquatable<SSPortrait>, IJsonConvertable, INotifyPropertyChanged
     {
@@ -23,7 +23,6 @@ namespace PortraitEditor.Model
         public SSMod UsingMod { get; set; }
         public Gender ImageGender { get; set; }
         public string GenderString { get => ImageGender.ToString(); }
-        public Visibility GenderVisibility = Visibility.Collapsed;
         public URLRelative Url { get; set; }
         public bool ImageFound
         {
@@ -74,11 +73,7 @@ namespace PortraitEditor.Model
             bool GenderEqual = this.ImageGender == other.ImageGender;
             return (ReferenceEqual && GenderEqual);
         }
-        public static bool EqualsNoGender(SSPortrait other1, SSPortrait other2)
-        {
-            if (other1 == null || other2 == null) return false;
-            return (object.ReferenceEquals(other1.Url, other2.Url));
-        }
+
 
 
 
@@ -108,31 +103,36 @@ namespace PortraitEditor.Model
             }
         }
         #endregion
+
+        public override string ToString()
+        {
+            return this.Url.FullUrl;
+        }
     }
 
-    class PortraitNoGenderEqualityComparer : IEqualityComparer<SSPortrait>
+    class PortraitNoGenderEqualityComparer : EqualityComparer<SSPortrait>
     {
-        public bool Equals(SSPortrait other1, SSPortrait other2)
+        public override bool Equals(SSPortrait other1, SSPortrait other2)
         {
             if (other1 == null || other2 == null) return false;
             return (other1.Url.FullUrl == other2.Url.FullUrl);
         }
 
-        public int GetHashCode(SSPortrait other)
+        public override int GetHashCode(SSPortrait other)
         {
             int hashProductUrl = other.Url == null ? 0 : other.Url.FullUrl.GetHashCode();
             return hashProductUrl.GetHashCode();
         }
     }
-    class PortraitGenderEqualityComparer : IEqualityComparer<SSPortrait>
+    class PortraitGenderEqualityComparer : EqualityComparer<SSPortrait>
     {
-        public bool Equals(SSPortrait other1, SSPortrait other2)
+        public override bool Equals(SSPortrait other1, SSPortrait other2)
         {
             if (other1 == null || other2 == null) return false;
             return (other1.Url.FullUrl == other2.Url.FullUrl && other1.ImageGender.Value == other2.ImageGender.Value);
         }
 
-        public int GetHashCode(SSPortrait other)
+        public override int GetHashCode(SSPortrait other)
         {
             int hashProductUrl = other.Url == null ? 0 : other.Url.FullUrl.GetHashCode();
             return hashProductUrl.GetHashCode();

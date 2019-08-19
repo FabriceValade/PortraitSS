@@ -1,5 +1,6 @@
 ﻿using PortraitEditor.Model;
 using PortraitEditor.Model.SSFiles;
+using PortraitEditor.Model.SSParameters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -120,7 +121,7 @@ namespace PortraitEditor.ViewModel
         {
             get
             {
-                List<string> result = (from faction in FactionGroupModel.FileList.Files
+                List<string> result = (from faction in FactionGroupModel.FileList
                                        select faction.ModSource.Name).Distinct().ToList();
                 return result;
             }

@@ -16,6 +16,9 @@ namespace PortraitEditor.Model.SSFiles
         {
             DirectoryChanged?.Invoke(this, null);
         }
+        SSFileLister<F> _FileDirectory = new SSFileLister<F>();
+        public ObservableCollection<F> FileDirectory { get => _FileDirectory.Files; }
+
         SSFileLister<G> _GroupDirectory = new SSFileLister<G>();
         public ObservableCollection<G> GroupDirectory { get => _GroupDirectory.Files; }
 
@@ -38,6 +41,7 @@ namespace PortraitEditor.Model.SSFiles
                 G newGroup = Activator.CreateInstance(typeof(G), new Object[] { newFile , AvailableLinkingUrl}) as G;
                 GroupDirectory.Add(newGroup);
             }
+            FileDirectory.Add(newFile);
             OnDirectoryChanged();
             return;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,11 @@ namespace PortraitEditor.Model.SSFiles
 
         #region properties
         public string FileName { get; set; }
-        public SSFileLister<F> FileList { get; } = new SSFileLister<F>();
+        private SSFileLister<F> FileLister { get; } = new SSFileLister<F>();
+        public ObservableCollection<F> FileList
+        {
+            get => FileLister.Files;
+        }
         public List<string> AvailableLink { get; set; }
         #endregion
 
@@ -29,7 +34,7 @@ namespace PortraitEditor.Model.SSFiles
             AvailableLink = availableLink;
             newFile.OwningGroup = this;
             this.FileName = newFile.FileName ?? throw new ArgumentNullException("The FileName cannot be null.");
-            FileList.Files.Add(newFile);
+            FileList.Add(newFile);
         } 
         #endregion
 
@@ -40,16 +45,16 @@ namespace PortraitEditor.Model.SSFiles
             if (newFile.FileName != this.FileName)
                 throw (new InvalidOperationException("Cannot group file with differing filename"));
             newFile.OwningGroup = this;
-            FileList.Files.Add(newFile);
+            FileList.Add(newFile);
             return;
         }
 
         
 
-        public void DeleteGroup()
+        public override void Delete()
         {
-            this.FileList.Delete();
-            base.Delete();
+            this.FileLister.Delete();
+            OnRequestClose();
         }
     }
 }

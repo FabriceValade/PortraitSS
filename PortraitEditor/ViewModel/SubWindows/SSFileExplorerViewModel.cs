@@ -149,7 +149,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
 
         public ObservableCollection<ModFactionViewModel> ModWithFactionCollection { get; } = new ObservableCollection<ModFactionViewModel>();
-        public SSFileDirectory<SSFactionGroup, SSFaction> FactionDirectory { get; } = new SSFileDirectory<SSFactionGroup, SSFaction>();
+        public SSFactionDirectory FactionDirectory { get; } = new SSFactionDirectory();
 
         SSMod _LPeSSMod = new SSMod() { Name = "LPeSS" };
         public SSMod LPeSSMod { get => _LPeSSMod; private set { _LPeSSMod = value; NotifyPropertyChanged(); } }
@@ -158,11 +158,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         #region Constructors
         public SSFileExplorerViewModel()
         {
-            //URLViewModel ModUrl = new URLViewModel() { CommonUrl="show"};
-            //ModUrl.DisplayName = null;
-            //ModUrl.LinkingUrl = "starsector-core";
-
-            //ModCollection.Add(new ModViewModel() { Name = "Hello",Url= ModUrl });
+           
         }
         #endregion
 
@@ -319,7 +315,7 @@ namespace PortraitEditor.ViewModel.SubWindows
                                                    select grouped).ToList();
                 foreach (SSFactionGroup factionGroup in Incomplete)
                 {
-                    factionGroup.DeleteGroup();
+                    factionGroup.Delete();
                 }
 
 

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using PortraitEditor.JsonHandling;
 using PortraitEditor.Model;
+using PortraitEditor.Model.SSParameters;
 using PortraitEditor.Model.SSFiles;
 using PortraitEditor.View;
 using System;

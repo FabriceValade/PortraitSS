@@ -23,7 +23,7 @@ namespace PortraitEditor.Model.SSFiles
         { 
 
         }
-        public void Delete()
+        public virtual void Delete()
         {
             OnRequestClose();
         }

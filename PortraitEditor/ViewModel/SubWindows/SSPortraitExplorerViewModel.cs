@@ -1,6 +1,7 @@
 ﻿using Ookii.Dialogs.Wpf;
 using PortraitEditor.Model;
 using PortraitEditor.Model.SSFiles;
+using PortraitEditor.Model.SSParameters;
 using PortraitEditor.View;
 using System;
 using System.Collections.Generic;

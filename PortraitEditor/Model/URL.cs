@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.Model
 {
-    public class URLRelative : INotifyPropertyChanged
+    public class URLRelative : INotifyPropertyChanged, IEquatable<URLRelative>
     {
         #region Properties
         string _CommonUrl = null;
@@ -129,6 +129,26 @@ namespace PortraitEditor.Model
                 var e = new PropertyChangedEventArgs(propertyName);
                 handler(this, e);
             }
+        }
+        #endregion
+
+        #region Iequatable members
+        public override bool Equals(object other)
+        {
+            if (other == null) return false;
+            URLRelative objAsURL = other as URLRelative;
+            if (objAsURL == null) return false;
+            else return Equals(objAsURL);
+        }
+        public bool Equals(URLRelative other)
+        {
+            if (other == null) return false;            
+            return (this.CommonUrl == other.CommonUrl && this.LinkingUrl==other.LinkingUrl && this.RelativeUrl == other.RelativeUrl);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
         #endregion
     }
