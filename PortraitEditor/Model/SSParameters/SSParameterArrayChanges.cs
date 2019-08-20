@@ -28,6 +28,7 @@ namespace PortraitEditor.Model.SSParameters
         public SSParameterArrayChanges()
         {
             ChangedList = new ObservableCollection<T>();
+            ChangedList.CollectionChanged += ChangedList_CollectionChanged;
         }
         public SSParameterArrayChanges(ObservableCollection<T> listToEdit)
         {

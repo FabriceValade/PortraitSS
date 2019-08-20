@@ -18,24 +18,28 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <!--<ContentControl  Grid.Row="0" Grid.Column="0" Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>-->
-        <local:SSFactionGroupCollectionView Grid.Row="0" Grid.Column="0" 
+        <local:SSFactionGroupCollectionView x:Name="FactionGroupCollection"
+                                            Grid.Row="0" Grid.Column="0" 
                                             Margin="7,7,7,7"
-                                            HeldCollection="{Binding Path=FactionDirectory.GroupDirectory}" />
-        <ContentControl  Grid.Row="0" Grid.Column="1" Content="{Binding Path=DirectoryViewModel.FactionGroupList/}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
+                                            HeldCollection="{Binding Path=FactionDirectory.GroupDirectory}" 
+                                            />
+        <!--<ContentControl  Grid.Row="0" Grid.Column="1" Content="{Binding Path=DirectoryViewModel.FactionGroupList/}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
                     <local:SSPortraitCollectionView DataContext="{TemplateBinding Content}"/>
                 </ControlTemplate>
             </ContentControl.Template>
-        </ContentControl>
+        </ContentControl>-->
+        <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="1" 
+                                        Margin="7,7,7,7"
+                                        HeldCollection="{Binding ElementName=FactionGroupCollection, Path=ViewModel.HeldCollection/Portraits}"/>
         <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="2" 
                                         Margin="7,7,7,7"
                                         HeldCollection="{Binding Path=FactionDirectory.GlobalAvailablePortrait}" 
                                         Button1Name="Add from file"
-                                        Button1Command="{Binding Path=GeneralPortraitButton1Command}" >
-            
-            
-        </local:SSPortraitCollectionView>
+                                        Button1Command="{Binding Path=GeneralPortraitButton1Command}" />
+
+
         <!--<ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
