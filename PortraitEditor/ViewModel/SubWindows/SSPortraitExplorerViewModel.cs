@@ -23,47 +23,64 @@ namespace PortraitEditor.ViewModel.SubWindows
         {
             LocalMod = LocalMod ?? throw new ArgumentNullException("Local mod cannot be null");
             FactionDirectory = factionDirectory;
-            //DirectoryViewModel = new FactionDirectoryViewModel(factionDirectory);
-            //GeneralPortraitsViewModel = new AllPortraitsViewModel(factionDirectory, LocalMod);
-            //GeneralPortraitsViewModel.Button1Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Male));
-            //GeneralPortraitsViewModel.Button1Text = "Add Male";
-            //GeneralPortraitsViewModel.Button1Visibility = Visibility.Visible;
-            //GeneralPortraitsViewModel.Button2Command = new RelayCommand<object>(param => this.AddPortraitFromGeneral(param, Gender.GenderValue.Female));
-            //GeneralPortraitsViewModel.Button2Text = "Add Female";
-            //GeneralPortraitsViewModel.Button2Visibility = Visibility.Visible;
-            //PortraitEdit = DirectoryViewModel.PortraitEdit;
         }
-
-
-        #region Properties
-        //SSExternalObjectCollectionViewModel<SSPortrait> _GlobalPortraitViewModel;
-        //public SSExternalObjectCollectionViewModel<SSPortrait> GlobalPortraitViewModel
-        //{
-        //    get
-        //    {
-        //        if (_GlobalPortraitViewModel != null)
-        //            return _GlobalPortraitViewModel;
-        //        _GlobalPortraitViewModel = new SSExternalObjectCollectionViewModel<SSPortrait>();
-        //        _GlobalPortraitViewModel.HeldCollection = FactionDirectory.GlobalAvailablePortrait;
-        //        return _GlobalPortraitViewModel;
-        //    }
-        //}
-        ICommand _GeneralPortraitButton1Command;
-        public ICommand GeneralPortraitButton1Command
+        #region Commands for portrait editing
+        //command that get input from the selected factiong group are here
+        ICommand _RemoveSelectedPortraitFromGroupCommand;
+        public ICommand RemoveSelectedPortraitFromGroupCommand
         {
             get
             {
-                if(_GeneralPortraitButton1Command==null)
-                    _GeneralPortraitButton1Command= new RelayCommand<object>(param => AddPortraitFromLocal());
-                return _GeneralPortraitButton1Command;
+                if (_RemoveSelectedPortraitFromGroupCommand == null)
+                    _RemoveSelectedPortraitFromGroupCommand = new RelayCommand<object>(param => this.RemoveSelectedPortraitFromGroup(param));
+                return _RemoveSelectedPortraitFromGroupCommand;
             }
-            private set => _GeneralPortraitButton1Command = value;
         }
-        //public FactionDirectoryViewModel DirectoryViewModel { get; set; }
+        ICommand _ResetPortraitFromGroupCommand;
+        public ICommand ResetPortraitFromGroupCommand
+        {
+            get
+            {
+                if (_ResetPortraitFromGroupCommand == null)
+                    _ResetPortraitFromGroupCommand = new RelayCommand<object>(param => this.ResetPortraitFromGroup());
+                return _ResetPortraitFromGroupCommand;
+            }
+        }
+        //comands that get input from general portrait are here
+        ICommand _AddPortraitToGroupFromGeneralMale;
+        public ICommand AddPortraitToGroupFromGeneralMale
+        {
+            get
+            {
+                if (_AddPortraitToGroupFromGeneralMale == null)
+                    _AddPortraitToGroupFromGeneralMale = new RelayCommand<object>(param => this.AddPortraitToGroupFromGeneral(param, Gender.GenderValue.Male));
+                return _AddPortraitToGroupFromGeneralMale;
+            }
+        }
+        ICommand _AddPortraitToGroupFromGeneralFemale;
+        public ICommand AddPortraitToGroupFromGeneralFemale
+        {
+            get
+            {
+                if (_AddPortraitToGroupFromGeneralFemale == null)
+                    _AddPortraitToGroupFromGeneralFemale = new RelayCommand<object>(param => this.AddPortraitToGroupFromGeneral(param, Gender.GenderValue.Female));
+                return _AddPortraitToGroupFromGeneralFemale;
+            }
+        }
+        ICommand _AddPortraitFromLocalCommand;
+        public ICommand AddPortraitFromLocalCommand
+        {
+            get
+            {
+                if (_AddPortraitFromLocalCommand == null)
+                    _AddPortraitFromLocalCommand = new RelayCommand<object>(param => AddPortraitFromLocal());
+                return _AddPortraitFromLocalCommand;
+            }
+        }
+        #endregion
 
-        //public AllPortraitsViewModel GeneralPortraitsViewModel { get; set; }
+        #region Properties
 
-        //public ObservableCollection<SSParameterArrayChangesViewModel<SSPortrait>> PortraitEdit {get;}
         #endregion
 
         //#region method
@@ -75,21 +92,7 @@ namespace PortraitEditor.ViewModel.SubWindows
             return;
         }
 
-        //    public void CloseWindow()
-        //    {
-        //        View.Close();
-        //    } 
-        //    #endregion
-        //    public void AddPortraitFromGeneral(Object obj, Gender.GenderValue NewGender)
-        //    {
-        //        if (obj == null)
-        //            return;
-        //        SSPortrait portrait = new SSPortrait(obj as SSPortrait);
-        //        portrait.ImageGender = new Gender() { Value = NewGender };
-        //        portrait.UsingMod = LocalMod;
-        //        if (DirectoryViewModel.SelectedItem!=null)
-        //            DirectoryViewModel.SelectedItem.AddPortrait(portrait);
-        //    }
+        #region command backing method
         public void AddPortraitFromLocal()
         {
             VistaOpenFileDialog FileOpen = new VistaOpenFileDialog();
@@ -109,6 +112,30 @@ namespace PortraitEditor.ViewModel.SubWindows
             }
             return;
         }
+        private void RemoveSelectedPortraitFromGroup(object obj)
+        {
+            if (obj == null)
+                return;
+            SSPortrait portrait = obj as SSPortrait;
+            SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
+            SelectedGroup.BufferPortraitRemove(obj as SSPortrait);
+        }
+        private void ResetPortraitFromGroup()
+        {
+            SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
+            SelectedGroup.BufferReset();
+        }
+        public void AddPortraitToGroupFromGeneral(object obj, Gender.GenderValue newGender)
+        {
+            SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
+            if (obj == null)
+                return;
+            SSPortrait portrait = new SSPortrait(obj as SSPortrait);
+            portrait.ImageGender = new Gender() { Value = newGender };
+            portrait.UsingMod = LocalMod;
+            SelectedGroup.BufferPortraitAdd(portrait);
+        }
+        #endregion
 
 
     }

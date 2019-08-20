@@ -48,6 +48,7 @@ namespace PortraitEditor.ViewModel.SubWindows
 
         #region properties
         public SSMod L_PeSSMod { get; set; }
+        public SSFactionDirectory FactionDirectory { get; set; }
         public ObservableCollection<SSFactionGroupViewModel> FactionGroupList { get; set; }
         public ObservableCollection<SSFactionGroupViewModel> ModifiedFactionList
         {

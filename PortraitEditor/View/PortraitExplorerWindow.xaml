@@ -18,7 +18,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <!--<ContentControl  Grid.Row="0" Grid.Column="0" Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>-->
-        <local:SSFactionGroupCollectionView x:Name="FactionGroupCollection"
+        <local:SSFactionGroupCollectionView x:Name="FactionGroupCollectionView"
                                             Grid.Row="0" Grid.Column="0" 
                                             Margin="7,7,7,7"
                                             HeldCollection="{Binding Path=FactionDirectory.GroupDirectory}" 
@@ -32,12 +32,22 @@
         </ContentControl>-->
         <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="1" 
                                         Margin="7,7,7,7"
-                                        HeldCollection="{Binding ElementName=FactionGroupCollection, Path=ViewModel.HeldCollection/Portraits}"/>
+                                        HeldCollection="{Binding ElementName=FactionGroupCollectionView, Path=ViewModel.HeldCollection/Portraits}"
+                                        Button1Name="Remove"
+                                        Button1Command="{Binding Path=RemoveSelectedPortraitFromGroupCommand}" 
+                                        Button2Name="Reset"
+                                        Button2Command="{Binding Path=ResetPortraitFromGroupCommand}"/>
+        
+        
         <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="2" 
                                         Margin="7,7,7,7"
                                         HeldCollection="{Binding Path=FactionDirectory.GlobalAvailablePortrait}" 
-                                        Button1Name="Add from file"
-                                        Button1Command="{Binding Path=GeneralPortraitButton1Command}" />
+                                        Button1Name="Add Male"
+                                        Button1Command="{Binding Path=AddPortraitToGroupFromGeneralMale}"
+                                        Button2Name="Add Female"
+                                        Button2Command="{Binding Path=AddPortraitToGroupFromGeneralMale}" 
+                                        Button3Name="Get external"
+                                        Button3Command="{Binding Path=AddPortraitFromLocalCommand}" />
 
 
         <!--<ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">

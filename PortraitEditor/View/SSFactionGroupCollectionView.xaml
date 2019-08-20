@@ -17,7 +17,7 @@
             <RowDefinition Height="auto" SharedSizeGroup="BottomPanel"/>
         </Grid.RowDefinitions>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
-            <ListView  ItemsSource="{Binding Path=HeldView}"  Margin="7,7,7,7" SelectedIndex="2">
+            <ListView  ItemsSource="{Binding Path=HeldView}"  Margin="7,7,7,7" SelectedIndex="0">
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="{x:Type m:SSFactionGroup}">
                         <local:SSFactionGroupView FactionGroupModel="{TemplateBinding Content}"/>

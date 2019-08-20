@@ -59,33 +59,26 @@ namespace PortraitEditor.Model.SSFiles
         public SSParameterArrayChanges<SSPortrait> _PortraitHandler;
         public ObservableCollection<SSPortrait> FilePortraits
         {
-            get
-            {
-                if (_PortraitHandler != null)
-                    return _PortraitHandler.ChangedList;
-                _PortraitHandler = new SSParameterArrayChanges<SSPortrait>() { EqualityComparer = new PortraitGenderEqualityComparer() };
-                return _PortraitHandler.ChangedList;
-            }
+            get => _PortraitHandler.ChangedList;
         }
         public ObservableCollection<SSPortrait> Portraits
         {
-            get
-            {
-                if (_PortraitHandler != null)
-                    return _PortraitHandler.ResultingList;
-                _PortraitHandler = new SSParameterArrayChanges<SSPortrait>() { EqualityComparer = new PortraitGenderEqualityComparer() };
-                return _PortraitHandler.ResultingList;
-            }
+            get => _PortraitHandler.ResultingList;
         } 
         #endregion
 
         #endregion
 
         #region Constructors
-        public SSFactionGroup() : base() { FileList.CollectionChanged += Files_CollectionChanged; }
+        public SSFactionGroup() : base()
+        {
+            FileList.CollectionChanged += Files_CollectionChanged;
+            _PortraitHandler = new SSParameterArrayChanges<SSPortrait>() { EqualityComparer = new PortraitGenderEqualityComparer() };
+        }
         public SSFactionGroup(SSFaction newFile, List<string> availableLink) : base(newFile, availableLink)
         {
             FileList.CollectionChanged += Files_CollectionChanged;
+            _PortraitHandler = new SSParameterArrayChanges<SSPortrait>() { EqualityComparer = new PortraitGenderEqualityComparer() };
             SynchroniseGroup();
         }
 
@@ -105,7 +98,21 @@ namespace PortraitEditor.Model.SSFiles
             return;
         }
         #endregion
-
+        #region SSFileLister _PortraitHandler exposed method and Properties notified by it
+        public bool BufferedPortraits { get => _PortraitHandler.IsChanged; }
+        public void BufferPortraitRemove(SSPortrait portrait)
+        {
+            _PortraitHandler.Remove(portrait);
+        }
+        public void BufferPortraitAdd(SSPortrait portrait)
+        {
+            _PortraitHandler.Add(portrait);
+        }
+        public void BufferReset()
+        {
+            _PortraitHandler.ResetChange();
+        }
+        #endregion
         #region method
         public void SynchroniseGroup()
         {

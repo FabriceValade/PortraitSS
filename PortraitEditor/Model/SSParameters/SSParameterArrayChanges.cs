@@ -80,22 +80,22 @@ namespace PortraitEditor.Model.SSParameters
 
         public void Remove(T obj)
         {
-            T OldChangedObj;
+            T OldResultingObj;
             T OldAddedObj;
             if (EqualityComparer != null)
             {
-                OldChangedObj = (from changed in ChangedList
-                                 where EqualityComparer.Equals(changed, obj)
-                                 select changed).FirstOrDefault();
+                OldResultingObj = (from resulting in ResultingList
+                                 where EqualityComparer.Equals(resulting, obj)
+                                 select resulting).FirstOrDefault();
                 OldAddedObj = (from added in AddedList
                                  where EqualityComparer.Equals(added, obj)
                                  select added).FirstOrDefault();
             }
             else
             {
-                OldChangedObj = (from changed in ChangedList
-                                 where changed.Equals(obj)
-                                 select changed).FirstOrDefault();
+                OldResultingObj = (from resulting in ResultingList
+                                 where resulting.Equals(obj)
+                                 select resulting).FirstOrDefault();
                 OldAddedObj = (from added in AddedList
                                where added.Equals(obj)
                                select added).FirstOrDefault();
@@ -107,10 +107,10 @@ namespace PortraitEditor.Model.SSParameters
                 ResultingList.Remove(OldAddedObj);
                 
             }
-            else if (OldChangedObj!=null)
+            else if (OldResultingObj!=null)
             {
-                RemovedList.Add(OldChangedObj);
-                ResultingList.Remove(OldChangedObj);
+                RemovedList.Add(OldResultingObj);
+                ResultingList.Remove(OldResultingObj);
             }
         }
         public void Add(T obj)
