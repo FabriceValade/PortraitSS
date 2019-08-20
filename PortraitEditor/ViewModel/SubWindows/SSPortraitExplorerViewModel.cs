@@ -87,6 +87,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         public void ShowDialog()
         {
             //DirectoryViewModel.PurgeMod(LocalMod);
+            View = null;
             View = new PortraitExplorerWindow(this);
             View.ShowDialog();
             return;

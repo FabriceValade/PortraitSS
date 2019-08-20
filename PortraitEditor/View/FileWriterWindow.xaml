@@ -18,8 +18,11 @@
         </Grid.ColumnDefinitions>
         <StackPanel>
             <Border Style="{StaticResource ElementBorder}" >
-                <ListView  ItemsSource="{Binding ModifiedFactionList}"  Margin="7,7,7,7" SelectedIndex="0" IsSynchronizedWithCurrentItem="True">
-                </ListView>
+                <local:SSFactionGroupCollectionView x:Name="FactionGroupWriteCollectionView"
+                                            Grid.Row="0" Grid.Column="0" 
+                                            Margin="7,7,7,7"
+                                            HeldCollection="{Binding Path=ModifiedFactionList}" 
+                                            />
             </Border>
             <Border Style="{StaticResource ElementBorder}" >
                 <StackPanel Orientation="Horizontal" Margin="7,7,7,7">
@@ -34,7 +37,7 @@
                 <Border BorderThickness="0">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Added Images"/>
-                        <ListView ItemsSource="{Binding Path=ModifiedFactionList/AddedPortraits}"  
+                        <ListView ItemsSource="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferAddedPortraits}"  
                                   Background="Transparent" 
                                   SelectedIndex="0" 
                                   BorderThickness="0"
@@ -42,10 +45,10 @@
                         </ListView>
                     </StackPanel>
                 </Border>
-                <Border BorderThickness="0" Visibility="{Binding Path=ModifiedFactionList/PortraitsParameterArrayChange.RemovedList,  Converter={StaticResource CollectionVisibilityConverter}}" >
+                <Border BorderThickness="0" Visibility="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferRemovedPortraits,  Converter={StaticResource CollectionVisibilityConverter}}" >
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Removed Images"/>
-                        <ListView ItemsSource="{Binding Path=ModifiedFactionList/PortraitsParameterArrayChange.RemovedList}"   
+                        <ListView ItemsSource="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferRemovedPortraits}"   
                                   Background="Transparent" 
                                   SelectedIndex="0" 
                                   BorderThickness="0"

@@ -26,8 +26,11 @@ namespace PortraitEditor.ViewModel
             }
             set
             {
-                _FactionGroupModel = value;
-                FactionGroupModel.GroupChanged += FactionGroupModel_GroupChanged;
+                if (value == null)
+                    _FactionGroupModel = new SSFactionGroup();
+                else
+                    _FactionGroupModel = value;
+
                 NotifyPropertyChanged("DisplayName");
                 NotifyPropertyChanged("LogoPath");
                 NotifyPropertyChanged("ColorRGB");

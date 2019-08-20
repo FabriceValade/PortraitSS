@@ -64,7 +64,9 @@ namespace PortraitEditor.Model.SSFiles
         public ObservableCollection<SSPortrait> Portraits
         {
             get => _PortraitHandler.ResultingList;
-        } 
+        }
+        public ObservableCollection<SSPortrait> BufferAddedPortraits { get => _PortraitHandler.AddedList; }
+        public ObservableCollection<SSPortrait> BufferRemovedPortraits { get => _PortraitHandler.RemovedList; }
         #endregion
 
         #endregion

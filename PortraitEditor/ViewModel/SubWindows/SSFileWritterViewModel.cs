@@ -22,10 +22,10 @@ namespace PortraitEditor.ViewModel.SubWindows
     public class SSFileWritterViewModel : ViewModelBase
     {
         #region Constructor
-        public SSFileWritterViewModel(SSMod l_PeSSMod, ObservableCollection<SSFactionGroupViewModel> factionGroupList)
+        public SSFileWritterViewModel(SSMod l_PeSSMod, SSFactionDirectory factionDirectory)
         {
             L_PeSSMod = l_PeSSMod;
-            FactionGroupList = factionGroupList;
+            FactionDirectory = factionDirectory;
 
         }
         #endregion
@@ -33,7 +33,7 @@ namespace PortraitEditor.ViewModel.SubWindows
 
         #region field
         FileWriterWindow WindowView;
-        ObservableCollection<SSFactionGroupViewModel> _ModifiedFactionList;
+        ObservableCollection<SSFactionGroup> _ModifiedFactionList;
         string FactionFolderPath;
         string PortraitGraphPath;
         JObject ModInfo = new JObject(
@@ -49,15 +49,14 @@ namespace PortraitEditor.ViewModel.SubWindows
         #region properties
         public SSMod L_PeSSMod { get; set; }
         public SSFactionDirectory FactionDirectory { get; set; }
-        public ObservableCollection<SSFactionGroupViewModel> FactionGroupList { get; set; }
-        public ObservableCollection<SSFactionGroupViewModel> ModifiedFactionList
+        public ObservableCollection<SSFactionGroup> ModifiedFactionList
         {
             get
             {
-                //if (_ModifiedFactionList == null)
-                //    _ModifiedFactionList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
-                //                                                                             where faction.PortraitsParameterArrayChange.IsChanged
-                //                                                                             select faction);
+
+                _ModifiedFactionList = new ObservableCollection<SSFactionGroup>(from factionGroup in FactionDirectory.GroupDirectory
+                                                                                         where factionGroup.BufferedPortraits
+                                                                                         select factionGroup);
                 return _ModifiedFactionList;
             }
         }
@@ -67,18 +66,11 @@ namespace PortraitEditor.ViewModel.SubWindows
         #region Show Associated view
         public void ShowDialog()
         {
-            //ObservableCollection<SSFactionGroupViewModel> TempList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
-            //                                                                                                           where faction.PortraitsParameterArrayChange.IsChanged
-            //                                                                                                           select faction);
-            //ModifiedFactionList.Clear();
-            //foreach (SSFactionGroupViewModel vm in TempList)
-            //{
-            //    ModifiedFactionList.Add(vm);
-            //}
-            //if (L_PeSSMod.Url.CommonUrl == null)
-            //    throw new DirectoryNotFoundException();
-            //FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
-            //PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
+
+            if (L_PeSSMod.Url.CommonUrl == null)
+                throw new DirectoryNotFoundException();
+            FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
+            PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
             WindowView = new FileWriterWindow(this);
             WindowView.ShowDialog();
             return;
