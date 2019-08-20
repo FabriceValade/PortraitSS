@@ -17,7 +17,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ContentControl  Grid.Row="0" Grid.Column="0" Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>
+        <!--<ContentControl  Grid.Row="0" Grid.Column="0" Content="{Binding Path=DirectoryViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7"></ContentControl>-->
+        <local:SSFactionGroupCollectionView Grid.Row="0" Grid.Column="0" 
+                                            Margin="7,7,7,7"
+                                            HeldCollection="{Binding Path=FactionDirectory.GroupDirectory}" />
         <ContentControl  Grid.Row="0" Grid.Column="1" Content="{Binding Path=DirectoryViewModel.FactionGroupList/}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">

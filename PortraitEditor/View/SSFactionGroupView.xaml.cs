@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PortraitEditor.Model.SSFiles;
+using PortraitEditor.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,27 @@ namespace PortraitEditor.View
         public SSFactionGroupView()
         {
             InitializeComponent();
+        }
+
+        public static readonly DependencyProperty FactionGroupModelProperty = DependencyProperty.Register(
+        "FactionGroupModel", typeof(SSFactionGroup), typeof(SSFactionGroupView),
+        new PropertyMetadata(null, OnProjectChanged));
+
+        public SSFactionGroup FactionGroupModel
+        {
+            get { return (SSFactionGroup)GetValue(FactionGroupModelProperty); }
+            set { SetValue(FactionGroupModelProperty, value); }
+        }
+
+        private static void OnProjectChanged(DependencyObject obj,
+            DependencyPropertyChangedEventArgs args)
+        {
+            ((SSFactionGroupView)obj).ViewModel.FactionGroupModel = (SSFactionGroup)args.NewValue;
+        }
+
+        public SSFactionGroupViewModel ViewModel
+        {
+            get { return (SSFactionGroupViewModel)Resources["FactionGroupVM"]; }
         }
     }
 }

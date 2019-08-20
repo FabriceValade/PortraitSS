@@ -98,6 +98,7 @@
     <Compile Include="Model\SSParameters\Interfaces\ISSExternal.cs" />
     <Compile Include="Model\SSParameters\SSParameterArrayChanges.cs" />
     <Compile Include="ViewModel\SSExternalObjectCollectionViewModel.cs" />
+    <Compile Include="ViewModel\SSFactionGroupCollectionViewModel.cs" />
     <Compile Include="ViewModel\SubWindows\SSFileWritterViewModel.cs" />
     <Compile Include="ViewModel\SubWindows\SSPortraitExplorerViewModel.cs" />
     <Compile Include="ViewModel\SSParameterArrayChangesViewModel.cs" />
@@ -118,6 +119,9 @@
     </Compile>
     <Compile Include="View\PortraitExplorerWindow.xaml.cs">
       <DependentUpon>PortraitExplorerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SSFactionGroupCollectionView.xaml.cs">
+      <DependentUpon>SSFactionGroupCollectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SSPortraitCollectionView.xaml.cs">
       <DependentUpon>SSPortraitCollectionView.xaml</DependentUpon>
@@ -173,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PortraitExplorerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSFactionGroupCollectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

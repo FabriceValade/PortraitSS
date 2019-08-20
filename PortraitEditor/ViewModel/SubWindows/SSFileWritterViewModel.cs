@@ -53,10 +53,10 @@ namespace PortraitEditor.ViewModel.SubWindows
         {
             get
             {
-                if (_ModifiedFactionList == null)
-                    _ModifiedFactionList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
-                                                                                             where faction.PortraitsParameterArrayChange.IsChanged
-                                                                                             select faction);
+                //if (_ModifiedFactionList == null)
+                //    _ModifiedFactionList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
+                //                                                                             where faction.PortraitsParameterArrayChange.IsChanged
+                //                                                                             select faction);
                 return _ModifiedFactionList;
             }
         }
@@ -66,18 +66,18 @@ namespace PortraitEditor.ViewModel.SubWindows
         #region Show Associated view
         public void ShowDialog()
         {
-            ObservableCollection<SSFactionGroupViewModel> TempList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
-                                                                                                                       where faction.PortraitsParameterArrayChange.IsChanged
-                                                                                                                       select faction);
-            ModifiedFactionList.Clear();
-            foreach (SSFactionGroupViewModel vm in TempList)
-            {
-                ModifiedFactionList.Add(vm);
-            }
-            if (L_PeSSMod.Url.CommonUrl == null)
-                throw new DirectoryNotFoundException();
-            FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
-            PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
+            //ObservableCollection<SSFactionGroupViewModel> TempList = new ObservableCollection<SSFactionGroupViewModel>(from faction in FactionGroupList
+            //                                                                                                           where faction.PortraitsParameterArrayChange.IsChanged
+            //                                                                                                           select faction);
+            //ModifiedFactionList.Clear();
+            //foreach (SSFactionGroupViewModel vm in TempList)
+            //{
+            //    ModifiedFactionList.Add(vm);
+            //}
+            //if (L_PeSSMod.Url.CommonUrl == null)
+            //    throw new DirectoryNotFoundException();
+            //FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
+            //PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
             WindowView = new FileWriterWindow(this);
             WindowView.ShowDialog();
             return;
@@ -140,52 +140,52 @@ namespace PortraitEditor.ViewModel.SubWindows
         }
         public void WriteAppend()
         {
-            ClearModFolder();
-            foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
-            {
-                var PossiblePortrait = from portrait in vm.AddedPortraits
-                                       where portrait.Url.IsComplete
-                                       select portrait;
-                JObject AppendPortrait = PossiblePortrait.FlattenToJson();
-                using (StreamWriter file = File.CreateText(Path.Combine(FactionFolderPath, vm.FactionGroupModel.FileName)))
-                {
-                    using (JsonTextWriter writer = new JsonTextWriter(file))
-                    {
-                        writer.Formatting = Formatting.Indented;
-                        AppendPortrait.WriteTo(writer);
-                    }
-                }
-            }
+            //ClearModFolder();
+            //foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
+            //{
+            //    var PossiblePortrait = from portrait in vm.AddedPortraits
+            //                           where portrait.Url.IsComplete
+            //                           select portrait;
+            //    JObject AppendPortrait = PossiblePortrait.FlattenToJson();
+            //    using (StreamWriter file = File.CreateText(Path.Combine(FactionFolderPath, vm.FactionGroupModel.FileName)))
+            //    {
+            //        using (JsonTextWriter writer = new JsonTextWriter(file))
+            //        {
+            //            writer.Formatting = Formatting.Indented;
+            //            AppendPortrait.WriteTo(writer);
+            //        }
+            //    }
+            //}
         }
         public void CopyImagesToMod()
         {
-            DirectoryInfo FactionFolderInfo = new DirectoryInfo(PortraitGraphPath);
-            if (!FactionFolderInfo.Exists)
-                FactionFolderInfo.Create();
-            foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
-            {
-                var PossiblePortrait = from portrait in vm.AddedPortraits
-                                       where !portrait.Url.IsComplete
-                                       select portrait;
-                foreach (SSPortrait portrait in PossiblePortrait)
-                {
+            //DirectoryInfo FactionFolderInfo = new DirectoryInfo(PortraitGraphPath);
+            //if (!FactionFolderInfo.Exists)
+            //    FactionFolderInfo.Create();
+            //foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
+            //{
+            //    var PossiblePortrait = from portrait in vm.AddedPortraits
+            //                           where !portrait.Url.IsComplete
+            //                           select portrait;
+            //    foreach (SSPortrait portrait in PossiblePortrait)
+            //    {
 
-                    FileInfo newfile = new FileInfo(portrait.Url.FullUrl);
-                    string newRelativePath = Path.Combine(new string[4] { "graphics", "LPESS", "portraits", newfile.Name });
-                    URLRelative newUrl = new URLRelative()
-                    {
-                        CommonUrl = L_PeSSMod.Url.CommonUrl,
-                        LinkingUrl = L_PeSSMod.Url.LinkingUrl,
-                        RelativeUrl = newRelativePath
-                    };
-                    FileInfo checkFile = new FileInfo(newUrl.FullUrl);
-                    if (checkFile.Exists)
-                        checkFile.Delete();
-                    newfile.CopyTo(newUrl.FullUrl);
-                    portrait.Url = newUrl;
-                }
+            //        FileInfo newfile = new FileInfo(portrait.Url.FullUrl);
+            //        string newRelativePath = Path.Combine(new string[4] { "graphics", "LPESS", "portraits", newfile.Name });
+            //        URLRelative newUrl = new URLRelative()
+            //        {
+            //            CommonUrl = L_PeSSMod.Url.CommonUrl,
+            //            LinkingUrl = L_PeSSMod.Url.LinkingUrl,
+            //            RelativeUrl = newRelativePath
+            //        };
+            //        FileInfo checkFile = new FileInfo(newUrl.FullUrl);
+            //        if (checkFile.Exists)
+            //            checkFile.Delete();
+            //        newfile.CopyTo(newUrl.FullUrl);
+            //        portrait.Url = newUrl;
+            //    }
 
-            }
+            //}
         }
     }
     public class CollectionToVisibilityConverter : IValueConverter
