@@ -25,7 +25,14 @@
                 </ControlTemplate>
             </ContentControl.Template>
         </ContentControl>
-        <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="2" HeldCollection="{Binding Path=FactionDirectory.GlobalAvailablePortrait}"></local:SSPortraitCollectionView>
+        <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="2" 
+                                        Margin="7,7,7,7"
+                                        HeldCollection="{Binding Path=FactionDirectory.GlobalAvailablePortrait}" 
+                                        Button1Name="Add from file"
+                                        Button1Command="{Binding Path=GeneralPortraitButton1Command}" >
+            
+            
+        </local:SSPortraitCollectionView>
         <!--<ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">

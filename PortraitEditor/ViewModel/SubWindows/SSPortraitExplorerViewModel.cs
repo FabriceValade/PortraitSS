@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace PortraitEditor.ViewModel.SubWindows
 {
@@ -35,17 +36,28 @@ namespace PortraitEditor.ViewModel.SubWindows
 
 
         #region Properties
-        SSExternalObjectCollectionViewModel<SSPortrait> _GlobalPortraitViewModel;
-        public SSExternalObjectCollectionViewModel<SSPortrait> GlobalPortraitViewModel
+        //SSExternalObjectCollectionViewModel<SSPortrait> _GlobalPortraitViewModel;
+        //public SSExternalObjectCollectionViewModel<SSPortrait> GlobalPortraitViewModel
+        //{
+        //    get
+        //    {
+        //        if (_GlobalPortraitViewModel != null)
+        //            return _GlobalPortraitViewModel;
+        //        _GlobalPortraitViewModel = new SSExternalObjectCollectionViewModel<SSPortrait>();
+        //        _GlobalPortraitViewModel.HeldCollection = FactionDirectory.GlobalAvailablePortrait;
+        //        return _GlobalPortraitViewModel;
+        //    }
+        //}
+        ICommand _GeneralPortraitButton1Command;
+        public ICommand GeneralPortraitButton1Command
         {
             get
             {
-                if (_GlobalPortraitViewModel != null)
-                    return _GlobalPortraitViewModel;
-                _GlobalPortraitViewModel = new SSExternalObjectCollectionViewModel<SSPortrait>();
-                _GlobalPortraitViewModel.HeldCollection = FactionDirectory.GlobalAvailablePortrait;
-                return _GlobalPortraitViewModel;
+                if(_GeneralPortraitButton1Command==null)
+                    _GeneralPortraitButton1Command= new RelayCommand<object>(param => AddPortraitFromLocal());
+                return _GeneralPortraitButton1Command;
             }
+            private set => _GeneralPortraitButton1Command = value;
         }
         //public FactionDirectoryViewModel DirectoryViewModel { get; set; }
 
@@ -78,6 +90,25 @@ namespace PortraitEditor.ViewModel.SubWindows
         //        if (DirectoryViewModel.SelectedItem!=null)
         //            DirectoryViewModel.SelectedItem.AddPortrait(portrait);
         //    }
+        public void AddPortraitFromLocal()
+        {
+            VistaOpenFileDialog FileOpen = new VistaOpenFileDialog();
+            FileOpen.Multiselect = false;
+
+            URLRelative newUrl;
+            if (FileOpen.ShowDialog() == true)
+            {
+                newUrl = new URLRelative()
+                {
+                    LinkingUrl = null,
+                    RelativeUrl = null,
+                    CommonUrl = FileOpen.FileName
+                };
+                SSPortrait newPortrait = new SSPortrait(newUrl, new Gender(), LocalMod, null);
+                FactionDirectory.GlobalAvailablePortrait.Add(newPortrait);
+            }
+            return;
+        }
 
 
     }
