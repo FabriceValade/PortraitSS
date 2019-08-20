@@ -25,10 +25,11 @@ namespace PortraitEditor.Model.SSFiles
         {
             get => FileLister.Files;
         }
-        public List<string> AvailableLink { get; set; }
+        public List<string> AvailableLink { get; set; } = new List<string>();
         #endregion
 
         #region constructor
+        public SSFileGroup() { }
         public SSFileGroup(F newFile, List<string> availableLink)
         {
             AvailableLink = availableLink;

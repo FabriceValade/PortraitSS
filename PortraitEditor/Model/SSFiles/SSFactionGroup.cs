@@ -19,8 +19,6 @@ namespace PortraitEditor.Model.SSFiles
         {
             get
             {
-                if (_DisplayName == null)
-                    return FileName;
                 return _DisplayName;
             }
             private set => _DisplayName = value;
@@ -31,8 +29,6 @@ namespace PortraitEditor.Model.SSFiles
         {
             get
             {
-                if (_LogoPath == null)
-                    return "Logo not set";
                 return _LogoPath;
             }
             private set => _LogoPath = value;
@@ -43,8 +39,6 @@ namespace PortraitEditor.Model.SSFiles
         {
             get
             {
-                if (_ColorRGB == null)
-                    return "#FFFFFFFF";
                 return _ColorRGB;
             }
             private set => _ColorRGB = value;
@@ -88,6 +82,7 @@ namespace PortraitEditor.Model.SSFiles
         #endregion
 
         #region Constructors
+        public SSFactionGroup() : base() { FileList.CollectionChanged += Files_CollectionChanged; }
         public SSFactionGroup(SSFaction newFile, List<string> availableLink) : base(newFile, availableLink)
         {
             FileList.CollectionChanged += Files_CollectionChanged;

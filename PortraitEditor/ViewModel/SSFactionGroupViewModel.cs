@@ -15,7 +15,7 @@ namespace PortraitEditor.ViewModel
 {
     public class SSFactionGroupViewModel : ViewModelBase
     {
-        SSFactionGroup _FactionGroupModel;
+        SSFactionGroup _FactionGroupModel = new SSFactionGroup();
         public SSFactionGroup FactionGroupModel
         {
             get
@@ -76,8 +76,6 @@ namespace PortraitEditor.ViewModel
         {
             get
             {
-                if (_ColorRGB != null)
-                    return _ColorRGB;
                 _ColorRGB = FactionGroupModel.ColorRGB;
                 if (_ColorRGB == null)
                     _ColorRGB = "#FFFFFFFF";
