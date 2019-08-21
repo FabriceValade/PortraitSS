@@ -17,18 +17,46 @@
             <RowDefinition Height="auto" SharedSizeGroup="BottomPanel"/>
         </Grid.RowDefinitions>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="0">
-            <ListView  ItemsSource="{Binding Path=HeldView}"   Margin="7,7,7,7" Background="Transparent" SelectedIndex="0" BorderThickness="0" Style ="{StaticResource PortraitListView}">
-                
-                <ListView.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
-                            </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                    </GroupStyle>
-                </ListView.GroupStyle>
-            </ListView>
+            <Grid Margin="7,7,7,7">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <ListView  ItemsSource="{Binding Path=HeldView}"    Background="Transparent" SelectedIndex="0" BorderThickness="0" Style ="{StaticResource PortraitListView}">
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                </ListView>
+                <ComboBox Grid.Row="1"  Background="Black"  ItemsSource="{Binding Path=PossibleGroupDescriptionDisplayName}" SelectedItem="{Binding Path=SelectedItem}" IsSynchronizedWithCurrentItem="True" BorderBrush="#FFDE1C1C">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                        <Border x:Name="myBorder">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="myBorder" Value="Yellow" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" TargetName="myBorder" Value="DarkCyan" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
+            </Grid>
         </Border>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="1" Grid.Column="0" >
             <Grid Background="Transparent">

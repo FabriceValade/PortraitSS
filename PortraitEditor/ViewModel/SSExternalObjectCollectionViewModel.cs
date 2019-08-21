@@ -51,6 +51,28 @@ namespace PortraitEditor.ViewModel
             }
         }
         public PropertyGroupDescription GroupDescription { get; set; }
+
+        List<PropertyGroupDescription> PossibleGroupDescription = new List<PropertyGroupDescription>
+        {
+            null,
+            new PropertyGroupDescription("UsingMod"),
+            new PropertyGroupDescription("SourceMod"),
+        };
+        public ObservableCollection<string> PossibleGroupDescriptionDisplayName { get; set; } = new ObservableCollection<string> { "none", "using", "source" };
+        string _SelectedItem = "none";
+        public string SelectedItem
+        {
+            get { return _SelectedItem; }
+            set
+            {
+                _SelectedItem = value;
+                int pos = PossibleGroupDescriptionDisplayName.IndexOf(_SelectedItem);
+                HeldView.GroupDescriptions.Clear();
+                HeldView.GroupDescriptions.Add(PossibleGroupDescription.ElementAt(pos));
+                GroupDescription = PossibleGroupDescription.ElementAt(pos);
+                NotifyPropertyChanged();
+            }
+        }
         //= new PropertyGroupDescription();
 
         #region Button1
