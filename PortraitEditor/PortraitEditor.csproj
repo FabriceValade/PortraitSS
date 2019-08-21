@@ -83,6 +83,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\ComboboxContent.cs" />
     <Compile Include="JsonHandling\JsonExtension.cs" />
     <Compile Include="Model\Faction.cs" />
     <Compile Include="Model\Gender.cs" />

@@ -33,8 +33,14 @@
                         </GroupStyle>
                     </ListView.GroupStyle>
                 </ListView>
-                <ComboBox Grid.Row="1"  Background="Black"  ItemsSource="{Binding Path=PossibleGroupDescriptionDisplayName}" SelectedItem="{Binding Path=SelectedItem}" IsSynchronizedWithCurrentItem="True" Style="{StaticResource NewComboBox}">
-                    
+                <ComboBox Grid.Row="1"  Background="Black"  ItemsSource="{Binding Path=GroupDescriptionComboBox}" SelectedItem="{Binding Path=SelectedComboBoxGroupDescription}" IsSynchronizedWithCurrentItem="True" Style="{StaticResource NewComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DisplayName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
         </Border>

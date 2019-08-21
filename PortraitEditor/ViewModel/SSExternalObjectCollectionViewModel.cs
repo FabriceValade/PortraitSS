@@ -1,4 +1,5 @@
-﻿using PortraitEditor.Model.SSParameters;
+﻿using PortraitEditor.Extensions;
+using PortraitEditor.Model.SSParameters;
 using PortraitEditor.Model.SSParameters.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,8 @@ namespace PortraitEditor.ViewModel
             {
                 _HeldCollection = value;
                 _HeldView = (CollectionView)CollectionViewSource.GetDefaultView(_HeldCollection);
-                _HeldView.GroupDescriptions.Add(GroupDescription);
+                HeldView.GroupDescriptions.Clear();
+                _HeldView.GroupDescriptions.Add(SelectedComboBoxGroupDescription.Content);
                 NotifyPropertyChanged("HeldView");
             }
         }
@@ -45,34 +47,53 @@ namespace PortraitEditor.ViewModel
                 if (_HeldView == null)
                 {
                     _HeldView = (CollectionView)CollectionViewSource.GetDefaultView(HeldCollection);
-                    _HeldView.GroupDescriptions.Add(GroupDescription);
+                    HeldView.GroupDescriptions.Clear();
+                    _HeldView.GroupDescriptions.Add(SelectedComboBoxGroupDescription.Content);
                 }
                 return _HeldView;
             }
         }
-        public PropertyGroupDescription GroupDescription { get; set; }
+        //public PropertyGroupDescription GroupDescription { get; set; }
 
-        List<PropertyGroupDescription> PossibleGroupDescription = new List<PropertyGroupDescription>
+        //List<PropertyGroupDescription> PossibleGroupDescription = new List<PropertyGroupDescription>
+        //{
+        //    null,
+        //    new PropertyGroupDescription("UsingMod"),
+        //    new PropertyGroupDescription("SourceMod"),
+        //};
+        public List<ComboboxContent<PropertyGroupDescription>> GroupDescriptionComboBox { get; set; } = new List<ComboboxContent<PropertyGroupDescription>>
         {
-            null,
-            new PropertyGroupDescription("UsingMod"),
-            new PropertyGroupDescription("SourceMod"),
+            new ComboboxContent<PropertyGroupDescription>() {Content=new PropertyGroupDescription("UsingMod"), DisplayName="Group by mod adding"},
+            new ComboboxContent<PropertyGroupDescription>() {Content=new PropertyGroupDescription("SourceMod"), DisplayName="Group by source of image"},
+            new ComboboxContent<PropertyGroupDescription>() {Content=null, DisplayName="No grouping"},
         };
-        public ObservableCollection<string> PossibleGroupDescriptionDisplayName { get; set; } = new ObservableCollection<string> { "none", "using", "source" };
-        string _SelectedItem = "none";
-        public string SelectedItem
+        ComboboxContent<PropertyGroupDescription> _SelectedComboBoxGroupDescription =new ComboboxContent<PropertyGroupDescription>();
+        public ComboboxContent<PropertyGroupDescription> SelectedComboBoxGroupDescription
         {
-            get { return _SelectedItem; }
+            get => _SelectedComboBoxGroupDescription;
             set
             {
-                _SelectedItem = value;
-                int pos = PossibleGroupDescriptionDisplayName.IndexOf(_SelectedItem);
+                _SelectedComboBoxGroupDescription = value;
                 HeldView.GroupDescriptions.Clear();
-                HeldView.GroupDescriptions.Add(PossibleGroupDescription.ElementAt(pos));
-                GroupDescription = PossibleGroupDescription.ElementAt(pos);
-                NotifyPropertyChanged();
+                HeldView.GroupDescriptions.Add(_SelectedComboBoxGroupDescription.Content);
             }
+
         }
+        //public ObservableCollection<string> PossibleGroupDescriptionDisplayName { get; set; } = new ObservableCollection<string> { "none", "using", "source" };
+        //string _SelectedItem = "none";
+        //public string SelectedItem
+        //{
+        //    get { return _SelectedItem; }
+        //    set
+        //    {
+        //        _SelectedItem = value;
+        //        int pos = PossibleGroupDescriptionDisplayName.IndexOf(_SelectedItem);
+        //        HeldView.GroupDescriptions.Clear();
+        //        HeldView.GroupDescriptions.Add(PossibleGroupDescription.ElementAt(pos));
+        //        GroupDescription = PossibleGroupDescription.ElementAt(pos);
+        //        NotifyPropertyChanged();
+        //    }
+        //}
         //= new PropertyGroupDescription();
 
         #region Button1
@@ -111,6 +132,8 @@ namespace PortraitEditor.ViewModel
         #endregion
 
     }
+
+
     public class SSExternalPortraitCollectionViewModel :SSExternalObjectCollectionViewModel<SSPortrait>
     {
 
