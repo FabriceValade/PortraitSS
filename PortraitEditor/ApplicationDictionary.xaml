@@ -59,9 +59,15 @@
     <!--application wide styleing yes-->
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
     <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="PaleBackgroundBrush" Color="DarkSlateGray" />
     <SolidColorBrush x:Key="BadBackgroundBrush" Color="DarkRed" />
     <SolidColorBrush x:Key="GoodBackgroundBrush" Color="DarkGreen" />
     <SolidColorBrush x:Key="ButtonSolid" Color="DarkCyan" />
+    <SolidColorBrush x:Key="UiOutline" Color="DarkCyan" />
+    <SolidColorBrush x:Key="UiFill" Color="CadetBlue" />
+    <SolidColorBrush x:Key="UiHighContrast" Color="Azure" />
+    <SolidColorBrush x:Key="UiLowContrast" Color="DarkSlateGray" />
+    <SolidColorBrush x:Key="GlyphFill" Color="DarkSlateGray" />
     <SolidColorBrush x:Key="ButtonPale" Color="DarkTurquoise" />
     <SolidColorBrush x:Key="ContrastOnButton" Color="DarkSlateGray" />
     
@@ -285,7 +291,7 @@
                     <VisualState x:Name="Indeterminate" />
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2" BorderThickness="1">
+            <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2" BorderThickness="1" BorderBrush="{StaticResource UiOutline}" Background="{StaticResource PaleBackgroundBrush}" >
                 <!--<Border.BorderBrush>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                         <GradientStop Color="{DynamicResource BorderLightColor}" Offset="0" />
@@ -303,19 +309,22 @@
                     </LinearGradientBrush>
                 </Border.Background>-->
             </Border>
-            <Border Grid.Column="0" CornerRadius="2,0,0,2" Margin="1" >
+            <Border Grid.Column="0" CornerRadius="2,0,0,2" Margin="1">
                 <!--<Border.Background>
                     <SolidColorBrush Color="{DynamicResource ControlLightColor}"/>
                 </Border.Background>-->
             </Border>
+
             <Path x:Name="Arrow" Grid.Column="1"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
-                                 Data="M 0 0 L 4 4 L 8 0 Z" >
+                                 Data="M 0 0 L 4 4 L 8 0 Z" 
+                                 Fill="{StaticResource UiHighContrast}">
                 <!--<Path.Fill>
-                    <SolidColorBrush Color="{DynamicResource GlyphColor}"/>
+                    <SolidColorBrush Color="{StaticResource GlyphFill}"/>
                 </Path.Fill>-->
             </Path>
+
         </Grid>
     </ControlTemplate>
 
@@ -395,7 +404,7 @@
                             <Grid x:Name="DropDown" SnapsToDevicePixels="True"
                                                     MinWidth="{TemplateBinding ActualWidth}"
                                                     MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border x:Name="DropDownBorder" BorderThickness="1">
+                                <Border x:Name="DropDownBorder" BorderThickness="1" BorderBrush="{StaticResource UiOutline}">
                                     <!--<Border.BorderBrush>
                                         <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
                                     </Border.BorderBrush>
@@ -410,26 +419,15 @@
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasItems"
-                   Value="false">
-                            <Setter TargetName="DropDownBorder"
-                    Property="MinHeight"
-                    Value="95" />
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
                         </Trigger>
-                        <Trigger Property="IsGrouping"
-                   Value="true">
-                            <Setter Property="ScrollViewer.CanContentScroll"
-                    Value="false" />
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                         </Trigger>
-                        <Trigger SourceName="Popup"
-                   Property="AllowsTransparency"
-                   Value="true">
-                            <Setter TargetName="DropDownBorder"
-                    Property="CornerRadius"
-                    Value="4" />
-                            <Setter TargetName="DropDownBorder"
-                    Property="Margin"
-                    Value="0,2,0,0" />
+                        <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
+                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -439,10 +437,8 @@
 
     <Style x:Key="{x:Type ComboBoxItem}"
        TargetType="{x:Type ComboBoxItem}">
-        <Setter Property="SnapsToDevicePixels"
-          Value="true" />
-        <Setter Property="OverridesDefaultStyle"
-          Value="true" />
+        <Setter Property="SnapsToDevicePixels"   Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
@@ -453,12 +449,12 @@
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualState x:Name="Unselected" />
                                 <VisualState x:Name="Selected">
-                                    <!--<Storyboard>
+                                    <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
                                                                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedBackgroundColor}" />
+                                            <EasingColorKeyFrame KeyTime="0" Value="DarkSlateGray" />
                                         </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>-->
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SelectedUnfocused">
                                     <!--<Storyboard>
