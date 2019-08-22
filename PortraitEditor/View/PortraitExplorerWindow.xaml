@@ -36,7 +36,8 @@
                                         Button1Name="Remove"
                                         Button1Command="{Binding Path=RemoveSelectedPortraitFromGroupCommand}" 
                                         Button2Name="Reset"
-                                        Button2Command="{Binding Path=ResetPortraitFromGroupCommand}"/>
+                                        Button2Command="{Binding Path=ResetPortraitFromGroupCommand}"
+                                        GroupDescriptionComboBox="{Binding Path=GroupDescriptionComboBoxGroup}"/>
         
         
         <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="2" 
@@ -45,9 +46,10 @@
                                         Button1Name="Add Male"
                                         Button1Command="{Binding Path=AddPortraitToGroupFromGeneralMale}"
                                         Button2Name="Add Female"
-                                        Button2Command="{Binding Path=AddPortraitToGroupFromGeneralMale}" 
+                                        Button2Command="{Binding Path=AddPortraitToGroupFromGeneralFemale}" 
                                         Button3Name="Get external"
-                                        Button3Command="{Binding Path=AddPortraitFromLocalCommand}" />
+                                        Button3Command="{Binding Path=AddPortraitFromLocalCommand}" 
+                                        GroupDescriptionComboBox="{Binding Path=GroupDescriptionComboBoxGeneral}"/>
 
 
         <!--<ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">

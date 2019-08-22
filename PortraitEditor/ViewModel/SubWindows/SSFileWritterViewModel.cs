@@ -122,14 +122,13 @@ namespace PortraitEditor.ViewModel.SubWindows
             FactionFolderInfo = new DirectoryInfo(PortraitGraphPath);
             if (!FactionFolderInfo.Exists)
                 FactionFolderInfo.Create();
-            using (StreamWriter file = File.CreateText(Path.Combine(L_PeSSMod.Url.FullUrl, "mod_info.json")))
+
+            using (JsonTextWriter writer = new JsonTextWriter(File.CreateText(Path.Combine(L_PeSSMod.Url.FullUrl, "mod_info.json"))))
             {
-                using (JsonTextWriter writer = new JsonTextWriter(file))
-                {
-                    writer.Formatting = Formatting.Indented;
-                    ModInfo.WriteTo(writer);
-                }
+                writer.Formatting = Formatting.Indented;
+                ModInfo.WriteTo(writer);
             }
+
         }
         public void WriteAppend()
         {

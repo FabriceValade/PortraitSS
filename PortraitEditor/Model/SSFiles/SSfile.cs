@@ -39,14 +39,11 @@ namespace PortraitEditor.Model.SSFiles
             _FileName = info.Name ?? throw new ArgumentNullException("The FileName cannot be null.");
             string ReadResult = File.ReadAllText(Url.FullUrl);
             var result = Regex.Replace(ReadResult, "#.*", "");
-            using (var stringReader = new StringReader(result))
+            using (var jsonReader = new JsonTextReader(new StringReader(result)))
             {
-                using (var jsonReader = new JsonTextReader(stringReader))
-                {
-                    var serializer = JsonSerializer.Create(new JsonSerializerSettings { Error = HandleDeserializationError });
-                    dynamic value = serializer.Deserialize(jsonReader);
-                    _JsonContent = value as JObject;
-                }
+                var serializer = JsonSerializer.Create(new JsonSerializerSettings { Error = HandleDeserializationError });
+                dynamic value = serializer.Deserialize(jsonReader);
+                _JsonContent = value as JObject;
             }
         }
         #endregion

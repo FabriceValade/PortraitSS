@@ -1,4 +1,5 @@
-﻿using PortraitEditor.Model.SSParameters;
+﻿using PortraitEditor.Extensions;
+using PortraitEditor.Model.SSParameters;
 using PortraitEditor.Model.SSParameters.Interfaces;
 using PortraitEditor.ViewModel;
 using System;
@@ -120,6 +121,22 @@ namespace PortraitEditor.View
             set { SetValue(Button3CommandProperty, value); }
         }
         private static void OnButton3CommandChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) { ((SSPortraitCollectionView)obj).ViewModel.Button3Command = (ICommand)args.NewValue; }
+        #endregion
+
+        #region grouping possibilities
+        public static readonly DependencyProperty GroupDescriptionComboBoxProperty = DependencyProperty.Register(
+        "GroupDescriptionComboBox", typeof(List<ComboboxContent<PropertyGroupDescription>>), typeof(SSPortraitCollectionView),
+        new PropertyMetadata(new List<ComboboxContent<PropertyGroupDescription>>() { new ComboboxContent<PropertyGroupDescription>()}, OnGroupDescriptionComboBoxChanged));
+
+        public List<ComboboxContent<PropertyGroupDescription>> GroupDescriptionComboBox
+        {
+            get { return (List<ComboboxContent<PropertyGroupDescription>>)GetValue(GroupDescriptionComboBoxProperty); }
+            set { SetValue(GroupDescriptionComboBoxProperty, value); }
+        }
+        private static void OnGroupDescriptionComboBoxChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            ((SSPortraitCollectionView)obj).ViewModel.GroupDescriptionComboBox = (List<ComboboxContent<PropertyGroupDescription>>)args.NewValue;
+        }
         #endregion
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PortraitEditor.Model
 {
-    public class Gender
+    public class Gender : IEquatable<Gender>
     {
         public enum GenderValue { Male,Female}
         public static string Male = "Male";
@@ -34,5 +34,9 @@ namespace PortraitEditor.Model
                 return Gender.FemalePropertyName;
         }
 
+        public bool Equals(Gender other)
+        {
+            return (this.ToString() == other.ToString());
+        }
     }
 }
