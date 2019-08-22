@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PortraitEditor.View"
         xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
         mc:Ignorable="d"
-        Title="PortraitExplorerWindow" Height="450" Width="800">
+        Title="PortraitExplorerWindow" WindowStyle="None"  WindowState="Maximized">
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -51,7 +51,7 @@
                                         Button3Command="{Binding Path=AddPortraitFromLocalCommand}" 
                                         GroupDescriptionComboBox="{Binding Path=GroupDescriptionComboBoxGeneral}"/>
 
-
+        <Button Grid.Row="2" Grid.Column="2" Content="Close" Command="{Binding CloseCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="75"/>
         <!--<ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">

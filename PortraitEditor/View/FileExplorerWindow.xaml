@@ -6,47 +6,41 @@
         xmlns:local="clr-namespace:PortraitEditor.View"
         xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
         mc:Ignorable="d"
-        Title="Window1" WindowStyle="ToolWindow" ResizeMode="CanResize"  WindowState="Normal">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <Grid Grid.IsSharedSizeScope="True">
+        Title="Window1" WindowStyle="None"  WindowState="Maximized">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" SharedSizeGroup="OptionPanel"/>
-                <ColumnDefinition Width="auto" SharedSizeGroup="OptionPanel"/>
-                <ColumnDefinition Width="auto" MinWidth="500"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel>
-                <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
-                    <StackPanel>
-                        <Border  Height="100" BorderThickness="0" BorderBrush="Black">
-                            <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
-                        </Border>
-                        <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
-                        <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
+    <Grid Grid.IsSharedSizeScope="True">
 
-                            <StackPanel Margin="0" Orientation="Vertical">
-                                <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mods action</Label>
-                                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsIgnore}" Width="60">Ignore</RadioButton>
-                                    <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsUse}" Width="60">Use</RadioButton>
-                                </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" SharedSizeGroup="OptionPanel"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+                <StackPanel>
+                    <Border  Height="100" BorderThickness="0" BorderBrush="Black">
+                        <ContentControl  Content="{Binding Path=StarsectorFolderUrl}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="3,3,3,3"></ContentControl>
+                    </Border>
+                    <Button Content="Explore Folder" Width="100" Command="{Binding ExploreFolderCommand}"/>
+                    <StackPanel Margin="10" Orientation="Vertical" HorizontalAlignment="Center">
+
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">Mods action</Label>
+                            <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsIgnore}" Width="60">Ignore</RadioButton>
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ModFolderRadioAsUse}" Width="60">Use</RadioButton>
                             </StackPanel>
-                            <StackPanel Margin="0" Orientation="Vertical" Visibility="Visible">
-                                <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">LPeSS Previous ModFiles</Label>
-                                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ExploreOldLPeSSFilesAsIgnore}" Width="60">Ignore</RadioButton>
-                                    <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ExploreOldLPeSSFilesAsUse}"  Width="60">Use</RadioButton>
-                                </StackPanel>
-                            </StackPanel>
-
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-                <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
-                    <Button Content="Close Window" Width="100" Margin="3,3,3,3" Command="{Binding CloseWindowCommand}"/>
-                </Border>
-            </StackPanel>
+                        <StackPanel Margin="0" Orientation="Vertical" Visibility="Visible">
+                            <Label FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center">LPeSS Previous ModFiles</Label>
+                            <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ExploreOldLPeSSFilesAsIgnore}" Width="60">Ignore</RadioButton>
+                                <RadioButton Style="{StaticResource ToggleButton}" IsChecked="{Binding ExploreOldLPeSSFilesAsUse}"  Width="60">Use</RadioButton>
+                            </StackPanel>
+                        </StackPanel>
 
+                    </StackPanel>
+                </StackPanel>
+            </Border>
 
             <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="1">
                 <StackPanel>
@@ -60,7 +54,13 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <local:SSModTreeView HeldModCollection="{Binding ModCollectionBase}" Grid.Column="2"/>
-        </Grid>
-    </ScrollViewer>
+            <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top">
+                <Button Content="Close Window" Width="100" Margin="3,3,3,3" Command="{Binding CloseWindowCommand}"/>
+            </Border>
+        </StackPanel>
+
+
+
+        <local:SSModTreeView HeldModCollection="{Binding ModCollectionBase}" Grid.Column="1" />
+    </Grid>
 </Window>

@@ -13,7 +13,7 @@
         <vm:SSModTreeViewModel x:Key="SSModTreeVM"/>
     </UserControl.Resources>
     <Grid DataContext="{StaticResource SSModTreeVM}">
-        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="2" >
+        <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Stretch">
             <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Focusable="False" BorderThickness="0" Grid.IsSharedSizeScope="true" Margin="7,7,7,7">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type m:SSMod}" ItemsSource="{Binding FileList}">

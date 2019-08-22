@@ -26,6 +26,19 @@ namespace PortraitEditor.ViewModel.SubWindows
             LocalMod = LocalMod ?? throw new ArgumentNullException("Local mod cannot be null");
             FactionDirectory = factionDirectory;
         }
+        ICommand _CloseCommand;
+        public ICommand CloseCommand
+        {
+            get
+            {
+                if (_CloseCommand == null)
+                {
+                    _CloseCommand = new RelayCommand<object>(param => View.Close());
+                }
+                return _CloseCommand;
+            }
+        }
+
         #region Commands for portrait editing
         //command that get input from the selected factiong group are here
         ICommand _RemoveSelectedPortraitFromGroupCommand;

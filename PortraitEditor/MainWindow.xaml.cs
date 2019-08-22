@@ -79,8 +79,19 @@ namespace PortraitEditor
                 return _WriteFileCommand;
             }
         }
+        ICommand _CloseCommand;
+        public ICommand CloseCommand
+        {
+            get
+            {
+                if (_CloseCommand == null)
+                {
+                    _CloseCommand = new RelayCommand<object>(param => this.Close());
+                }
+                return _CloseCommand;
+            }
+        }
 
-        
 
         public MainWindow()
         {
