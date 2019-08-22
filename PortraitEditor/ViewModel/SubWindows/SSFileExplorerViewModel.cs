@@ -322,10 +322,10 @@ namespace PortraitEditor.ViewModel.SubWindows
             {
                 (file.OwningGroup as SSFactionGroup).TakeFileToModif(file);
             }
-            ModFactionViewModel viewmodel = (from modVm in ModCollection
-                                             where modVm.Mod == LPeSSMod
-                                             select modVm).SingleOrDefault();
-            ModCollection.Remove(viewmodel);
+            SSMod viewmodel = (from mod in ModCollectionBase
+                                             where mod == LPeSSMod
+                                             select mod).SingleOrDefault();
+            ModCollectionBase.Remove(viewmodel);
         }
 
         public void UpdateLocalMod(URLRelative newUrl,string newName)
