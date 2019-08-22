@@ -42,7 +42,11 @@ namespace PortraitEditor.ViewModel
             get
             {
                 if (FactionModel != null)
-                    return ((FactionModel.OwningGroup) as SSFactionGroup).DisplayName;
+                    if (((FactionModel.OwningGroup) as SSFactionGroup).DisplayName != null)
+                        return ((FactionModel.OwningGroup) as SSFactionGroup).DisplayName;
+                    else
+                        return FactionModel.FileName;
+
                 return "Null faction";
             }
         }

@@ -44,7 +44,7 @@ namespace PortraitEditor.Model
                 return true;
             }
         }
-
+        public bool AllowExplore { get; set; } = true;
         #endregion
 
         public SSMod()
@@ -60,6 +60,8 @@ namespace PortraitEditor.Model
         {
             if (Url == null || Name == null)
                 throw new InvalidOperationException();
+            if (!AllowExplore || !ContainsFaction)
+                return;
             string FactionDirPath = Path.Combine("data", "world");
             FactionDirPath = Path.Combine(FactionDirPath, "factions");
             URLRelative FactionDirUrl = new URLRelative()

@@ -146,9 +146,9 @@ namespace PortraitEditor.ViewModel.SubWindows
             }
         }
 
-        public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
+        //public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
 
-        public ObservableCollection<ModFactionViewModel> ModWithFactionCollection { get; } = new ObservableCollection<ModFactionViewModel>();
+        //public ObservableCollection<ModFactionViewModel> ModWithFactionCollection { get; } = new ObservableCollection<ModFactionViewModel>();
         public ObservableCollection<SSMod> ModCollectionBase { get; set; } = new ObservableCollection<SSMod>();
         public SSFactionDirectory FactionDirectory { get; } = new SSFactionDirectory();
 
@@ -190,10 +190,10 @@ namespace PortraitEditor.ViewModel.SubWindows
             Properties.Settings.Default.ModFoldAction = (int)ModAction;
             Properties.Settings.Default.LPessFoldAction = (int)ExploreOldLPeSSFiles;
             Properties.Settings.Default.Save();
-            
-            ModWithFactionCollection.Clear();
+
+            ModCollectionBase.Clear();
             FactionDirectory.DeleteDirectory();
-            ModCollection.Clear();
+            //ModCollection.Clear();
             LPeSSMod.Url = new URLRelative()
             {
                 CommonUrl = StarsectorFolderUrl.CommonUrl,
@@ -203,8 +203,8 @@ namespace PortraitEditor.ViewModel.SubWindows
             {
                 if (LPeSSMod.ContainsFaction)
                 {
-                    ModFactionViewModel ModFolder = new ModFactionViewModel(LPeSSMod);
-                    ModCollection.Add(ModFolder);
+                    //ModFactionViewModel ModFolder = new ModFactionViewModel(LPeSSMod);
+                    //ModCollection.Add(ModFolder);
                     ModCollectionBase.Add(LPeSSMod);
                 }
             }
@@ -250,8 +250,8 @@ namespace PortraitEditor.ViewModel.SubWindows
 
             SSMod CoreMod = new SSMod(CoreModUrl, PortraitEditorConfiguration.CoreModName);
             ModCollectionBase.Add(CoreMod);
-            ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
-            ModCollection.Add(CoreModViewModel);
+            //ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
+            //ModCollection.Add(CoreModViewModel);
             UpdateLocalMod(new URLRelative(StarsectorFolderUrl.CommonUrl, Path.Combine("mods", "LPeSS"), null), "LPeSS");
             return;
         }
@@ -281,8 +281,8 @@ namespace PortraitEditor.ViewModel.SubWindows
                     if (mod.ContainsFaction)
                     {
                         ModCollectionBase.Add(mod);
-                        ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
-                        ModCollection.Add(ModFolder);
+                        //ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
+                        //ModCollection.Add(ModFolder);
 
                     }
                 }
@@ -294,21 +294,17 @@ namespace PortraitEditor.ViewModel.SubWindows
         public void ExploreFactionFile()
         {
             FactionDirectory.DeleteDirectory();
-            ModWithFactionCollection.Clear();
-            List<String> AvailableLinking = (from modVM in ModCollection
-                                             where modVM.Mod.ContainsFaction && modVM.AllowExplore
-                                             select modVM.Mod.Url.LinkingUrl).ToList();
-            List<SSMod> AvailableMods = (from modVM in ModCollection
-                                             where modVM.Mod.ContainsFaction && modVM.AllowExplore
-                                             select modVM.Mod).ToList();
+            //ModCollectionBase.Clear();
+            List<String> AvailableLinking = (from mod in ModCollectionBase
+                                             where mod.ContainsFaction && mod.AllowExplore
+                                             select mod.Url.LinkingUrl).ToList();
+            List<SSMod> AvailableMods = (from mod in ModCollectionBase
+                                         where  mod.AllowExplore
+                                         select mod).ToList();
             FactionDirectory.AvailableLinkingUrl = AvailableLinking;
-            foreach (ModFactionViewModel modVM in ModCollection)
+            foreach (SSMod mod in ModCollectionBase)
             {
-                if (modVM.Mod.ContainsFaction && modVM.AllowExplore)
-                {
-                    modVM.Mod.ExploreFactionFile(FactionDirectory, AvailableMods);
-                    ModWithFactionCollection.Add(modVM);
-                }
+                mod.ExploreFactionFile(FactionDirectory, AvailableMods); 
             }
 
             if (RemoveIncompleteFactionAction)
