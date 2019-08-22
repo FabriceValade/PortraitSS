@@ -141,17 +141,17 @@ namespace PortraitEditor.Model.SSParameters
         }
     }
 
-    class PortraitModToGroupConverter : IValueConverter
+    class PortraitGenderToGroupConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (!(value is SSMod))
+            if (!(value is Gender))
                 return null;
-            return (value as SSMod).Name;
+            return (value as Gender).ToString();
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return new SSMod(new URLRelative(), "NotMod");
+            return new Gender();
         }
     }
 }

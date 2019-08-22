@@ -80,8 +80,6 @@ namespace PortraitEditor.ViewModel
             get
             {
                 _ColorRGB = FactionGroupModel.ColorRGB;
-                if (_ColorRGB == null)
-                    _ColorRGB = "#FFFFFFFF";
                 return _ColorRGB;
 
             }

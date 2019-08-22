@@ -65,8 +65,8 @@ namespace PortraitEditor.ViewModel
                 if (_PortraitsView == null)
                 {
                     _PortraitsView = (CollectionView)CollectionViewSource.GetDefaultView(Portraits);
-                    PropertyGroupDescription groupDescription = new PropertyGroupDescription("SourceMod", new PortraitModToGroupConverter());
-                    _PortraitsView.GroupDescriptions.Add(groupDescription);
+                    //PropertyGroupDescription groupDescription = new PropertyGroupDescription("SourceMod", new PortraitModToGroupConverter());
+                    //_PortraitsView.GroupDescriptions.Add(groupDescription);
                 }
                 return _PortraitsView;
             }

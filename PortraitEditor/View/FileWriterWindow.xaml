@@ -17,22 +17,20 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <Border Style="{StaticResource ElementBorder}" >
-                <local:SSFactionGroupCollectionView x:Name="FactionGroupWriteCollectionView"
+            <local:SSFactionGroupCollectionView x:Name="FactionGroupWriteCollectionView"
                                             Grid.Row="0" Grid.Column="0" 
                                             Margin="7,7,7,7"
                                             HeldCollection="{Binding Path=ModifiedFactionList}" 
                                             />
-            </Border>
-            <Border Style="{StaticResource ElementBorder}" >
+            <Border Style="{StaticResource ElementBorder}" Margin="7,7,7,7">
                 <StackPanel Orientation="Horizontal" Margin="7,7,7,7">
-                    <Button Content="Create Append files" Command="{Binding Path=AppendFilesCommand}"/>
-                    <Button Content="Add external images to mod" Command="{Binding Path=CopyImagesToModCommand}"/>
+                    <Button Content="Create Append files" Command="{Binding Path=AppendFilesCommand}" Margin="0,0,3,0"/>
+                    <Button Content="Add external images to mod" Command="{Binding Path=CopyImagesToModCommand}" Margin="3,0,0,0"/>
                     
                 </StackPanel>
             </Border>
         </StackPanel>
-        <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="1">
+        <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="1" Margin="7,7,7,7">
             <StackPanel Orientation="Vertical" Margin="7,7,7,7" >
                 <Border BorderThickness="0">
                     <StackPanel Orientation="Vertical">

@@ -1,4 +1,5 @@
 ﻿using Ookii.Dialogs.Wpf;
+using PortraitEditor.Extensions;
 using PortraitEditor.Model;
 using PortraitEditor.Model.SSFiles;
 using PortraitEditor.Model.SSParameters;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PortraitEditor.ViewModel.SubWindows
@@ -77,6 +79,22 @@ namespace PortraitEditor.ViewModel.SubWindows
                 return _AddPortraitFromLocalCommand;
             }
         }
+        #endregion
+
+        #region property group description for grouping
+        public List<ComboboxContent<PropertyGroupDescription>> GroupDescriptionComboBoxGeneral { get; } = new List<ComboboxContent<PropertyGroupDescription>>
+        {
+            new ComboboxContent<PropertyGroupDescription>() {Content=new PropertyGroupDescription("SourceMod"), DisplayName="Group by mod adding"},
+            new ComboboxContent<PropertyGroupDescription>() {Content=new PropertyGroupDescription("ImageGender",new PortraitGenderToGroupConverter()), DisplayName="Group by gender"},
+            new ComboboxContent<PropertyGroupDescription>() {Content=null, DisplayName="No grouping"},
+        };
+        public List<ComboboxContent<PropertyGroupDescription>> GroupDescriptionComboBoxGroup { get; } = new List<ComboboxContent<PropertyGroupDescription>>
+        {
+            new ComboboxContent<PropertyGroupDescription>() {Content=new PropertyGroupDescription("UsingMod"), DisplayName="Group by mod adding"},
+            new ComboboxContent<PropertyGroupDescription>() {Content=new PropertyGroupDescription("SourceMod"), DisplayName="Group by source of image"},
+            new ComboboxContent<PropertyGroupDescription>() {Content=new PropertyGroupDescription("ImageGender",new PortraitGenderToGroupConverter()), DisplayName="Group by gender"},
+            new ComboboxContent<PropertyGroupDescription>() {Content=null, DisplayName="No grouping"},
+        };
         #endregion
 
         #region Properties

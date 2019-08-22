@@ -19,6 +19,8 @@ namespace PortraitEditor.Model.SSFiles
         {
             get
             {
+                if (_DisplayName == null)
+                    return base.FileName;
                 return _DisplayName;
             }
             private set => _DisplayName = value;
@@ -39,6 +41,8 @@ namespace PortraitEditor.Model.SSFiles
         {
             get
             {
+                if (_ColorRGB == null)
+                    _ColorRGB = "#FFFFFFFF";
                 return _ColorRGB;
             }
             private set => _ColorRGB = value;
@@ -182,6 +186,17 @@ namespace PortraitEditor.Model.SSFiles
             {
                 goalList.Remove(obj);
             }
+        }
+
+        public void TakeFileToModif(SSFaction file)
+        {
+            if (!base.FileList.Contains(file))
+                return;
+            foreach (SSPortrait portrait in file.Portraits)
+            {
+                this._PortraitHandler.Add(portrait);
+            }
+            file.Delete();
         }
         #endregion
     }

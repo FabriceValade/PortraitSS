@@ -316,9 +316,16 @@ namespace PortraitEditor.ViewModel.SubWindows
                 {
                     factionGroup.Delete();
                 }
-
-
             }
+            ObservableCollection<SSFile> LocalFile = new ObservableCollection<SSFile>(LPeSSMod.FileList);
+            foreach (SSFaction file in LocalFile)
+            {
+                (file.OwningGroup as SSFactionGroup).TakeFileToModif(file);
+            }
+            ModFactionViewModel viewmodel = (from modVm in ModCollection
+                                             where modVm.Mod == LPeSSMod
+                                             select modVm).SingleOrDefault();
+            ModCollection.Remove(viewmodel);
         }
 
         public void UpdateLocalMod(URLRelative newUrl,string newName)
