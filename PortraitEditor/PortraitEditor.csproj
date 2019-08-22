@@ -100,6 +100,8 @@
     <Compile Include="Model\SSParameters\SSParameterArrayChanges.cs" />
     <Compile Include="ViewModel\SSExternalObjectCollectionViewModel.cs" />
     <Compile Include="ViewModel\SSFactionGroupCollectionViewModel.cs" />
+    <Compile Include="ViewModel\SSModTreeViewModel.cs" />
+    <Compile Include="ViewModel\SSModViewModel.cs" />
     <Compile Include="ViewModel\SubWindows\SSFileWritterViewModel.cs" />
     <Compile Include="ViewModel\SubWindows\SSPortraitExplorerViewModel.cs" />
     <Compile Include="ViewModel\SSParameterArrayChangesViewModel.cs" />
@@ -123,6 +125,9 @@
     </Compile>
     <Compile Include="View\SSFactionGroupCollectionView.xaml.cs">
       <DependentUpon>SSFactionGroupCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SSModTreeView.xaml.cs">
+      <DependentUpon>SSModTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SSPortraitCollectionView.xaml.cs">
       <DependentUpon>SSPortraitCollectionView.xaml</DependentUpon>
@@ -182,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SSFactionGroupCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SSModTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

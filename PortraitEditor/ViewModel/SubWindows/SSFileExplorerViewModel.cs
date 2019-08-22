@@ -149,6 +149,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
 
         public ObservableCollection<ModFactionViewModel> ModWithFactionCollection { get; } = new ObservableCollection<ModFactionViewModel>();
+        public ObservableCollection<SSMod> ModCollectionBase { get; set; } = new ObservableCollection<SSMod>();
         public SSFactionDirectory FactionDirectory { get; } = new SSFactionDirectory();
 
         SSMod _LPeSSMod = new SSMod() { Name = "LPeSS" };
@@ -204,6 +205,7 @@ namespace PortraitEditor.ViewModel.SubWindows
                 {
                     ModFactionViewModel ModFolder = new ModFactionViewModel(LPeSSMod);
                     ModCollection.Add(ModFolder);
+                    ModCollectionBase.Add(LPeSSMod);
                 }
             }
 
@@ -247,7 +249,7 @@ namespace PortraitEditor.ViewModel.SubWindows
             };
 
             SSMod CoreMod = new SSMod(CoreModUrl, PortraitEditorConfiguration.CoreModName);
-
+            ModCollectionBase.Add(CoreMod);
             ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
             ModCollection.Add(CoreModViewModel);
             UpdateLocalMod(new URLRelative(StarsectorFolderUrl.CommonUrl, Path.Combine("mods", "LPeSS"), null), "LPeSS");
@@ -278,6 +280,7 @@ namespace PortraitEditor.ViewModel.SubWindows
                 {
                     if (mod.ContainsFaction)
                     {
+                        ModCollectionBase.Add(mod);
                         ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
                         ModCollection.Add(ModFolder);
 

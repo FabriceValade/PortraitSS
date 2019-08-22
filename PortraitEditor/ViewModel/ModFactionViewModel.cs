@@ -66,18 +66,18 @@ namespace PortraitEditor.ViewModel
             }
         }
 
-        bool _UseForGroup = true;
-        public bool UseForGroup
-        {
-            get=>_UseForGroup;
-            set
-            {
-                _UseForGroup = value;
-                foreach (SSFactionViewModel FactionViewModel in FactionCollection)
-                {
-                    FactionViewModel.UseForGroup = value;
-                }
-            } }
+        //bool _UseForGroup = true;
+        //public bool UseForGroup
+        //{
+        //    get=>_UseForGroup;
+        //    set
+        //    {
+        //        _UseForGroup = value;
+        //        foreach (SSFactionViewModel FactionViewModel in FactionCollection)
+        //        {
+        //            FactionViewModel.UseForGroup = value;
+        //        }
+        //    } }
 
         bool _AllowExplore = true;
         public bool AllowExplore

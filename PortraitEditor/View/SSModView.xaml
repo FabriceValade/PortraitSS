@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PortraitEditor.View"
+             xmlns:local="clr-namespace:PortraitEditor.View"            
+             xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="3,3,3,3">
+
+    <UserControl.Resources>
+        <vm:SSModViewModel x:Key="SSModVM"/>
+    </UserControl.Resources>
+    <!--<Grid Margin="3,3,3,3" DataContext="{StaticResource SSModVM}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="NameColumn" Width="auto"/>
             <ColumnDefinition SharedSizeGroup="LinkingUrl" Width="auto"/>
@@ -19,5 +24,27 @@
         <TextBlock Text="{Binding Path=Url.LinkingUrl}" Grid.Column="1" Margin="3,0,3,0" VerticalAlignment="Center"/>
         <CheckBox Grid.Column="2"  Content="Edit/Use Mod Portraits " Style="{StaticResource ToggleButtonBadGood}" Width="220" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,3,10,3" IsChecked="{Binding Path=AllowExplore}"/>
 
-    </Grid>
+    </Grid>-->
+    <Border BorderThickness="2" 
+            BorderBrush="{StaticResource UiHighContrast}" 
+            CornerRadius="15" Background="{StaticResource UiLowContrast}" 
+            DataContext="{StaticResource SSModVM}" >
+        <Grid Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" SharedSizeGroup="NameColumn"/>
+                <ColumnDefinition SharedSizeGroup="LinkingUrl" Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Path=Name}" Margin="10,3,10,3" Foreground="{StaticResource TextBrush}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Path=Url.LinkingUrl}" Grid.Column="1" Margin="3,0,10,0" VerticalAlignment="Center"/>
+            <Border Grid.Column="2" BorderBrush="{StaticResource ButtonSolid}" BorderThickness="1" CornerRadius="15" Background="{StaticResource UiFill}"/>
+            <TextBlock Name="FactionCounter" Grid.Column="2" Text="{Binding Path=FactionCount}" Margin="3,3,3,3" FontSize="18" VerticalAlignment="Center" Focusable="False" Width="25" TextAlignment="Center" />
+            <CheckBox Grid.Column="3"  Content="Edit/Use Mod Portraits " Style="{StaticResource ToggleButtonBadGood}" Width="220" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,3,10,3" IsChecked="{Binding Path=AllowExplore}"/>
+            <!--<CheckBox Grid.Column="3"  Content="Toggle all files edit" Style="{StaticResource ToggleButtonBadGood}" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="20,5,20,5" IsChecked="{Binding Path=UseForGroup}"/>-->
+        </Grid>
+    </Border>
 </UserControl>

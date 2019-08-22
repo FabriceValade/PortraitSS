@@ -69,7 +69,8 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-        </StackPanel>
+                <local:SSModTreeView HeldModCollection="{Binding ModCollectionBase}"/>
+            </StackPanel>
 
         <Border Style="{StaticResource ElementBorder}" VerticalAlignment="Top" Grid.Column="2" >
             <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModWithFactionCollection}" Focusable="False" BorderThickness="0" Grid.IsSharedSizeScope="true" Margin="7,7,7,7">

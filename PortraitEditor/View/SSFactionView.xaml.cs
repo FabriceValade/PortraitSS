@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PortraitEditor.Model.SSFiles;
+using PortraitEditor.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,26 @@ namespace PortraitEditor.View
         public SSFactionView()
         {
             InitializeComponent();
+        }
+        public static readonly DependencyProperty HeldFactionProperty = DependencyProperty.Register(
+        "HeldFaction", typeof(SSFaction), typeof(SSFactionView),
+        new PropertyMetadata(null, OnFactionChanged));
+
+        public SSFaction HeldFaction
+        {
+            get { return (SSFaction)GetValue(HeldFactionProperty); }
+            set { SetValue(HeldFactionProperty, value); }
+        }
+
+        private static void OnFactionChanged(DependencyObject obj,
+            DependencyPropertyChangedEventArgs args)
+        {
+            ((SSFactionView)obj).ViewModel.FactionModel = (SSFaction)args.NewValue;
+        }
+
+        public SSFactionViewModel ViewModel
+        {
+            get { return (SSFactionViewModel)Resources["SSFactionVM"]; }
         }
     }
 }

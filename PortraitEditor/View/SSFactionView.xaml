@@ -4,10 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PortraitEditor.View"
+             xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
+             xmlns:m="clr-namespace:PortraitEditor.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Margin="3,3,3,3">
-    <Grid Height="35" >
+    <UserControl.Resources>
+        <vm:SSFactionViewModel x:Key="SSFactionVM"/>
+    </UserControl.Resources>
+    
+    <Grid Height="35" DataContext="{StaticResource SSFactionVM}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="180"/>
@@ -19,6 +25,6 @@
                 <TextBlock Text="{Binding Path=DisplayName}" VerticalAlignment="Center" FontWeight="DemiBold" Margin="5,3,5,3"/>
             </StackPanel>
         </Border>
-        <CheckBox Grid.Column="1"  Content="Use file for edit" Style="{StaticResource ToggleButtonBadGood}" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="20,0,0,0" IsChecked="{Binding Path=UseForGroup}"/>
+        <!--<CheckBox Grid.Column="1"  Content="Use file for edit" Style="{StaticResource ToggleButtonBadGood}" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="20,0,0,0" IsChecked="{Binding Path=UseForGroup}"/>-->
     </Grid>
 </UserControl>

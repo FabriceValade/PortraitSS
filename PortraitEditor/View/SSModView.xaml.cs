@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PortraitEditor.Model;
+using PortraitEditor.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,26 @@ namespace PortraitEditor.View
         public SSModView()
         {
             InitializeComponent();
+        }
+        public static readonly DependencyProperty HeldModProperty = DependencyProperty.Register(
+        "HeldMod", typeof(SSMod), typeof(SSModView),
+        new PropertyMetadata(new SSMod(), OnModCollectionChanged));
+
+        public SSMod HeldMod
+        {
+            get { return (SSMod)GetValue(HeldModProperty); }
+            set { SetValue(HeldModProperty, value); }
+        }
+
+        private static void OnModCollectionChanged(DependencyObject obj,
+            DependencyPropertyChangedEventArgs args)
+        {
+            ((SSModView)obj).ViewModel.ModModel = (SSMod)args.NewValue;
+        }
+
+        public SSModViewModel ViewModel
+        {
+            get { return (SSModViewModel)Resources["SSModVM"]; }
         }
     }
 }
