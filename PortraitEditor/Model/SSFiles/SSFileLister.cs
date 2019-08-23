@@ -37,6 +37,9 @@ namespace PortraitEditor.Model.SSFiles
             if (e.OldItems != null && e.OldItems.Count != 0)
                 foreach (F file in e.OldItems)
                     file.RequestClose -= this.OnFileRequestClose;
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+            }
         }
 
         void OnFileRequestClose(object sender, EventArgs e)

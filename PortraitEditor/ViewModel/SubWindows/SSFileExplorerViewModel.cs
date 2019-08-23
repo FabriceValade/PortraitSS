@@ -146,20 +146,18 @@ namespace PortraitEditor.ViewModel.SubWindows
             }
         }
 
-        //public ObservableCollection<ModFactionViewModel> ModCollection { get; } = new ObservableCollection<ModFactionViewModel>();
-
-        //public ObservableCollection<ModFactionViewModel> ModWithFactionCollection { get; } = new ObservableCollection<ModFactionViewModel>();
         public ObservableCollection<SSMod> ModCollectionBase { get; set; } = new ObservableCollection<SSMod>();
         public SSFactionDirectory FactionDirectory { get; } = new SSFactionDirectory();
 
         SSMod _LPeSSMod = new SSMod() { Name = "LPeSS" };
         public SSMod LPeSSMod { get => _LPeSSMod; private set { _LPeSSMod = value; NotifyPropertyChanged(); } }
+        public ObservableCollection<SSMod> LocalModAsCollection { get; set; }
         #endregion
 
         #region Constructors
         public SSFileExplorerViewModel()
         {
-           
+            LocalModAsCollection = new ObservableCollection<SSMod>() { LPeSSMod };
         }
         #endregion
 
@@ -198,16 +196,7 @@ namespace PortraitEditor.ViewModel.SubWindows
             {
                 CommonUrl = StarsectorFolderUrl.CommonUrl,
                 LinkingUrl = Path.Combine("mods", LPeSSMod.Name)
-            };
-            if (ExploreOldLPeSSFiles == SSModFolderActions.Use)
-            {
-                if (LPeSSMod.ContainsFaction)
-                {
-                    //ModFactionViewModel ModFolder = new ModFactionViewModel(LPeSSMod);
-                    //ModCollection.Add(ModFolder);
-                    ModCollectionBase.Add(LPeSSMod);
-                }
-            }
+            };            
 
             ExploreCoreFolder();
             if (ModAction == SSModFolderActions.Use)
@@ -250,8 +239,6 @@ namespace PortraitEditor.ViewModel.SubWindows
 
             SSMod CoreMod = new SSMod(CoreModUrl, PortraitEditorConfiguration.CoreModName);
             ModCollectionBase.Add(CoreMod);
-            //ModFactionViewModel CoreModViewModel = new ModFactionViewModel(CoreMod);
-            //ModCollection.Add(CoreModViewModel);
             UpdateLocalMod(new URLRelative(StarsectorFolderUrl.CommonUrl, Path.Combine("mods", "LPeSS"), null), "LPeSS");
             return;
         }
@@ -274,16 +261,12 @@ namespace PortraitEditor.ViewModel.SubWindows
                 SSMod mod = new SSMod(ModUrl, ModDirectory.Name);
                 if (mod.Name == LPeSSMod.Name)
                 {
-                    //LPeSSMod = mod;
                 }
                 else
                 {
                     if (mod.ContainsFaction)
                     {
                         ModCollectionBase.Add(mod);
-                        //ModFactionViewModel ModFolder = new ModFactionViewModel(mod);
-                        //ModCollection.Add(ModFolder);
-
                     }
                 }
             }
@@ -301,6 +284,11 @@ namespace PortraitEditor.ViewModel.SubWindows
             List<SSMod> AvailableMods = (from mod in ModCollectionBase
                                          where  mod.AllowExplore
                                          select mod).ToList();
+            if (LPeSSMod.ContainsFaction && ExploreOldLPeSSFiles == SSModFolderActions.Use)
+            {
+                AvailableLinking.Add(LPeSSMod.Url.LinkingUrl);
+                AvailableMods.Add(LPeSSMod);
+            }
             FactionDirectory.AvailableLinkingUrl = AvailableLinking;
             foreach (SSMod mod in ModCollectionBase)
             {
@@ -317,15 +305,23 @@ namespace PortraitEditor.ViewModel.SubWindows
                     factionGroup.Delete();
                 }
             }
+            LPeSSMod.FileList.Clear();
+            LPeSSMod.ExploreFactionFile(FactionDirectory, AvailableMods);
             ObservableCollection<SSFile> LocalFile = new ObservableCollection<SSFile>(LPeSSMod.FileList);
             foreach (SSFaction file in LocalFile)
             {
-                (file.OwningGroup as SSFactionGroup).TakeFileToModif(file);
+                if (ExploreOldLPeSSFiles == SSModFolderActions.Use)
+                {
+                    (file.OwningGroup as SSFactionGroup).TakeFileToModif(file);
+                    LPeSSMod.FileList.Add(file);
+                }
+                else
+                {
+                    file.Delete();
+                    LPeSSMod.FileList.Add(file);
+                }
             }
-            SSMod viewmodel = (from mod in ModCollectionBase
-                                             where mod == LPeSSMod
-                                             select mod).SingleOrDefault();
-            ModCollectionBase.Remove(viewmodel);
+            
         }
 
         public void UpdateLocalMod(URLRelative newUrl,string newName)

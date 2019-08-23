@@ -46,5 +46,21 @@ namespace PortraitEditor.View
         {
             get { return (SSModViewModel)Resources["SSModVM"]; }
         }
+
+        public static readonly DependencyProperty EditVisibilityProperty = DependencyProperty.Register(
+        "EditVisibility", typeof(Visibility), typeof(SSModView),
+        new PropertyMetadata(Visibility.Visible, OnEditVisibilityChanged));
+
+        public Visibility EditVisibility
+        {
+            get { return (Visibility)GetValue(EditVisibilityProperty); }
+            set { SetValue(EditVisibilityProperty, value); }
+        }
+
+        private static void OnEditVisibilityChanged(DependencyObject obj,
+            DependencyPropertyChangedEventArgs args)
+        {
+            ((SSModView)obj).ViewModel.EditVisibility = (Visibility)args.NewValue;
+        }
     }
 }

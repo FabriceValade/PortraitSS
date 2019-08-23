@@ -17,7 +17,7 @@
             <TreeView Name="treeMod" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=ModCollection}" Focusable="False" BorderThickness="0" Grid.IsSharedSizeScope="true" Margin="7,7,7,7">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type m:SSMod}" ItemsSource="{Binding FileList}">
-                        <local:SSModView HeldMod="{TemplateBinding Content}"/>
+                        <local:SSModView HeldMod="{TemplateBinding Content}" EditVisibility="Hidden"/>
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate DataType="{x:Type mf:SSFaction}">
                                 <local:SSFactionView HeldFaction="{TemplateBinding Content}" />

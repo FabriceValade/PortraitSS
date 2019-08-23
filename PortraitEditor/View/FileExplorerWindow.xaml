@@ -60,7 +60,13 @@
         </StackPanel>
 
 
-
-        <local:SSModTreeView HeldModCollection="{Binding ModCollectionBase}" Grid.Column="1" />
+        <Grid Grid.Column="1" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <local:SSModTreeView HeldModCollection="{Binding LocalModAsCollection}" Grid.Row="0" />
+            <local:SSModTreeView HeldModCollection="{Binding ModCollectionBase}" Grid.Row="1" />
+        </Grid>
     </Grid>
 </Window>

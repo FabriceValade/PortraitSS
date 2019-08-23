@@ -27,23 +27,23 @@
     </Grid>-->
     <Border BorderThickness="2" 
             BorderBrush="{StaticResource UiHighContrast}" 
-            CornerRadius="15" Background="{StaticResource UiLowContrast}" 
+            CornerRadius="35,1,35,1" Background="{StaticResource UiLowContrast}" 
             DataContext="{StaticResource SSModVM}" >
         <Grid Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" SharedSizeGroup="NameColumn"/>
                 <ColumnDefinition SharedSizeGroup="LinkingUrl" Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" SharedSizeGroup="Counter"/>
+                <ColumnDefinition Width="auto" SharedSizeGroup="EditPosibility"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Path=Name}" Margin="10,3,10,3" Foreground="{StaticResource TextBrush}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Path=Name}" Margin="20,3,10,3" Foreground="{StaticResource TextBrush}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding Path=Url.LinkingUrl}" Grid.Column="1" Margin="3,0,10,0" VerticalAlignment="Center"/>
             <Border Grid.Column="2" BorderBrush="{StaticResource ButtonSolid}" BorderThickness="1" CornerRadius="15" Background="{StaticResource UiFill}"/>
             <TextBlock Name="FactionCounter" Grid.Column="2" Text="{Binding Path=FactionCount}" Margin="3,3,3,3" FontSize="18" VerticalAlignment="Center" Focusable="False" Width="25" TextAlignment="Center" />
-            <CheckBox Grid.Column="3"  Content="Edit/Use Mod Portraits " Style="{StaticResource ToggleButtonBadGood}" Width="220" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,3,10,3" IsChecked="{Binding Path=AllowExplore}"/>
+            <CheckBox Grid.Column="3"  Content="Edit/Use Mod Portraits " Style="{StaticResource ToggleButtonBadGood}" Width="220" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,3,30,3" IsChecked="{Binding Path=AllowExplore}" Visibility="{Binding EditVisibility}"/>
             <!--<CheckBox Grid.Column="3"  Content="Toggle all files edit" Style="{StaticResource ToggleButtonBadGood}" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="20,5,20,5" IsChecked="{Binding Path=UseForGroup}"/>-->
         </Grid>
     </Border>

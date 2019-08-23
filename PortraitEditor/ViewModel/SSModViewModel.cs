@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PortraitEditor.ViewModel
 {
@@ -50,7 +51,7 @@ namespace PortraitEditor.ViewModel
             set { _AllowExplore = value; NotifyPropertyChanged(); }
         }
 
-        
+        public Visibility EditVisibility { get; set; } = Visibility.Visible;
         public int FactionCount
         {
             get => ModModel.FileList.Count();
