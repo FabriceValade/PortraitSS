@@ -5,11 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitEditor.View"
         xmlns:vmw="clr-namespace:PortraitEditor.ViewModel.SubWindows"
+        xmlns:mp="clr-namespace:PortraitEditor.Model.SSParameters"
         mc:Ignorable="d"
         Title="FileWriterWindow" Height="450" Width="800">
 
     <Window.Resources>
         <vmw:CollectionToVisibilityConverter x:Key="CollectionVisibilityConverter" />
+        <mp:PortraitGenderToGroupConverter x:Key="PortraitGenderToGroupConverter"/>
+        <DataTemplate x:Key="ListViewGroupStyleLight">
+            <TextBlock FontWeight="SemiBold" FontSize="12" Text="{Binding Name}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -31,26 +36,44 @@
             </Border>
         </StackPanel>
         <Border Style="{StaticResource ElementBorder}" Grid.Row="0" Grid.Column="1" Margin="7,7,7,7">
+            <Border.Resources>
+                <CollectionViewSource x:Key="AddedPortrait" Source="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferAddedPortraits}">
+                    <CollectionViewSource.GroupDescriptions>
+                        <PropertyGroupDescription PropertyName="ImageGender" Converter="{StaticResource PortraitGenderToGroupConverter}" />
+                    </CollectionViewSource.GroupDescriptions>
+                </CollectionViewSource>
+                <CollectionViewSource x:Key="RemovedPortrait" Source="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferRemovedPortraits}">
+                    <CollectionViewSource.GroupDescriptions >
+                        <PropertyGroupDescription PropertyName="ImageGender" Converter="{StaticResource PortraitGenderToGroupConverter}" />
+                    </CollectionViewSource.GroupDescriptions>
+                </CollectionViewSource>
+            </Border.Resources>
             <StackPanel Orientation="Vertical" Margin="7,7,7,7" >
-                <Border BorderThickness="0">
+                <Border BorderThickness="0" Visibility="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferAddedPortraits,  Converter={StaticResource CollectionVisibilityConverter}}" >
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Added Images"/>
-                        <ListView ItemsSource="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferAddedPortraits}"  
+                        <ListView ItemsSource="{Binding Source={StaticResource AddedPortrait}}" 
                                   Background="Transparent" 
                                   SelectedIndex="0" 
                                   BorderThickness="0"
                                   Style = "{StaticResource PortraitListView}" >
+                            <ListView.GroupStyle>
+                                <GroupStyle HeaderTemplate="{StaticResource ListViewGroupStyleLight}"/>
+                            </ListView.GroupStyle>
                         </ListView>
                     </StackPanel>
                 </Border>
                 <Border BorderThickness="0" Visibility="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferRemovedPortraits,  Converter={StaticResource CollectionVisibilityConverter}}" >
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Removed Images"/>
-                        <ListView ItemsSource="{Binding ElementName=FactionGroupWriteCollectionView, Path=ViewModel.HeldCollection/BufferRemovedPortraits}"   
+                        <ListView ItemsSource="{Binding Source={StaticResource RemovedPortrait}}"  
                                   Background="Transparent" 
                                   SelectedIndex="0" 
                                   BorderThickness="0"
                                   Style = "{StaticResource PortraitListView}" >
+                            <ListView.GroupStyle>
+                                <GroupStyle HeaderTemplate="{StaticResource ListViewGroupStyleLight}"/>
+                            </ListView.GroupStyle>
                         </ListView>
                     </StackPanel>
                 </Border>

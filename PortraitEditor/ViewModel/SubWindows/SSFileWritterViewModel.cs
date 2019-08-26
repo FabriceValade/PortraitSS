@@ -132,7 +132,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         }
         public void WriteAppend()
         {
-            //ClearModFolder();
+            ClearModFolder();
             //foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
             //{
             //    var PossiblePortrait = from portrait in vm.AddedPortraits

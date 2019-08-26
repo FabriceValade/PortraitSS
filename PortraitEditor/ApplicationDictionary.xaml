@@ -6,6 +6,7 @@
                     xmlns:m="clr-namespace:PortraitEditor.Model"
                     >
     <!--<local:MultiValueConverter x:Key="MultiValueConverter" />-->
+    
     <DataTemplate x:Key="FactionFileImageTemplate">
         <Grid>
             <Image Source="{Binding LogoPath}" Height="30"/>
@@ -106,6 +107,7 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        
         <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
     </Style>
     <!--style for all generic text-->

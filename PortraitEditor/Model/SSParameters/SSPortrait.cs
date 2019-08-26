@@ -141,7 +141,7 @@ namespace PortraitEditor.Model.SSParameters
         }
     }
 
-    class PortraitGenderToGroupConverter : IValueConverter
+    public class PortraitGenderToGroupConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
