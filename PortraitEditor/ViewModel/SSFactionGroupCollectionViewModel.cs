@@ -32,7 +32,15 @@ namespace PortraitEditor.ViewModel
                 NotifyPropertyChanged("HeldView");
             }
         }
-
+        System.Collections.IList _SelectedStuff;
+        public System.Collections.IList SelectedStuff { get=>_SelectedStuff; set { _SelectedStuff = value; } }
+        public List<SSFactionGroup> SelectedItems
+        {
+            get
+            {
+                return SelectedStuff.Cast<SSFactionGroup>().ToList();
+            }
+        }
         #region properties for the view
         CollectionView _HeldView;
         public CollectionView HeldView

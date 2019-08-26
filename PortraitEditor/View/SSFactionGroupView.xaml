@@ -23,5 +23,6 @@
                 <TextBlock Text="{Binding Path=DisplayName}" VerticalAlignment="Center" FontWeight="DemiBold" Margin="5,3,5,3"/>
             </StackPanel>
         </Border>
+        <CheckBox Grid.Column="1" IsChecked="{Binding IsSelected}" Background="Azure"/>
     </Grid>
 </UserControl>

@@ -26,6 +26,7 @@ namespace PortraitEditor.View
         public SSFactionGroupCollectionView()
         {
             InitializeComponent();
+            ViewModel.SelectedStuff = listview.SelectedItems;
         }
 
         public static readonly DependencyProperty HeldCollectionProperty = DependencyProperty.Register(
@@ -48,5 +49,8 @@ namespace PortraitEditor.View
         {
             get { return (SSFactionGroupCollectionViewModel)Resources["FactionGroupCollectionVM"]; }
         }
+
+
+
     }
 }

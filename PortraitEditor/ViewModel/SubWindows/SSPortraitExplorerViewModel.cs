@@ -111,7 +111,15 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
 
         #region Properties
-
+       public System.Collections.IList SelectedGroups
+        {
+            get
+            {
+                if (View == null)
+                    return null;
+                return View.FactionGroupCollectionView.ViewModel.SelectedStuff;
+            }
+        }
         #endregion
 
         //#region method
@@ -148,9 +156,14 @@ namespace PortraitEditor.ViewModel.SubWindows
         {
             if (obj == null)
                 return;
-            SSPortrait portrait = obj as SSPortrait;
+            System.Collections.IList items = (System.Collections.IList)obj;
+            var removeCollection = items.Cast<SSPortrait>().ToList();
             SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
-            SelectedGroup.BufferPortraitRemove(obj as SSPortrait);
+            foreach (SSPortrait portrait in removeCollection)
+            {
+                SelectedGroup.BufferPortraitRemove(portrait);
+            }
+
         }
         private void ResetPortraitFromGroup()
         {
@@ -159,13 +172,23 @@ namespace PortraitEditor.ViewModel.SubWindows
         }
         public void AddPortraitToGroupFromGeneral(object obj, Gender.GenderValue newGender)
         {
-            SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
+            
             if (obj == null)
                 return;
-            SSPortrait portrait = new SSPortrait(obj as SSPortrait);
-            portrait.ImageGender = new Gender() { Value = newGender };
-            portrait.UsingMod = LocalMod;
-            SelectedGroup.BufferPortraitAdd(portrait);
+            System.Collections.IList items = (System.Collections.IList)obj;
+            var AddCollection = items.Cast<SSPortrait>().ToList();
+            //SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
+            var receivingGroup = SelectedGroups.Cast<SSFactionGroup>().ToList();
+            foreach (SSFactionGroup selectedGroup in receivingGroup)
+            {
+                foreach (SSPortrait addPortrait in AddCollection)
+                {
+                    SSPortrait portrait = new SSPortrait(addPortrait);
+                    portrait.ImageGender = new Gender() { Value = newGender };
+                    portrait.UsingMod = LocalMod;
+                    selectedGroup.BufferPortraitAdd(portrait);
+                }
+            }
         }
         #endregion
 

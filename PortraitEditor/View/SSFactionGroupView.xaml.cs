@@ -47,5 +47,21 @@ namespace PortraitEditor.View
         {
             get { return (SSFactionGroupViewModel)Resources["FactionGroupVM"]; }
         }
+
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(
+        "IsSelected", typeof(bool), typeof(SSFactionGroupView),
+        new PropertyMetadata(false, OnIsSelectedChanged));
+
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
+
+        private static void OnIsSelectedChanged(DependencyObject obj,
+            DependencyPropertyChangedEventArgs args)
+        {
+            ((SSFactionGroupView)obj).ViewModel.IsSelected = (bool)args.NewValue;
+        }
     }
 }
