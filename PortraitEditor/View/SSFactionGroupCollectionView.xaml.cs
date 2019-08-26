@@ -27,6 +27,15 @@ namespace PortraitEditor.View
         {
             InitializeComponent();
             ViewModel.SelectedStuff = listview.SelectedItems;
+            Binding myBinding = new Binding("SelectedItems");
+            myBinding.Source = listview;
+            myBinding.Mode = BindingMode.OneWay;
+            this.SetBinding(SelectedItemsProperty, myBinding);
+
+            //Binding myBinding = new Binding("SelectedItemsProperty");
+            //myBinding.Source = this;
+            //myBinding.Mode = BindingMode.OneWayToSource;
+            //listview.SetBinding(ListView.SelectedItemsProperty, myBinding);
         }
 
         public static readonly DependencyProperty HeldCollectionProperty = DependencyProperty.Register(
@@ -50,7 +59,20 @@ namespace PortraitEditor.View
             get { return (SSFactionGroupCollectionViewModel)Resources["FactionGroupCollectionVM"]; }
         }
 
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
+        "SelectedItems", typeof(System.Collections.IList), typeof(SSFactionGroupCollectionView), new PropertyMetadata(null,null,OnSelectedItemsCoerce));
 
+        private static object OnSelectedItemsCoerce(DependencyObject d, object baseValue)
+        {
+            var FGCV = d as SSFactionGroupCollectionView;
+            return FGCV.ViewModel.SelectedStuff;
+        }
+
+        public System.Collections.IList SelectedItems
+        {
+            get { return (System.Collections.IList)GetValue(SelectedItemsProperty); }
+            set { SetValue(SelectedItemsProperty, value); }
+        }
 
     }
 }

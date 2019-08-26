@@ -30,6 +30,7 @@ namespace PortraitEditor.View
         {
             DataContext = dataContext;
             InitializeComponent();
+            ((SSPortraitExplorerViewModel)dataContext).SelectedGroupsB = FactionGroupCollectionView.SelectedItems;
         }
     }
 }

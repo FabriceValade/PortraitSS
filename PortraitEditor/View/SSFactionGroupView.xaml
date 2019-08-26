@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <Border BorderBrush="{Binding Path=ColorRGB}" BorderThickness="2" HorizontalAlignment="Left" Width="200">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Image Source="{Binding LogoPath}" Height="30" Margin="3"/>
+                <Image Source="{Binding Path=LogoPath}" Height="30" Margin="3"/>
                 <TextBlock Text="{Binding Path=DisplayName}" VerticalAlignment="Center" FontWeight="DemiBold" Margin="5,3,5,3"/>
             </StackPanel>
         </Border>

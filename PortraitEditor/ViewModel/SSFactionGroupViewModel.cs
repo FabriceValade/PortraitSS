@@ -66,8 +66,8 @@ namespace PortraitEditor.ViewModel
         {
             get
             {
-                if (_LogoPath != null)
-                    return _LogoPath;
+                //if (_LogoPath != null)
+                    //return _LogoPath;
                 _LogoPath = FactionGroupModel.LogoPath;
                 return _LogoPath;
 

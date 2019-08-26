@@ -111,6 +111,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
 
         #region Properties
+        public System.Collections.IList SelectedGroupsB { get; set; }
        public System.Collections.IList SelectedGroups
         {
             get

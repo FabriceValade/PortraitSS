@@ -30,7 +30,8 @@ namespace PortraitEditor.Model.SSFiles
         public string LogoPath
         {
             get
-            {
+            { if (_LogoPath == null)
+                    _LogoPath = @"C:\Users\Fabrice Valade\Pictures\20180723_075621.jpg";
                 return _LogoPath;
             }
             private set => _LogoPath = value;

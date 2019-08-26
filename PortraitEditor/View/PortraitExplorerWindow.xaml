@@ -21,8 +21,10 @@
         <local:SSFactionGroupCollectionView x:Name="FactionGroupCollectionView"
                                             Grid.Row="0" Grid.Column="0" 
                                             Margin="7,7,7,7"
-                                            HeldCollection="{Binding Path=FactionDirectory.GroupDirectory}"
+                                            HeldCollection="{Binding Path=FactionDirectory.GroupDirectory}"                                           
                                             />
+        <!--SelectedItems="{Binding Path=SelectedGroupsB, Mode=OneWay}"-->
+        <!--SelectedItems="{Binding Path=SelectedGroupsB, Mode=OneWayToSource}"-->
         <!--<ContentControl  Grid.Row="0" Grid.Column="1" Content="{Binding Path=DirectoryViewModel.FactionGroupList/}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
