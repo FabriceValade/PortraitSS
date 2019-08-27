@@ -11,9 +11,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -35,8 +35,16 @@
                 <Button Grid.Row="1" Margin="0,3,0,3" Command="{Binding Path=ExplorePortraitCommand}">Explore Portraits</Button>
                 <Button Grid.Row="2" Margin="0,3,0,0" Command="{Binding Path=WriteFileCommand}">Create faction files</Button>
                 <Button Grid.Row="3" Margin="0,3,0,0" Command="{Binding Path=CloseCommand}">Close</Button>
+                
             </Grid>
         </Border>
+        <TabControl Grid.Column="2" Grid.RowSpan="3" TabStripPlacement="Left">
+            <TabItem Header="Explore Faction">
+                <Label Content="Content goes here..." />
+            </TabItem>
+            <TabItem Header="Modify Portrait" />
+            <TabItem Header="Write modification" />
+        </TabControl>
     </Grid>
 
 

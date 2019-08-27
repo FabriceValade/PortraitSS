@@ -59,19 +59,32 @@
 
     <!--application wide styleing yes-->
     <SolidColorBrush x:Key="TextBrush" Color="Azure" />
-    <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="Black" />
+    <Color x:Key="GeneralBackgroundColor">black</Color>
+    <SolidColorBrush x:Key="GeneralBackgroundBrush" Color="{StaticResource GeneralBackgroundColor}" />
     <SolidColorBrush x:Key="PaleBackgroundBrush" Color="DarkSlateGray" />
     <SolidColorBrush x:Key="BadBackgroundBrush" Color="DarkRed" />
     <SolidColorBrush x:Key="GoodBackgroundBrush" Color="DarkGreen" />
-    <SolidColorBrush x:Key="ButtonSolid" Color="DarkCyan" />
-    <SolidColorBrush x:Key="UiOutline" Color="DarkCyan" />
+    <Color x:Key="UIOutlineColor" >DarkCyan</Color>
+    <SolidColorBrush x:Key="ButtonBrush" Color="DarkCyan" />
+    <SolidColorBrush x:Key="UiOutline" Color="{StaticResource UIOutlineColor}" />
     <SolidColorBrush x:Key="UiFill" Color="CadetBlue" />
     <SolidColorBrush x:Key="UiHighContrast" Color="Azure" />
-    <SolidColorBrush x:Key="UiLowContrast" Color="DarkSlateGray" />
+    <Color x:Key="UiLowContrastColor">DarkSlateGray</Color>
+    <SolidColorBrush x:Key="UiLowContrast" Color="{StaticResource UiLowContrastColor}" />
     <SolidColorBrush x:Key="GlyphFill" Color="DarkSlateGray" />
     <SolidColorBrush x:Key="ButtonPale" Color="DarkTurquoise" />
     <SolidColorBrush x:Key="ContrastOnButton" Color="DarkSlateGray" />
-    
+
+    <LinearGradientBrush x:Key="ButtonSolid"
+                     EndPoint="1,1"
+                     StartPoint="0,0">
+        <GradientStop Color="{StaticResource UiLowContrastColor}"
+                Offset="0" />
+        <GradientStop Color="{StaticResource UIOutlineColor}"
+                Offset="0.5" />
+    </LinearGradientBrush>
+
+
     <!--style for all generic panel-->
     <Style TargetType="Grid">
         <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
@@ -107,8 +120,13 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        
         <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
+    </Style>
+    <Style TargetType="TabControl">
+        <Setter Property="Background" Value="{StaticResource GeneralBackgroundBrush}"/>
+    </Style>
+    <Style TargetType="TabItem">
+        <Setter Property="Background" Value="{StaticResource ButtonSolid}"/>
     </Style>
     <!--style for all generic text-->
     <Style TargetType="TextBlock">
