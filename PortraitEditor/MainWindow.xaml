@@ -40,7 +40,7 @@
         </Border>
         <TabControl Grid.Column="2" Grid.RowSpan="3" TabStripPlacement="Left">
             <TabItem Header="Explore Faction">
-                <Label Content="Content goes here..." />
+                <vw:FileExplorerTabView FactionDirectory="{Binding Path=FactionDirectory}" LocalMod="{Binding Path=LPeSSMod}"/>
             </TabItem>
             <TabItem Header="Modify Portrait" />
             <TabItem Header="Write modification" />

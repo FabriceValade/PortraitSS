@@ -15,7 +15,7 @@ namespace PortraitEditor.ViewModel.SubWindows
     public class SSFileExplorerViewModel : ViewModelBase
     {
         #region Field
-        FileExplorerWindow WindowView;
+        //FileExplorerWindow WindowView;
         #endregion
 
         #region Command properties
@@ -31,18 +31,7 @@ namespace PortraitEditor.ViewModel.SubWindows
                 return _ExploreFolderCommand;
             }
         }
-        RelayCommand<object> _CloseWindowCommand;
-        public ICommand CloseWindowCommand
-        {
-            get
-            {
-                if (_CloseWindowCommand == null)
-                {
-                    _CloseWindowCommand = new RelayCommand<object>(param => this.CloseWindow());
-                }
-                return _CloseWindowCommand;
-            }
-        }
+        
         RelayCommand<object> _ExploreFactionFileCommand;
         public ICommand ExploreFactionFileCommand
         {
@@ -147,10 +136,11 @@ namespace PortraitEditor.ViewModel.SubWindows
         }
 
         public ObservableCollection<SSMod> ModCollectionBase { get; set; } = new ObservableCollection<SSMod>();
-        public SSFactionDirectory FactionDirectory { get; } = new SSFactionDirectory();
+        SSFactionDirectory _FactionDirectory = new SSFactionDirectory();
+        public SSFactionDirectory FactionDirectory { get=>_FactionDirectory; set { _FactionDirectory = value;NotifyPropertyChanged(); } } 
 
         SSMod _LPeSSMod = new SSMod() { Name = "LPeSS" };
-        public SSMod LPeSSMod { get => _LPeSSMod; private set { _LPeSSMod = value; NotifyPropertyChanged(); } }
+        public SSMod LPeSSMod { get => _LPeSSMod; set { _LPeSSMod = value; NotifyPropertyChanged(); } }
         public ObservableCollection<SSMod> LocalModAsCollection { get; set; }
         #endregion
 
@@ -162,17 +152,17 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
 
         #region Helper function
-        public void ShowDialog()
-        {
-            WindowView = new FileExplorerWindow(this);
-            WindowView.ShowDialog();
-            return;
-        }
+        //public void ShowDialog()
+        //{
+        //    WindowView = new FileExplorerWindow(this);
+        //    WindowView.ShowDialog();
+        //    return;
+        //}
 
-        public void CloseWindow()
-        {
-            WindowView.Close();
-        }
+        //public void CloseWindow()
+        //{
+        //    WindowView.Close();
+        //}
 
         public void ExploreFolder()
         {

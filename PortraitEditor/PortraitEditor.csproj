@@ -159,8 +159,8 @@
     <Compile Include="View\EditableURLView.xaml.cs">
       <DependentUpon>EditableURLView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FileExplorerWindow.xaml.cs">
-      <DependentUpon>FileExplorerWindow.xaml</DependentUpon>
+    <Compile Include="View\FileExplorerTabView.xaml.cs">
+      <DependentUpon>FileExplorerTabView.xaml</DependentUpon>
     </Compile>
     <Page Include="ApplicationDictionary.xaml">
       <SubType>Designer</SubType>
@@ -238,7 +238,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FileExplorerWindow.xaml">
+    <Page Include="View\FileExplorerTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -25,6 +25,7 @@ using PortraitEditor.View;
 using PortraitEditor.JsonHandling;
 using PortraitEditor.ViewModel.SubWindows;
 using PortraitEditor.Model;
+using PortraitEditor.Model.SSFiles;
 
 namespace PortraitEditor
 {
@@ -35,8 +36,10 @@ namespace PortraitEditor
     public partial class MainWindow : Window
     {
 
+        public SSFactionDirectory FactionDirectory { get; } = new SSFactionDirectory();
 
-        public SSFileExplorerViewModel FileExplorer { get; set; } = new SSFileExplorerViewModel();
+        public SSMod LPeSSMod { get;} = new SSMod() { Name = "LPeSS" };
+        //public SSFileExplorerViewModel FileExplorer { get; set; } = new SSFileExplorerViewModel();
         public SSPortraitExplorerViewModel PortraitExplorer { get; set; }
 
         public SSFileWritterViewModel FileWriter { get; set; }
@@ -98,9 +101,9 @@ namespace PortraitEditor
             //FileExplorer.ShowDialog();
             //PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory,FileExplorer.LPeSSMod);
             //PortraitExplorer.ShowDialog();
-            L_PessMod = FileExplorer.LPeSSMod;
-            PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory, FileExplorer.LPeSSMod);
-            FileWriter = new SSFileWritterViewModel(FileExplorer.LPeSSMod, FileExplorer.FactionDirectory);
+            //L_PessMod = FileExplorer.LPeSSMod;
+            PortraitExplorer = new SSPortraitExplorerViewModel(FactionDirectory, LPeSSMod);
+            FileWriter = new SSFileWritterViewModel(LPeSSMod, FactionDirectory);
             DataContext = this;
             InitializeComponent();
         }
@@ -111,25 +114,25 @@ namespace PortraitEditor
        
         private void ExploreFiles()
         {
-            this.Hide();
-            FileExplorer.ShowDialog();
-            this.Show();
+            //this.Hide();
+            //FileExplorer.ShowDialog();
+            //this.Show();
             return;
         }
         private void ExplorePortraits()
         {
             this.Hide();
-            PortraitExplorer.LocalMod = FileExplorer.LPeSSMod;
+            PortraitExplorer.LocalMod = LPeSSMod;
             PortraitExplorer.ShowDialog();
             this.Show();
             return;
         }
         private void WriteFiles()
         {
-            this.Hide();
-            FileWriter.L_PeSSMod = FileExplorer.LPeSSMod;
-            FileWriter.ShowDialog();
-            this.Show();
+            //this.Hide();
+            //FileWriter.L_PeSSMod = FileExplorer.LPeSSMod;
+            //FileWriter.ShowDialog();
+            //this.Show();
         }
 
 
