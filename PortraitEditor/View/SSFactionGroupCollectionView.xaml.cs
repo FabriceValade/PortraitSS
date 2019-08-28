@@ -74,5 +74,6 @@ namespace PortraitEditor.View
             set { SetValue(SelectedItemsProperty, value); }
         }
 
+       
     }
 }

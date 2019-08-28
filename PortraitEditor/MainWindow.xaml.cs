@@ -36,7 +36,7 @@ namespace PortraitEditor
     public partial class MainWindow : Window
     {
 
-        public SSFactionDirectory FactionDirectory { get; } = new SSFactionDirectory();
+        public SSFactionDirectory FactionDirectory { get; set; } = new SSFactionDirectory();
 
         public SSMod LPeSSMod { get;} = new SSMod() { Name = "LPeSS" };
         //public SSFileExplorerViewModel FileExplorer { get; set; } = new SSFileExplorerViewModel();
@@ -89,7 +89,7 @@ namespace PortraitEditor
             {
                 if (_CloseCommand == null)
                 {
-                    _CloseCommand = new RelayCommand<object>(param => this.Close());
+                    _CloseCommand = new RelayCommand<object>(param => CloseWindow());
                 }
                 return _CloseCommand;
             }
@@ -102,13 +102,12 @@ namespace PortraitEditor
             //PortraitExplorer = new SSPortraitExplorerViewModel(FileExplorer.FactionDirectory,FileExplorer.LPeSSMod);
             //PortraitExplorer.ShowDialog();
             //L_PessMod = FileExplorer.LPeSSMod;
-            PortraitExplorer = new SSPortraitExplorerViewModel(FactionDirectory, LPeSSMod);
+            //PortraitExplorer = new SSPortraitExplorerViewModel(FactionDirectory, LPeSSMod);
             FileWriter = new SSFileWritterViewModel(LPeSSMod, FactionDirectory);
             DataContext = this;
             InitializeComponent();
         }
 
-        
 
  
        
@@ -121,10 +120,10 @@ namespace PortraitEditor
         }
         private void ExplorePortraits()
         {
-            this.Hide();
-            PortraitExplorer.LocalMod = LPeSSMod;
-            PortraitExplorer.ShowDialog();
-            this.Show();
+            //this.Hide();
+            //PortraitExplorer.LocalMod = LPeSSMod;
+            //PortraitExplorer.ShowDialog();
+            //this.Show();
             return;
         }
         private void WriteFiles()
@@ -134,7 +133,10 @@ namespace PortraitEditor
             //FileWriter.ShowDialog();
             //this.Show();
         }
-
+        private void CloseWindow()
+        {
+            this.Close();
+        }
 
     }
  

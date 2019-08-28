@@ -120,8 +120,8 @@
     <Compile Include="View\FileWriterWindow.xaml.cs">
       <DependentUpon>FileWriterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PortraitExplorerWindow.xaml.cs">
-      <DependentUpon>PortraitExplorerWindow.xaml</DependentUpon>
+    <Compile Include="View\PortraitExplorerTabView.xaml.cs">
+      <DependentUpon>PortraitExplorerTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SSFactionGroupCollectionView.xaml.cs">
       <DependentUpon>SSFactionGroupCollectionView.xaml</DependentUpon>
@@ -182,7 +182,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PortraitExplorerWindow.xaml">
+    <Page Include="View\PortraitExplorerTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,13 +1,16 @@
-﻿<Window x:Class="PortraitEditor.View.PortraitExplorerWindow"
+﻿<UserControl x:Class="PortraitEditor.View.PortraitExplorerTabView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortraitEditor.View"
         xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
-        mc:Ignorable="d"
-        Title="PortraitExplorerWindow" WindowStyle="None"  WindowState="Maximized">
-    <Grid Grid.IsSharedSizeScope="True">
+         xmlns:vmw="clr-namespace:PortraitEditor.ViewModel.SubWindows"
+        mc:Ignorable="d">
+    <UserControl.Resources>
+        <vmw:SSPortraitExplorerViewModel x:Key="PortraitExplorerVM"/>
+    </UserControl.Resources>
+    <Grid Grid.IsSharedSizeScope="True" DataContext="{StaticResource PortraitExplorerVM}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="150"/>
@@ -32,9 +35,9 @@
                 </ControlTemplate>
             </ContentControl.Template>
         </ContentControl>-->
-        <local:SSPortraitCollectionView Grid.Row="0" Grid.Column="1" 
-                                        Margin="7,7,7,7"
-                                        HeldCollection="{Binding ElementName=FactionGroupCollectionView, Path=ViewModel.HeldCollection/Portraits}"
+        <local:SSPortraitCollectionView x:Name="DetailCollectionView" Grid.Row="0" Grid.Column="1" 
+                                        Margin="4,10,10,4"
+                                        HeldCollection="{Binding ElementName=FactionGroupCollectionView, Path=ViewModel.HeldView.CurrentItem}"
                                         Button1Name="Remove"
                                         Button1Command="{Binding Path=RemoveSelectedPortraitFromGroupCommand}" 
                                         Button2Name="Reset"
@@ -53,7 +56,7 @@
                                         Button3Command="{Binding Path=AddPortraitFromLocalCommand}" 
                                         GroupDescriptionComboBox="{Binding Path=GroupDescriptionComboBoxGeneral}"/>
 
-        <Button Grid.Row="2" Grid.Column="2" Content="Close" Command="{Binding CloseCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="75"/>
+        <!--<Button Grid.Row="2" Grid.Column="2" Content="Close" Command="{Binding CloseCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="75"/>-->
         <!--<ContentControl  Grid.Row="0" Grid.Column="2" Content="{Binding Path=GlobalPortraitViewModel}"  HorizontalAlignment="Stretch" Background="Transparent" Margin="7,7,7,7">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
@@ -62,4 +65,4 @@
             </ContentControl.Template>
         </ContentControl>-->
     </Grid>
-</Window>
+</UserControl>

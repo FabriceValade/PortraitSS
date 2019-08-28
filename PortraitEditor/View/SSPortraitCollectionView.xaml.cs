@@ -28,6 +28,10 @@ namespace PortraitEditor.View
         public SSPortraitCollectionView()
         {
             InitializeComponent();
+            //Binding myBinding = new Binding("SelectedItems");
+            //myBinding.Source = DisplayList;
+            //myBinding.Mode = BindingMode.OneWay;
+            //this.SetBinding(SelectedItemsProperty, myBinding);
         }
 
         public static readonly DependencyProperty HeldCollectionProperty = DependencyProperty.Register(
@@ -137,6 +141,23 @@ namespace PortraitEditor.View
         {
             ((SSPortraitCollectionView)obj).ViewModel.GroupDescriptionComboBox = (List<ComboboxContent<PropertyGroupDescription>>)args.NewValue;
         }
+        #endregion
+
+        #region selected items
+        //public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
+        //"SelectedItems", typeof(System.Collections.IList), typeof(SSPortraitCollectionView), new PropertyMetadata(null, null, OnSelectedItemsCoerce));
+
+        //private static object OnSelectedItemsCoerce(DependencyObject d, object baseValue)
+        //{
+        //    var PCV = d as SSPortraitCollectionView;
+        //    return PCV.ViewModel.SelectedStuff;
+        //}
+
+        //public System.Collections.IList SelectedItems
+        //{
+        //    get { return (System.Collections.IList)GetValue(SelectedItemsProperty); }
+        //    set { SetValue(SelectedItemsProperty, value); }
+        //} 
         #endregion
     }
 }

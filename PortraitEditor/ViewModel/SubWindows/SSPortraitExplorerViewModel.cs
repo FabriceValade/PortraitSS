@@ -18,26 +18,30 @@ namespace PortraitEditor.ViewModel.SubWindows
 {
     public class SSPortraitExplorerViewModel : ViewModelBase
     {
-        PortraitExplorerWindow View;
-        public SSFactionDirectory FactionDirectory { get; set; }
-        public SSMod LocalMod;
-        public SSPortraitExplorerViewModel(SSFactionDirectory factionDirectory, SSMod LocalMod)
-        {
-            LocalMod = LocalMod ?? throw new ArgumentNullException("Local mod cannot be null");
-            FactionDirectory = factionDirectory;
-        }
-        ICommand _CloseCommand;
-        public ICommand CloseCommand
-        {
-            get
-            {
-                if (_CloseCommand == null)
-                {
-                    _CloseCommand = new RelayCommand<object>(param => View.Close());
-                }
-                return _CloseCommand;
-            }
-        }
+        //PortraitExplorerWindow View;
+        SSFactionDirectory _FactionDirectory;
+        public SSFactionDirectory FactionDirectory { get => _FactionDirectory; set { _FactionDirectory = value; NotifyPropertyChanged(); } }
+        public SSMod LocalMod { get; set; }
+
+        public SSPortraitExplorerViewModel()
+        { }
+        //public SSPortraitExplorerViewModel(SSFactionDirectory factionDirectory, SSMod LocalMod)
+        //{
+        //    LocalMod = LocalMod ?? throw new ArgumentNullException("Local mod cannot be null");
+        //    FactionDirectory = factionDirectory;
+        //}
+        //ICommand _CloseCommand;
+        //public ICommand CloseCommand
+        //{
+        //    get
+        //    {
+        //        if (_CloseCommand == null)
+        //        {
+        //            _CloseCommand = new RelayCommand<object>(param => View.Close());
+        //        }
+        //        return _CloseCommand;
+        //    }
+        //}
 
         #region Commands for portrait editing
         //command that get input from the selected factiong group are here
@@ -111,27 +115,27 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
 
         #region Properties
-        public System.Collections.IList SelectedGroupsB { get; set; }
-       public System.Collections.IList SelectedGroups
-        {
-            get
-            {
-                if (View == null)
-                    return null;
-                return View.FactionGroupCollectionView.ViewModel.SelectedStuff;
-            }
-        }
+        public System.Collections.IList SelectedGroups { get; set; }
+       //public System.Collections.IList SelectedGroups
+       // {
+       //     get
+       //     {
+       //         if (View == null)
+       //             return null;
+       //         return View.FactionGroupCollectionView.ViewModel.SelectedStuff;
+       //     }
+       // }
         #endregion
 
         //#region method
-        public void ShowDialog()
-        {
-            //DirectoryViewModel.PurgeMod(LocalMod);
-            View = null;
-            View = new PortraitExplorerWindow(this);
-            View.ShowDialog();
-            return;
-        }
+        //public void ShowDialog()
+        //{
+        //    //DirectoryViewModel.PurgeMod(LocalMod);
+        //    View = null;
+        //    View = new PortraitExplorerWindow(this);
+        //    View.ShowDialog();
+        //    return;
+        //}
 
         #region command backing method
         public void AddPortraitFromLocal()
@@ -159,7 +163,7 @@ namespace PortraitEditor.ViewModel.SubWindows
                 return;
             System.Collections.IList items = (System.Collections.IList)obj;
             var removeCollection = items.Cast<SSPortrait>().ToList();
-            SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
+            SSFactionGroup SelectedGroup = SelectedGroups.Cast<SSFactionGroup>().FirstOrDefault();
             foreach (SSPortrait portrait in removeCollection)
             {
                 SelectedGroup.BufferPortraitRemove(portrait);
@@ -168,7 +172,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         }
         private void ResetPortraitFromGroup()
         {
-            SSFactionGroup SelectedGroup = View.FactionGroupCollectionView.ViewModel.HeldView.CurrentItem as SSFactionGroup;
+            SSFactionGroup SelectedGroup = SelectedGroups.Cast<SSFactionGroup>().FirstOrDefault();
             SelectedGroup.BufferReset();
         }
         public void AddPortraitToGroupFromGeneral(object obj, Gender.GenderValue newGender)

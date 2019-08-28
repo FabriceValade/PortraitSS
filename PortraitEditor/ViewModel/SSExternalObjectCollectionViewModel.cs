@@ -32,8 +32,11 @@ namespace PortraitEditor.ViewModel
             {
                 _HeldCollection = value;
                 _HeldView = (CollectionView)CollectionViewSource.GetDefaultView(_HeldCollection);
-                HeldView.GroupDescriptions.Clear();
-                _HeldView.GroupDescriptions.Add(SelectedComboBoxGroupDescription.Content);
+                if (_HeldView != null)
+                {
+                    _HeldView.GroupDescriptions.Clear();
+                    _HeldView.GroupDescriptions.Add(SelectedComboBoxGroupDescription.Content);
+                }
                 NotifyPropertyChanged("HeldView");
             }
         }
@@ -47,12 +50,18 @@ namespace PortraitEditor.ViewModel
                 if (_HeldView == null)
                 {
                     _HeldView = (CollectionView)CollectionViewSource.GetDefaultView(HeldCollection);
-                    HeldView.GroupDescriptions.Clear();
-                    _HeldView.GroupDescriptions.Add(SelectedComboBoxGroupDescription.Content);
+                    if (_HeldView != null)
+                    {
+                        _HeldView.GroupDescriptions.Clear();
+                        _HeldView.GroupDescriptions.Add(SelectedComboBoxGroupDescription.Content);
+                    }
                 }
                 return _HeldView;
             }
         }
+
+        //System.Collections.IList _SelectedStuff;
+        //public System.Collections.IList SelectedStuff { get => _SelectedStuff; set { _SelectedStuff = value; NotifyPropertyChanged(); } }
 
         List<ComboboxContent<PropertyGroupDescription>> _GroupDescriptionComboBox = new List<ComboboxContent<PropertyGroupDescription>>();
         public List<ComboboxContent<PropertyGroupDescription>> GroupDescriptionComboBox
@@ -76,8 +85,11 @@ namespace PortraitEditor.ViewModel
             set
             {
                 _SelectedComboBoxGroupDescription = value;
-                HeldView.GroupDescriptions.Clear();
-                HeldView.GroupDescriptions.Add(_SelectedComboBoxGroupDescription.Content);
+                if (HeldView != null)
+                {
+                    HeldView.GroupDescriptions.Clear();
+                    HeldView.GroupDescriptions.Add(_SelectedComboBoxGroupDescription.Content);
+                }
             }
 
         }

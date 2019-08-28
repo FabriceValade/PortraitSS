@@ -31,7 +31,7 @@ namespace PortraitEditor.Model.SSFiles
         {
             get
             { if (_LogoPath == null)
-                    _LogoPath = @"C:\Users\Fabrice Valade\Pictures\20180723_075621.jpg";
+                    _LogoPath =  Properties.Settings.Default.FallbackLogo;
                 return _LogoPath;
             }
             private set => _LogoPath = value;

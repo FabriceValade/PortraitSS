@@ -40,9 +40,11 @@
         </Border>
         <TabControl Grid.Column="2" Grid.RowSpan="3" TabStripPlacement="Left">
             <TabItem Header="Explore Faction">
-                <vw:FileExplorerTabView FactionDirectory="{Binding Path=FactionDirectory}" LocalMod="{Binding Path=LPeSSMod}"/>
+                <vw:FileExplorerTabView FactionDirectory="{Binding Path=FactionDirectory, Mode=TwoWay}" LocalMod="{Binding Path=LPeSSMod}"/>
             </TabItem>
-            <TabItem Header="Modify Portrait" />
+            <TabItem Header="Modify Portrait" >
+                <vw:PortraitExplorerTabView FactionDirectory="{Binding Path=FactionDirectory, Mode=TwoWay}" LocalMod="{Binding Path=LPeSSMod}"/>
+            </TabItem>
             <TabItem Header="Write modification" />
         </TabControl>
     </Grid>
