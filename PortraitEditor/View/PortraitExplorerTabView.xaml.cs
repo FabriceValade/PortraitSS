@@ -42,10 +42,17 @@ namespace PortraitEditor.View
             if (tab.FactionGroupCollectionView.ViewModel.HeldView.CurrentPosition < 0)
                 tab.FactionGroupCollectionView.ViewModel.HeldView.MoveCurrentToFirst();
         }
+        public SSPortraitExplorerViewModel ViewModel
+        {
+            get { return (SSPortraitExplorerViewModel)Resources["PortraitExplorerVM"]; }
+        }
 
+        #region dependencyproperty linking VM FactionDirectory
         public static readonly DependencyProperty FactionDirectoryProperty = DependencyProperty.Register(
-        "FactionDirectory", typeof(SSFactionDirectory), typeof(PortraitExplorerTabView),
-        new PropertyMetadata(new SSFactionDirectory(), OnDirectoryChanged));
+                            "FactionDirectory", 
+                            typeof(SSFactionDirectory), 
+                            typeof(PortraitExplorerTabView),
+                            new PropertyMetadata(new SSFactionDirectory(), OnDirectoryChanged));
 
         public SSFactionDirectory FactionDirectory
         {
@@ -58,12 +65,11 @@ namespace PortraitEditor.View
         {
             ((PortraitExplorerTabView)obj).ViewModel.FactionDirectory = (SSFactionDirectory)args.NewValue;
         }
+        #endregion
 
-        public SSPortraitExplorerViewModel ViewModel
-        {
-            get { return (SSPortraitExplorerViewModel)Resources["PortraitExplorerVM"]; }
-        }
 
+
+        #region Dependencyproperty linking VM LocalMod
         public static readonly DependencyProperty LocalModProperty = DependencyProperty.Register(
         "LocalMod", typeof(SSMod), typeof(PortraitExplorerTabView),
         new PropertyMetadata(new SSMod(), OnLocalModChanged));
@@ -78,7 +84,8 @@ namespace PortraitEditor.View
             DependencyPropertyChangedEventArgs args)
         {
             ((PortraitExplorerTabView)obj).ViewModel.LocalMod = (SSMod)args.NewValue;
-        }
+        } 
+        #endregion
 
     }
 }
