@@ -1,4 +1,4 @@
-﻿<Window x:Class="PortraitEditor.View.FileWriterWindow"
+﻿<UserControl x:Class="PortraitEditor.View.FileWriterTabView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,17 +6,16 @@
         xmlns:local="clr-namespace:PortraitEditor.View"
         xmlns:vmw="clr-namespace:PortraitEditor.ViewModel.SubWindows"
         xmlns:mp="clr-namespace:PortraitEditor.Model.SSParameters"
-        mc:Ignorable="d"
-        Title="FileWriterWindow" Height="450" Width="800">
-
-    <Window.Resources>
+        mc:Ignorable="d">
+    <UserControl.Resources>
+        <vmw:SSFileWriterViewModel x:Key="FileWriterVM"/>
         <vmw:CollectionToVisibilityConverter x:Key="CollectionVisibilityConverter" />
         <mp:PortraitGenderToGroupConverter x:Key="PortraitGenderToGroupConverter"/>
         <DataTemplate x:Key="ListViewGroupStyleLight">
             <TextBlock FontWeight="SemiBold" FontSize="12" Text="{Binding Name}"/>
         </DataTemplate>
-    </Window.Resources>
-    <Grid>
+    </UserControl.Resources>
+    <Grid DataContext="FileWriterVM">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -80,4 +79,4 @@
             </StackPanel>
         </Border>
     </Grid>
-</Window>
+</UserControl>

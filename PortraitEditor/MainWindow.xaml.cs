@@ -42,7 +42,7 @@ namespace PortraitEditor
         //public SSFileExplorerViewModel FileExplorer { get; set; } = new SSFileExplorerViewModel();
         public SSPortraitExplorerViewModel PortraitExplorer { get; set; }
 
-        public SSFileWritterViewModel FileWriter { get; set; }
+        public SSFileWriterViewModel FileWriter { get; set; }
         public SSMod L_PessMod { get; set; }
 
         ICommand _ExploreFileCommand;
@@ -103,7 +103,7 @@ namespace PortraitEditor
             //PortraitExplorer.ShowDialog();
             //L_PessMod = FileExplorer.LPeSSMod;
             //PortraitExplorer = new SSPortraitExplorerViewModel(FactionDirectory, LPeSSMod);
-            FileWriter = new SSFileWritterViewModel(LPeSSMod, FactionDirectory);
+            //FileWriter = new SSFileWriterViewModel(LPeSSMod, FactionDirectory);
             DataContext = this;
             InitializeComponent();
         }

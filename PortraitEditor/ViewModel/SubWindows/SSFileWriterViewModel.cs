@@ -19,20 +19,38 @@ using System.Windows.Input;
 
 namespace PortraitEditor.ViewModel.SubWindows
 {
-    public class SSFileWritterViewModel : ViewModelBase
+    public class SSFileWriterViewModel : ViewModelBase
     {
         #region Constructor
-        public SSFileWritterViewModel(SSMod l_PeSSMod, SSFactionDirectory factionDirectory)
-        {
-            L_PeSSMod = l_PeSSMod;
-            FactionDirectory = factionDirectory;
-
-        }
+        public SSFileWriterViewModel() { }
         #endregion
 
+        #region Loading/unloading h andling
+        private bool _isLoaded = false;
+        public void OnLoaded()
+        {
+            if (!_isLoaded)
+            {
+                // TODO: Add your loaded code here 
+                ModifiedFactionList = new ObservableCollection<SSFactionGroup>(from factionGroup in FactionDirectory.GroupDirectory
+                                                                                where factionGroup.BufferedPortraits
+                                                                                select factionGroup);
+                
+                _isLoaded = true;
+            }
+        }
 
+        public void OnUnloaded()
+        {
+            if (_isLoaded)
+            {
+                // TODO: Add your cleanup/unloaded code here 
+                _isLoaded = false;
+            }
+        } 
+        #endregion
         #region field
-        FileWriterWindow WindowView;
+        //FileWriterWindow WindowView;
         ObservableCollection<SSFactionGroup> _ModifiedFactionList;
         string FactionFolderPath;
         string PortraitGraphPath;
@@ -47,18 +65,13 @@ namespace PortraitEditor.ViewModel.SubWindows
 
 
         #region properties
-        public SSMod L_PeSSMod { get; set; }
-        public SSFactionDirectory FactionDirectory { get; set; }
+        public SSMod LocalMod { get; set; }
+        SSFactionDirectory _FactionDirectory;
+        public SSFactionDirectory FactionDirectory { get=>_FactionDirectory; set { _FactionDirectory = value; NotifyPropertyChanged(); } }
         public ObservableCollection<SSFactionGroup> ModifiedFactionList
         {
-            get
-            {
-
-                _ModifiedFactionList = new ObservableCollection<SSFactionGroup>(from factionGroup in FactionDirectory.GroupDirectory
-                                                                                         where factionGroup.BufferedPortraits
-                                                                                         select factionGroup);
-                return _ModifiedFactionList;
-            }
+            get => _ModifiedFactionList;
+            set { _ModifiedFactionList = value;  NotifyPropertyChanged(); }
         }
         #endregion
 
@@ -67,12 +80,12 @@ namespace PortraitEditor.ViewModel.SubWindows
         public void ShowDialog()
         {
 
-            if (L_PeSSMod.Url.CommonUrl == null)
-                throw new DirectoryNotFoundException();
-            FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
-            PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
-            WindowView = new FileWriterWindow(this);
-            WindowView.ShowDialog();
+            //if (L_PeSSMod.Url.CommonUrl == null)
+            //    throw new DirectoryNotFoundException();
+            //FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
+            //PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
+            //WindowView = new FileWriterWindow(this);
+            //WindowView.ShowDialog();
             return;
         }
         #endregion
@@ -105,7 +118,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
         public void ClearModFolder()
         {
-            DirectoryInfo LPeSSFactionDirectory = new DirectoryInfo(L_PeSSMod.Url.FullUrl);
+            DirectoryInfo LPeSSFactionDirectory = new DirectoryInfo(LocalMod.Url.FullUrl);
             if (!LPeSSFactionDirectory.Exists)
                 LPeSSFactionDirectory.Create();
             DirectoryInfo FactionFolderInfo = new DirectoryInfo(FactionFolderPath);
@@ -123,7 +136,7 @@ namespace PortraitEditor.ViewModel.SubWindows
             if (!FactionFolderInfo.Exists)
                 FactionFolderInfo.Create();
 
-            using (JsonTextWriter writer = new JsonTextWriter(File.CreateText(Path.Combine(L_PeSSMod.Url.FullUrl, "mod_info.json"))))
+            using (JsonTextWriter writer = new JsonTextWriter(File.CreateText(Path.Combine(LocalMod.Url.FullUrl, "mod_info.json"))))
             {
                 writer.Formatting = Formatting.Indented;
                 ModInfo.WriteTo(writer);

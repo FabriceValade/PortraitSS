@@ -19,10 +19,13 @@ namespace PortraitEditor.ViewModel.SubWindows
     public class SSPortraitExplorerViewModel : ViewModelBase
     {
         //PortraitExplorerWindow View;
+        #region Property that need to be populated by the view
         SSFactionDirectory _FactionDirectory;
         public SSFactionDirectory FactionDirectory { get => _FactionDirectory; set { _FactionDirectory = value; NotifyPropertyChanged(); } }
         public SSMod LocalMod { get; set; }
 
+        public System.Collections.IList SelectedGroups { get; set; } 
+        #endregion
         public SSPortraitExplorerViewModel()
         { }
         //public SSPortraitExplorerViewModel(SSFactionDirectory factionDirectory, SSMod LocalMod)
@@ -115,7 +118,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
 
         #region Properties
-        public System.Collections.IList SelectedGroups { get; set; }
+        
        //public System.Collections.IList SelectedGroups
        // {
        //     get
