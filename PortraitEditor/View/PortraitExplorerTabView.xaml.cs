@@ -28,20 +28,8 @@ namespace PortraitEditor.View
         {
             InitializeComponent();
             ViewModel.SelectedGroups = FactionGroupCollectionView.SelectedItems;
-            this.Loaded += PortraitExplorerTabView_Loaded;
         }
 
-        private void PortraitExplorerTabView_Loaded(object sender, RoutedEventArgs e)
-        {
-            //when the view is loaded, make sure to restore binding that could have been broken by modification of the filedirectory
-            var tab = sender as PortraitExplorerTabView;
-            Binding myBinding = new Binding("ViewModel.ViewSource.View.CurrentItem.Portraits");
-            myBinding.Source = tab.FactionGroupCollectionView;
-            myBinding.Mode = BindingMode.OneWay;
-            tab.DetailCollectionView.SetBinding(SSPortraitCollectionView.HeldCollectionProperty, myBinding);
-            if (tab.FactionGroupCollectionView.ViewModel.ViewSource.View.CurrentPosition < 0)
-                tab.FactionGroupCollectionView.ViewModel.ViewSource.View.MoveCurrentToFirst();
-        }
         public SSPortraitExplorerViewModel ViewModel
         {
             get { return (SSPortraitExplorerViewModel)Resources["PortraitExplorerVM"]; }

@@ -37,7 +37,7 @@
         </ContentControl>-->
         <local:SSPortraitCollectionView x:Name="DetailCollectionView" Grid.Row="0" Grid.Column="1" 
                                         Margin="4,10,10,4"
-                                        HeldCollection="{Binding ElementName=FactionGroupCollectionView, Path=ViewModel.HeldView.CurrentItem}"
+                                        HeldCollection="{Binding ElementName=FactionGroupCollectionView, Path=SelectedItem.Portraits}"
                                         Button1Name="Remove"
                                         Button1Command="{Binding Path=RemoveSelectedPortraitFromGroupCommand}" 
                                         Button2Name="Reset"

@@ -12,10 +12,9 @@ namespace PortraitEditor.ViewModel
 {
     public class SSFactionGroupCollectionViewModel : ViewModelBase
     {
-        public SSFactionGroupCollectionViewModel()
-        { }
+        public SSFactionGroupCollectionViewModel() { }
 
-        #region Loading/unloading h andling
+        #region Loading/unloading handling
         private bool _isLoaded = false;
         public void OnLoaded()
         {
@@ -23,6 +22,8 @@ namespace PortraitEditor.ViewModel
             {
                 _isLoaded = true;
                 ViewSource.View.Refresh();
+                if (ViewSource.View.CurrentPosition < 0)
+                    ViewSource.View.MoveCurrentToFirst();
             }
         }
 
@@ -35,10 +36,8 @@ namespace PortraitEditor.ViewModel
             }
         }
         #endregion
-        public SSFactionGroupCollectionViewModel(ObservableCollection<SSFactionGroup> collectionToHold)
-        {
-            HeldCollection = collectionToHold;
-        }
+
+        #region properties populated throught the view
         ObservableCollection<SSFactionGroup> _HeldCollection = new ObservableCollection<SSFactionGroup>();
         public ObservableCollection<SSFactionGroup> HeldCollection
         {
@@ -49,21 +48,25 @@ namespace PortraitEditor.ViewModel
             set
             {
                 _HeldCollection = value;
-                ViewSource= new CollectionViewSource() { Source = _HeldCollection };
+                ViewSource = new CollectionViewSource() { Source = _HeldCollection };
                 NotifyPropertyChanged();
             }
         }
-        System.Collections.IList _SelectedStuff;
-        public System.Collections.IList SelectedStuff { get=>_SelectedStuff; set { _SelectedStuff = value; } }
-        public List<SSFactionGroup> SelectedItems
+
+        FilterEventHandler _CollectionFilter;
+        public FilterEventHandler CollectionFilter
         {
-            get
+            get => _CollectionFilter;
+            set
             {
-                return SelectedStuff.Cast<SSFactionGroup>().ToList();
+                if (ViewSource != null && _CollectionFilter != null)
+                    ViewSource.Filter -= _CollectionFilter;
+                _CollectionFilter = value;
+                if (ViewSource != null)
+                    ViewSource.Filter += _CollectionFilter;
             }
-        }
-
-
+        } 
+        #endregion
 
         #region properties for the view
         CollectionViewSource _ViewSource;
@@ -91,45 +94,7 @@ namespace PortraitEditor.ViewModel
             e.Accepted = portraitGroup.DisplayName == "Hegemony";
         }
 
-        CollectionView _HeldView;
-        public CollectionView HeldView
-        {
-            get
-            {
-                if (_HeldView == null)
-                {
-                    _HeldView = ViewSource.View as CollectionView;
-                }
-                return _HeldView;
-            }
-            set
-            {
-                _HeldView = value;
-                if (_HeldView != null)
-                {
-                    //_HeldView.Filter = CollectionFilter;
-                }
-                NotifyPropertyChanged();
-
-            }
-        }
-        
-
-        FilterEventHandler _CollectionFilter;
-        public FilterEventHandler CollectionFilter
-        {
-            get =>_CollectionFilter;
-            set
-            {
-                if (ViewSource != null && _CollectionFilter != null)
-                    ViewSource.Filter -= _CollectionFilter;
-                _CollectionFilter = value;
-                if (ViewSource != null)
-                    ViewSource.Filter += _CollectionFilter;
-            }
-        }
-
-        public PropertyGroupDescription GroupDescription { get; set; }
         #endregion
     }
 }
+

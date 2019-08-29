@@ -28,11 +28,16 @@ namespace PortraitEditor.View
             InitializeComponent();
             this.Loaded += delegate { ViewModel.OnLoaded(); };
             this.Unloaded += delegate { ViewModel.OnUnloaded(); };
-            ViewModel.SelectedStuff = listview.SelectedItems;
+
             Binding myBinding = new Binding("SelectedItems");
             myBinding.Source = listview;
             myBinding.Mode = BindingMode.OneWay;
             this.SetBinding(SelectedItemsProperty, myBinding);
+
+            Binding OtherBinding = new Binding("SelectedItem");
+            OtherBinding.Source = listview;
+            OtherBinding.Mode = BindingMode.OneWay;
+            this.SetBinding(SelectedItemProperty, OtherBinding);
 
         }
 
@@ -56,23 +61,26 @@ namespace PortraitEditor.View
             DependencyPropertyChangedEventArgs args)
         {
             ((SSFactionGroupCollectionView)obj).ViewModel.HeldCollection = (ObservableCollection<SSFactionGroup>)args.NewValue;
-        } 
-        #endregion     
-
-        #region Code that return the selected items (look iffy)
-        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
-        "SelectedItems", typeof(System.Collections.IList), typeof(SSFactionGroupCollectionView), new PropertyMetadata(null, null, OnSelectedItemsCoerce));
-
-        private static object OnSelectedItemsCoerce(DependencyObject d, object baseValue)
-        {
-            var FGCV = d as SSFactionGroupCollectionView;
-            return FGCV.ViewModel.SelectedStuff;
         }
+        #endregion
+
+        #region Code that passthrough the selected items or item of the listview (bound on view construction)
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
+        "SelectedItems", typeof(System.Collections.IList), typeof(SSFactionGroupCollectionView));
 
         public System.Collections.IList SelectedItems
         {
             get { return (System.Collections.IList)GetValue(SelectedItemsProperty); }
             set { SetValue(SelectedItemsProperty, value); }
+        }
+
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+        "SelectedItem", typeof(SSFactionGroup), typeof(SSFactionGroupCollectionView));
+
+        public SSFactionGroup SelectedItem
+        {
+            get { return (SSFactionGroup)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
         #endregion
 
