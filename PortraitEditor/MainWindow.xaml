@@ -7,38 +7,17 @@
         mc:Ignorable="d"
         xmlns:vw="clr-namespace:PortraitEditor.View"
         xmlns:vm="clr-namespace:PortraitEditor.ViewModel"
-        Title="MainWindow" WindowStyle="None" WindowState="Maximized" ResizeMode="CanMinimize">
+        Title="Lethargie Portrait Editor for Starsector" WindowStyle="SingleBorderWindow" WindowState="Maximized" ResizeMode="CanMinimize">
 
-    <Grid>
+    <Grid Background="{StaticResource GeneralBackgroundBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0"/>
-            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource ElementBorder}" Grid.Column="1" Grid.Row="1" Grid.IsSharedSizeScope="True">
-            <Grid Margin="7,7,7,7">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" SharedSizeGroup="ButtonHeight"/>
-                    <RowDefinition Height="auto" SharedSizeGroup="ButtonHeight"/>
-                    <RowDefinition Height="auto" SharedSizeGroup="ButtonHeight"/>
-                    <RowDefinition Height="auto" SharedSizeGroup="ButtonHeight"/>
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0" Margin="0,0,0,3" Command="{Binding Path=ExploreFileCommand}">Explore Factions</Button>
-                <Button Grid.Row="1" Margin="0,3,0,3" Command="{Binding Path=ExplorePortraitCommand}">Explore Portraits</Button>
-                <Button Grid.Row="2" Margin="0,3,0,0" Command="{Binding Path=WriteFileCommand}">Create faction files</Button>
-                <Button Grid.Row="3" Margin="0,3,0,0" Command="{Binding Path=CloseCommand}">Close</Button>
-                
-            </Grid>
-        </Border>
-        <TabControl Grid.Column="2" Grid.RowSpan="3" TabStripPlacement="Left">
+        
+        <TabControl TabStripPlacement="Left" Margin="30">
             <TabItem Header="Explore Faction">
                 <vw:FileExplorerTabView FactionDirectory="{Binding Path=FactionDirectory}" LocalMod="{Binding Path=LPeSSMod}"/>
             </TabItem>

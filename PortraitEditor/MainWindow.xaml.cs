@@ -40,10 +40,10 @@ namespace PortraitEditor
 
         public SSMod LPeSSMod { get;} = new SSMod() { Name = "LPeSS" };
         //public SSFileExplorerViewModel FileExplorer { get; set; } = new SSFileExplorerViewModel();
-        public SSPortraitExplorerViewModel PortraitExplorer { get; set; }
+        //public SSPortraitExplorerViewModel PortraitExplorer { get; set; }
 
-        public SSFileWriterViewModel FileWriter { get; set; }
-        public SSMod L_PessMod { get; set; }
+        //public SSFileWriterViewModel FileWriter { get; set; }
+        //public SSMod L_PessMod { get; set; }
 
         ICommand _ExploreFileCommand;
         public ICommand ExploreFileCommand

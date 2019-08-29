@@ -32,9 +32,9 @@ namespace PortraitEditor.ViewModel.SubWindows
             if (!_isLoaded)
             {
                 // TODO: Add your loaded code here 
-                ModifiedFactionList = new ObservableCollection<SSFactionGroup>(from factionGroup in FactionDirectory.GroupDirectory
-                                                                                where factionGroup.BufferedPortraits
-                                                                                select factionGroup);
+                //ModifiedFactionList = new ObservableCollection<SSFactionGroup>(from factionGroup in FactionDirectory.GroupDirectory
+                //                                                                where factionGroup.BufferedPortraits
+                //                                                                select factionGroup);
                 
                 _isLoaded = true;
             }

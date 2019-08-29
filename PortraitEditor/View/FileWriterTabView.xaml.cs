@@ -25,15 +25,11 @@ namespace PortraitEditor.View
         public FileWriterTabView()
         {
             InitializeComponent();
-            this.Loaded += FileWriterTabView_Loaded;
-            this.Loaded += delegate { ViewModel.OnLoaded(); };
-            this.Unloaded += delegate { ViewModel.OnUnloaded(); };
+            Loaded += delegate { ViewModel.OnLoaded(); };
+            Unloaded += delegate { ViewModel.OnUnloaded(); };
         }
 
-        private void FileWriterTabView_Loaded(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
+
 
         public SSFileWriterViewModel ViewModel
         {
