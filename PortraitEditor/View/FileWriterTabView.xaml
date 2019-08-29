@@ -15,7 +15,7 @@
             <TextBlock FontWeight="SemiBold" FontSize="12" Text="{Binding Name}"/>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid DataContext="FileWriterVM">
+    <Grid DataContext="{StaticResource FileWriterVM}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -24,8 +24,10 @@
             <local:SSFactionGroupCollectionView x:Name="FactionGroupWriteCollectionView"
                                             Grid.Row="0" Grid.Column="0" 
                                             Margin="7,7,7,7"
-                                            HeldCollection="{Binding Path=ModifiedFactionList}" 
+                                            HeldCollection="{Binding Path=FactionDirectory.GroupDirectory}" 
+                                            CollectionFilter="{Binding Path=GroupFilter}"
                                             />
+            <!---->
             <Border Style="{StaticResource ElementBorder}" Margin="7,7,7,7">
                 <StackPanel Orientation="Horizontal" Margin="7,7,7,7">
                     <Button Content="Create Append files" Command="{Binding Path=AppendFilesCommand}" Margin="0,0,3,0"/>

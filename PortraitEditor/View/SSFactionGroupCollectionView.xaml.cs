@@ -26,18 +26,22 @@ namespace PortraitEditor.View
         public SSFactionGroupCollectionView()
         {
             InitializeComponent();
+            this.Loaded += delegate { ViewModel.OnLoaded(); };
+            this.Unloaded += delegate { ViewModel.OnUnloaded(); };
             ViewModel.SelectedStuff = listview.SelectedItems;
             Binding myBinding = new Binding("SelectedItems");
             myBinding.Source = listview;
             myBinding.Mode = BindingMode.OneWay;
             this.SetBinding(SelectedItemsProperty, myBinding);
 
-            //Binding myBinding = new Binding("SelectedItemsProperty");
-            //myBinding.Source = this;
-            //myBinding.Mode = BindingMode.OneWayToSource;
-            //listview.SetBinding(ListView.SelectedItemsProperty, myBinding);
         }
 
+        public SSFactionGroupCollectionViewModel ViewModel
+        {
+            get { return (SSFactionGroupCollectionViewModel)Resources["FactionGroupCollectionVM"]; }
+        }
+
+        #region HeldCollection property
         public static readonly DependencyProperty HeldCollectionProperty = DependencyProperty.Register(
         "HeldCollection", typeof(ObservableCollection<SSFactionGroup>), typeof(SSFactionGroupCollectionView),
         new PropertyMetadata(new ObservableCollection<SSFactionGroup>(), OnProjectChanged));
@@ -52,15 +56,12 @@ namespace PortraitEditor.View
             DependencyPropertyChangedEventArgs args)
         {
             ((SSFactionGroupCollectionView)obj).ViewModel.HeldCollection = (ObservableCollection<SSFactionGroup>)args.NewValue;
-        }
+        } 
+        #endregion     
 
-        public SSFactionGroupCollectionViewModel ViewModel
-        {
-            get { return (SSFactionGroupCollectionViewModel)Resources["FactionGroupCollectionVM"]; }
-        }
-
+        #region Code that return the selected items (look iffy)
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
-        "SelectedItems", typeof(System.Collections.IList), typeof(SSFactionGroupCollectionView), new PropertyMetadata(null,null,OnSelectedItemsCoerce));
+        "SelectedItems", typeof(System.Collections.IList), typeof(SSFactionGroupCollectionView), new PropertyMetadata(null, null, OnSelectedItemsCoerce));
 
         private static object OnSelectedItemsCoerce(DependencyObject d, object baseValue)
         {
@@ -73,7 +74,24 @@ namespace PortraitEditor.View
             get { return (System.Collections.IList)GetValue(SelectedItemsProperty); }
             set { SetValue(SelectedItemsProperty, value); }
         }
+        #endregion
 
-       
+        #region Code for the collection filter
+        public static readonly DependencyProperty CollectionFilterProperty = DependencyProperty.Register(
+        "CollectionFilter", typeof(FilterEventHandler), typeof(SSFactionGroupCollectionView), new PropertyMetadata(null, OnFilterChanged));
+
+
+        public FilterEventHandler CollectionFilter
+        {
+            get { return (FilterEventHandler)GetValue(CollectionFilterProperty); }
+            set { SetValue(CollectionFilterProperty, value); }
+        }
+
+        private static void OnFilterChanged(DependencyObject obj,
+            DependencyPropertyChangedEventArgs args)
+        {
+            ((SSFactionGroupCollectionView)obj).ViewModel.CollectionFilter = (FilterEventHandler)args.NewValue;
+        }
+        #endregion
     }
 }

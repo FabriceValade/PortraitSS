@@ -49,6 +49,7 @@ namespace PortraitEditor.ViewModel.SubWindows
             }
         } 
         #endregion
+
         #region field
         //FileWriterWindow WindowView;
         ObservableCollection<SSFactionGroup> _ModifiedFactionList;
@@ -72,6 +73,18 @@ namespace PortraitEditor.ViewModel.SubWindows
         {
             get => _ModifiedFactionList;
             set { _ModifiedFactionList = value;  NotifyPropertyChanged(); }
+        }
+        public FilterEventHandler GroupFilter { get; } = ModifiedGroupFilter;
+        public static bool FilterModified(object group)
+        {
+            var factionGroup = group as SSFactionGroup;
+            return factionGroup.BufferedPortraits;
+        }
+
+        private static void ModifiedGroupFilter(object sender, FilterEventArgs e)
+        {
+            var factionGroup = e.Item as SSFactionGroup;
+            e.Accepted = factionGroup.BufferedPortraits;
         }
         #endregion
 

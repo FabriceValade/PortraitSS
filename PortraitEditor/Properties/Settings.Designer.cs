@@ -61,7 +61,7 @@ namespace PortraitEditor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("@\"C:\\Users\\fabrice\\Pictures\\Scans\\Scan_20190228.png\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\fabrice\\Pictures\\Scans\\Scan_20190228.png")]
         public string FallbackLogo {
             get {
                 return ((string)(this["FallbackLogo"]));

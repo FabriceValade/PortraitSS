@@ -35,12 +35,12 @@ namespace PortraitEditor.View
         {
             //when the view is loaded, make sure to restore binding that could have been broken by modification of the filedirectory
             var tab = sender as PortraitExplorerTabView;
-            Binding myBinding = new Binding("ViewModel.HeldView.CurrentItem.Portraits");
+            Binding myBinding = new Binding("ViewModel.ViewSource.View.CurrentItem.Portraits");
             myBinding.Source = tab.FactionGroupCollectionView;
             myBinding.Mode = BindingMode.OneWay;
             tab.DetailCollectionView.SetBinding(SSPortraitCollectionView.HeldCollectionProperty, myBinding);
-            if (tab.FactionGroupCollectionView.ViewModel.HeldView.CurrentPosition < 0)
-                tab.FactionGroupCollectionView.ViewModel.HeldView.MoveCurrentToFirst();
+            if (tab.FactionGroupCollectionView.ViewModel.ViewSource.View.CurrentPosition < 0)
+                tab.FactionGroupCollectionView.ViewModel.ViewSource.View.MoveCurrentToFirst();
         }
         public SSPortraitExplorerViewModel ViewModel
         {
