@@ -25,5 +25,23 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Border>
+        <Border Style="{StaticResource ElementBorder}" Grid.Row="1" Grid.Column="0" DataContext="{Binding Path=ViewSource.View.CurrentItem}">
+            <Grid Margin="7,7,7,7" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Faction Name" Margin="3" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding Path=DisplayName}" Margin="3" HorizontalAlignment="Right" Grid.Column="1" Foreground="{Binding Path=ColorRGB}"/>
+                <TextBlock Text="ContributingMod" Grid.Row="1" Margin="3" HorizontalAlignment="Left"/>
+            </Grid>
+            
+        </Border>
     </Grid>
 </UserControl>
