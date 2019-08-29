@@ -15,25 +15,17 @@ namespace PortraitEditor.ViewModel
         public SSFactionGroupCollectionViewModel() { }
 
         #region Loading/unloading handling
-        private bool _isLoaded = false;
         public void OnLoaded()
         {
-            if (!_isLoaded)
-            {
-                _isLoaded = true;
-                ViewSource.View.Refresh();
-                if (ViewSource.View.CurrentPosition < 0)
-                    ViewSource.View.MoveCurrentToFirst();
-            }
+            ViewSource.View.Refresh();
+            if (ViewSource.View.CurrentPosition < 0)
+                ViewSource.View.MoveCurrentToFirst();
         }
 
         public void OnUnloaded()
         {
-            if (_isLoaded)
-            {
-                // TODO: Add your cleanup/unloaded code here 
-                _isLoaded = false;
-            }
+
+
         }
         #endregion
 
