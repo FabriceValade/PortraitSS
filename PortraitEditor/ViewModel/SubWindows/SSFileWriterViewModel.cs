@@ -81,7 +81,7 @@ namespace PortraitEditor.ViewModel.SubWindows
             return factionGroup.BufferedPortraits;
         }
 
-        private static void ModifiedGroupFilter(object sender, FilterEventArgs e)
+        public static void ModifiedGroupFilter(object sender, FilterEventArgs e)
         {
             var factionGroup = e.Item as SSFactionGroup;
             e.Accepted = factionGroup.BufferedPortraits;
