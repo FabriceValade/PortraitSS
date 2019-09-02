@@ -12,7 +12,8 @@
     <Grid Grid.IsSharedSizeScope="True" DataContext="{StaticResource FileExplorerVM}">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" SharedSizeGroup="OptionPanel"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel>

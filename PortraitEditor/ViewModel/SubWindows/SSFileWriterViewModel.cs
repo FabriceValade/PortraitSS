@@ -32,9 +32,6 @@ namespace PortraitEditor.ViewModel.SubWindows
             if (!_isLoaded)
             {
                 // TODO: Add your loaded code here 
-                //ModifiedFactionList = new ObservableCollection<SSFactionGroup>(from factionGroup in FactionDirectory.GroupDirectory
-                //                                                                where factionGroup.BufferedPortraits
-                //                                                                select factionGroup);
                 
                 _isLoaded = true;
             }
@@ -52,9 +49,10 @@ namespace PortraitEditor.ViewModel.SubWindows
 
         #region field
         //FileWriterWindow WindowView;
-        ObservableCollection<SSFactionGroup> _ModifiedFactionList;
-        string FactionFolderPath;
-        string PortraitGraphPath;
+        //ObservableCollection<SSFactionGroup> _ModifiedFactionList;
+        //string FactionFolderPath;
+        //string PortraitGraphPath;
+        SSFactionDirectory _FactionDirectory;
         JObject ModInfo = new JObject(
                             new JProperty("id", "l_pess"),
                             new JProperty("name", "Lethargie portrait editor for Starsector"),
@@ -67,19 +65,19 @@ namespace PortraitEditor.ViewModel.SubWindows
 
         #region properties
         public SSMod LocalMod { get; set; }
-        SSFactionDirectory _FactionDirectory;
+        
         public SSFactionDirectory FactionDirectory { get=>_FactionDirectory; set { _FactionDirectory = value; NotifyPropertyChanged(); } }
-        public ObservableCollection<SSFactionGroup> ModifiedFactionList
-        {
-            get => _ModifiedFactionList;
-            set { _ModifiedFactionList = value;  NotifyPropertyChanged(); }
-        }
+        //public ObservableCollection<SSFactionGroup> ModifiedFactionList
+        //{
+        //    get => _ModifiedFactionList;
+        //    set { _ModifiedFactionList = value;  NotifyPropertyChanged(); }
+        //}
         public FilterEventHandler GroupFilter { get; } = ModifiedGroupFilter;
-        public static bool FilterModified(object group)
-        {
-            var factionGroup = group as SSFactionGroup;
-            return factionGroup.BufferedPortraits;
-        }
+        //public static bool FilterModified(object group)
+        //{
+        //    var factionGroup = group as SSFactionGroup;
+        //    return factionGroup.BufferedPortraits;
+        //}
 
         public static void ModifiedGroupFilter(object sender, FilterEventArgs e)
         {
@@ -89,19 +87,7 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
 
 
-        #region Show Associated view
-        public void ShowDialog()
-        {
 
-            //if (L_PeSSMod.Url.CommonUrl == null)
-            //    throw new DirectoryNotFoundException();
-            //FactionFolderPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "data", "world", "factions" });
-            //PortraitGraphPath = Path.Combine(new string[4] { L_PeSSMod.Url.FullUrl, "graphics", "LPESS", "portraits" });
-            //WindowView = new FileWriterWindow(this);
-            //WindowView.ShowDialog();
-            return;
-        }
-        #endregion
 
         #region Commands
         RelayCommand<object> _AppendFilesCommand;
@@ -131,6 +117,8 @@ namespace PortraitEditor.ViewModel.SubWindows
         #endregion
         public void ClearModFolder()
         {
+            string FactionFolderPath = Path.Combine(new string[4] { LocalMod.Url.FullUrl, "data", "world", "factions" });
+            string PortraitGraphPath = Path.Combine(new string[4] { LocalMod.Url.FullUrl, "graphics", LocalMod.Name, "portraits" });
             DirectoryInfo LPeSSFactionDirectory = new DirectoryInfo(LocalMod.Url.FullUrl);
             if (!LPeSSFactionDirectory.Exists)
                 LPeSSFactionDirectory.Create();
@@ -159,21 +147,26 @@ namespace PortraitEditor.ViewModel.SubWindows
         public void WriteAppend()
         {
             ClearModFolder();
-            //foreach (SSFactionGroupViewModel vm in ModifiedFactionList)
-            //{
-            //    var PossiblePortrait = from portrait in vm.AddedPortraits
-            //                           where portrait.Url.IsComplete
-            //                           select portrait;
-            //    JObject AppendPortrait = PossiblePortrait.FlattenToJson();
-            //    using (StreamWriter file = File.CreateText(Path.Combine(FactionFolderPath, vm.FactionGroupModel.FileName)))
-            //    {
-            //        using (JsonTextWriter writer = new JsonTextWriter(file))
-            //        {
-            //            writer.Formatting = Formatting.Indented;
-            //            AppendPortrait.WriteTo(writer);
-            //        }
-            //    }
-            //}
+            string FactionFolderPath = Path.Combine(new string[4] { LocalMod.Url.FullUrl, "data", "world", "factions" });
+            string PortraitGraphPath = Path.Combine(new string[4] { LocalMod.Url.FullUrl, "graphics", LocalMod.Name, "portraits" });
+            ObservableCollection<SSFactionGroup> ModifiedFactionList = new ObservableCollection<SSFactionGroup>(from factionGroup in FactionDirectory.GroupDirectory
+                                                                           where factionGroup.BufferedPortraits
+                                                                           select factionGroup);
+            foreach (SSFactionGroup fg in ModifiedFactionList)
+            {
+                var PossiblePortrait = from portrait in fg.BufferAddedPortraits
+                                       where portrait.Url.IsComplete
+                                       select portrait;
+                JObject AppendPortrait = PossiblePortrait.FlattenToJson();
+                using (StreamWriter file = File.CreateText(Path.Combine(FactionFolderPath, fg.FileName)))
+                {
+                    using (JsonTextWriter writer = new JsonTextWriter(file))
+                    {
+                        writer.Formatting = Formatting.Indented;
+                        AppendPortrait.WriteTo(writer);
+                    }
+                }
+            }
         }
         public void CopyImagesToMod()
         {

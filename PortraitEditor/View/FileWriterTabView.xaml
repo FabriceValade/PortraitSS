@@ -17,8 +17,9 @@
     </UserControl.Resources>
     <Grid DataContext="{StaticResource FileWriterVM}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel>
             <local:SSFactionGroupCollectionView x:Name="FactionGroupWriteCollectionView"

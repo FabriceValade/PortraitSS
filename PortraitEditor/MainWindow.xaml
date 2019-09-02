@@ -17,7 +17,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <TabControl TabStripPlacement="Left" Margin="30">
+        <TabControl TabStripPlacement="Left" Margin="30" Grid.IsSharedSizeScope="True">
             <TabItem Header="Explore Faction">
                 <vw:FileExplorerTabView FactionDirectory="{Binding Path=FactionDirectory}" LocalMod="{Binding Path=LPeSSMod}"/>
             </TabItem>
